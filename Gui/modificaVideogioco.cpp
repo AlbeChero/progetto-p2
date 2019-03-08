@@ -68,4 +68,6 @@ modificaVideogioco::modificaVideogioco(QWidget* parent, Videogioco* video):
     layoutPrincipale->addLayout(layoutBottoni);
 
     layoutPrincipale->insertStretch(2,1);
+
+    connect(modEffettuata,SIGNAL(clicked()),parent,SLOT(salvaDati()));
 }

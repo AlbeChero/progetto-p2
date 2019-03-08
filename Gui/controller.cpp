@@ -4,6 +4,10 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+void Controller::salvaDati() const{
+     modello->SalvaStringhe();
+}
+
 Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagina principale
     QWidget(parent),
     scrollA(new ScrollArea),
@@ -22,6 +26,7 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     setLayout(layoutPrincipale);
 
     connect(layoutNeg->getBtnModifica(),SIGNAL(clicked()),this,SLOT(modificaOggetto()));
+
 }
 
 void Controller::modificaOggetto(){

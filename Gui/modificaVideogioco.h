@@ -10,6 +10,7 @@
 #include<QPushButton>
 
 class modificaVideogioco : public QDialog{
+    Q_OBJECT
 private:
     QLineEdit* NomeGioco;
     QLineEdit* CasaPro;

@@ -38,6 +38,7 @@ public slots:
     void visualizzaNegozio() const;
     void visualizzaInserisci() const;
     void caricaDati();
+    void salvaDati() const;
     void modificaOggetto();
 };
 

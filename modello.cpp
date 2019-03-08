@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QDebug>
 
+
 void Modello::setNuovoPercorso(std::string p){
     Path = p;
     delete lista;
