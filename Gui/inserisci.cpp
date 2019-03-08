@@ -1,0 +1,282 @@
+#include "inserisci.h"
+
+layoutInserisci::layoutInserisci(QWidget* p):
+    QWidget(p),
+    //contenitore(new QScrollArea(this)),
+    //Campi della classe astratta
+    NomeGioco(new QLineEdit(this)),
+    CasaPro(new QLineEdit(this)),
+    Eta(new QLineEdit(this)),
+    Anno(new QLineEdit(this)),
+    Prezzo(new QLineEdit(this)),
+    PezziMagazzino(new QLineEdit(this)),
+    Usato(new QComboBox(this)),
+
+    //Campi della classe Videogioco
+    playStation(new QComboBox(this)),
+    xbox(new QComboBox(this)),
+    Genere(new QLineEdit(this)),
+    Sconto(new QLineEdit(this)),
+    Contenuto(new QLineEdit(this)),
+
+    //Campi della classe Gioco da tavolo
+    NumGiocatori(new QLineEdit(this)),
+    Tipologia(new QLineEdit(this)),
+    Regolamento(new QLineEdit(this)),
+    Contenuto1(new QLineEdit(this)),
+    Sconto1(new QLineEdit(this)),
+
+    //Campo seconda base astratta
+    edLimitata(new QComboBox(this)),
+
+    //Campi della classe Gioco da tavolo di carte
+    RegolamentoGTC(new QLineEdit(this)),
+    NumGiocatoriGTC(new QLineEdit(this)),
+    ContenutoGTC(new QLineEdit(this)),
+    ScontoGTC(new QLineEdit(this)),
+
+    //Campi della classe Carte Collezionabili
+    NumCarteCC(new QLineEdit(this)),
+    Edizione(new QLineEdit(this)),
+    ScontoCC(new QLineEdit(this)),
+
+    checkVideogioco(new QCheckBox("Videogioco", this)),
+    checkGiocoTavolo(new QCheckBox("Gioco da Tavolo", this)),
+    checkGiocoCarte(new QCheckBox("Gioco di Carte", this)),
+    checkCarteCol(new QCheckBox("Carte Collezionabili", this)),
+
+    formAstratta(new QFormLayout),
+    formVideo(new QFormLayout),
+    formGiocoTavolo(new QFormLayout),
+    formGTC(new QFormLayout),
+    formCC(new QFormLayout),
+
+    bottoneInserisci(new QPushButton("INSERISCI"))
+
+{
+
+    QVBoxLayout *layoutPrincipaleRicerca = new QVBoxLayout(this);
+    QHBoxLayout *layoutCheckOgg = new QHBoxLayout;
+
+    //contenitore->setLayout(layoutPrincipaleRicerca);
+    //contenitore->setStyleSheet("width: 100%");
+
+    //Inserisco i checkbox per gli oggetti
+    layoutCheckOgg->addWidget(checkVideogioco);
+    layoutCheckOgg->addWidget(checkGiocoTavolo);
+    layoutCheckOgg->addWidget(checkGiocoCarte);
+    layoutCheckOgg->addWidget(checkCarteCol);
+
+    //Setto a false i campi della base astratta
+    NomeGioco->setEnabled(false);
+    CasaPro->setEnabled(false);
+    Eta->setEnabled(false);
+    Anno->setEnabled(false);
+    Prezzo->setEnabled(false);
+    PezziMagazzino->setEnabled(false);
+    Usato->setEnabled(false);
+    //Setto a false i campi della classe videogioco
+    playStation->setEnabled(false);
+    xbox->setEnabled(false);
+    Genere->setEnabled(false);
+    Sconto->setEnabled(false);
+    Contenuto->setEnabled(false);
+    //Setto a false i campi della classe Gioco da tavolo
+    NumGiocatori->setEnabled(false);
+    Tipologia->setEnabled(false);
+    Regolamento->setEnabled(false);
+    Contenuto1->setEnabled(false);
+    Sconto1->setEnabled(false);
+    //Setto a false il campo della seconda base astratta
+    edLimitata->setEnabled(false);
+    //Setto a false i campi della classe Gioco da tavolo con carte
+    RegolamentoGTC->setEnabled(false);
+    NumGiocatoriGTC->setEnabled(false);
+    ContenutoGTC->setEnabled(false);
+    ScontoGTC->setEnabled(false);
+    //Setto a false i campi della classe Carte collezionabili
+    NumCarteCC->setEnabled(false);
+    Edizione->setEnabled(false);
+    ScontoCC->setEnabled(false);
+
+    //Form campi base astratta
+    formAstratta->addRow("Nome gioco", NomeGioco);
+    formAstratta->addRow("Casa Produzione", CasaPro);
+    formAstratta->addRow("Pegi", Eta);
+    formAstratta->addRow("Anno", Anno);
+    formAstratta->addRow("Prezzo", Prezzo);
+    formAstratta->addRow("Pezzi in magazzino", PezziMagazzino);
+    formAstratta->addRow("Usato", Usato);
+
+    //Form videogiochi
+    formVideo->addRow("Disponibile per PS4", playStation);
+    formVideo->addRow("Disponibile per XboxOne", xbox);
+    formVideo->addRow("Genere", Genere);
+    formVideo->addRow("Sconto", Sconto);
+    formVideo->addRow("Contenuto", Contenuto);
+
+    //Form giochi da tavolo
+    formGiocoTavolo->addRow("NumGiocatori", NumGiocatori);
+    formGiocoTavolo->addRow("Tipologia", Tipologia);
+    formGiocoTavolo->addRow("Regolamento", Regolamento);
+    formGiocoTavolo->addRow("Contenuto1", Contenuto1);
+    formGiocoTavolo->addRow("Sconto1", Sconto1);
+
+    //Form Giochi da tavolo con carte
+    formGTC->addRow("Edizione limitata", edLimitata);
+    formGTC->addRow("Regolamento", RegolamentoGTC);
+    formGTC->addRow("Numero di giocatori", NumGiocatoriGTC);
+    formGTC->addRow("Contenuto", ContenutoGTC);
+    formGTC->addRow("Sconto", ScontoGTC);
+
+    //Form giochi di carte collezionabili
+    formCC->addRow("Numero di carte", NumCarteCC);
+    formCC->addRow("Edizione", Edizione);
+    formCC->addRow("Sconto", ScontoCC);
+
+    //Compilo tutte le check box
+    Usato->addItem("No"); Usato->addItem("Si");
+    playStation->addItem("No"); playStation->addItem("Si");
+    xbox->addItem("No"); xbox->addItem("Si");
+    edLimitata->addItem("No"); edLimitata->addItem("Si");
+
+    layoutPrincipaleRicerca->addLayout(layoutCheckOgg);
+    layoutPrincipaleRicerca->addLayout(formAstratta);
+    layoutPrincipaleRicerca->addLayout(formVideo);
+    layoutPrincipaleRicerca->addLayout(formGiocoTavolo);
+    layoutPrincipaleRicerca->addLayout(formGTC);
+    layoutPrincipaleRicerca->addLayout(formCC);
+    layoutPrincipaleRicerca->addWidget(bottoneInserisci);
+
+    setLayout(layoutPrincipaleRicerca);
+
+    connect(checkVideogioco, SIGNAL(clicked(bool)), this, SLOT(selezionaSoloVideogioco()));
+    connect(checkGiocoTavolo, SIGNAL(clicked(bool)), this, SLOT(selezionaSoloGiocoDaTavolo()));
+    connect(checkGiocoCarte, SIGNAL(clicked(bool)), this, SLOT(selezionaSoloCarte()));
+    connect(checkCarteCol, SIGNAL(clicked(bool)), this, SLOT(selezionaSoloCarteCol()));
+
+    connect(checkVideogioco, SIGNAL(clicked(bool)), this , SLOT(inserisciVideogioco()));
+    connect(checkGiocoTavolo, SIGNAL(clicked(bool)), this , SLOT(inserisciGiocoDaTavolo()));
+    connect(checkGiocoCarte, SIGNAL(clicked(bool)), this , SLOT(inserisciGiocoDiCarte()));
+    connect(checkCarteCol, SIGNAL(clicked(bool)), this , SLOT(inserisciCarteColl()));
+
+}
+
+void layoutInserisci::pulisciTutto() const{
+    NomeGioco->clear();
+    CasaPro->clear();
+    Eta->clear();
+    Anno->clear();
+    Prezzo->clear();
+    PezziMagazzino->clear();
+    Usato->setCurrentIndex(0);
+    playStation->setCurrentIndex(0);
+    xbox->setCurrentIndex(0);
+    Genere->clear();
+    Sconto->clear();
+    Contenuto->clear();
+    NumGiocatori->clear();
+    Tipologia->clear();
+    Regolamento->clear();
+    Contenuto1->clear();
+    Sconto1->clear();
+    edLimitata->setCurrentIndex(0);
+    RegolamentoGTC->clear();
+    NumGiocatoriGTC->clear();
+    ContenutoGTC->clear();
+    ScontoGTC->clear();
+    NumCarteCC->clear();
+    Edizione->clear();
+    ScontoCC->clear();
+}
+
+void layoutInserisci::pulisciCheck() const{
+    (checkVideogioco)->setEnabled(true);
+    (checkGiocoTavolo)->setEnabled(true);
+    (checkGiocoCarte)->setEnabled(true);
+    (checkCarteCol)->setEnabled(true);
+
+    (checkVideogioco)->setChecked(false);
+    (checkGiocoTavolo)->setChecked(false);
+    (checkGiocoCarte)->setChecked(false);
+    (checkCarteCol)->setChecked(false);
+
+    NomeGioco->setEnabled(false);
+    CasaPro->setEnabled(false);
+    Eta->setEnabled(false);
+    Anno->setEnabled(false);
+    Prezzo->setEnabled(false);
+    PezziMagazzino->setEnabled(false);
+    Usato->setEnabled(false);
+    //Setto a false i campi della classe videogioco
+    playStation->setEnabled(false);
+    xbox->setEnabled(false);
+    Genere->setEnabled(false);
+    Sconto->setEnabled(false);
+    Contenuto->setEnabled(false);
+    //Setto a false i campi della classe Gioco da tavolo
+    NumGiocatori->setEnabled(false);
+    Tipologia->setEnabled(false);
+    Regolamento->setEnabled(false);
+    Contenuto1->setEnabled(false);
+    Sconto1->setEnabled(false);
+    //Setto a false il campo della seconda base astratta
+    edLimitata->setEnabled(false);
+    //Setto a false i campi della classe Gioco da tavolo con carte
+    RegolamentoGTC->setEnabled(false);
+    NumGiocatoriGTC->setEnabled(false);
+    ContenutoGTC->setEnabled(false);
+    ScontoGTC->setEnabled(false);
+    //Setto a false i campi della classe Carte collezionabili
+    NumCarteCC->setEnabled(false);
+    Edizione->setEnabled(false);
+    ScontoCC->setEnabled(false);
+}
+
+void layoutInserisci::inserisciVideogioco() const{
+    checkVideogioco->isChecked() ? (NomeGioco->setEnabled(true),CasaPro->setEnabled(true),Eta->setEnabled(true),Anno->setEnabled(true),Prezzo->setEnabled(true),PezziMagazzino->setEnabled(true), Usato->setEnabled(true),
+                                    playStation->setEnabled(true), xbox->setEnabled(true), Genere->setEnabled(true), Sconto->setEnabled(true), Contenuto->setEnabled(true)) :
+                                   (NomeGioco->setEnabled(false),CasaPro->setEnabled(false),Eta->setEnabled(false),Anno->setEnabled(false),Prezzo->setEnabled(false),PezziMagazzino->setEnabled(false),Usato->setEnabled(false),
+                                    playStation->setEnabled(false), xbox->setEnabled(false), Genere->setEnabled(false), Sconto->setEnabled(false), Contenuto->setEnabled(false), pulisciTutto());
+}
+
+void layoutInserisci::inserisciGiocoDaTavolo() const{
+    checkGiocoTavolo->isChecked() ? (NomeGioco->setEnabled(true),CasaPro->setEnabled(true),Eta->setEnabled(true),Anno->setEnabled(true),Prezzo->setEnabled(true),PezziMagazzino->setEnabled(true),Usato->setEnabled(true), NumGiocatori->setEnabled(true),
+                                     Tipologia->setEnabled(true), Regolamento->setEnabled(true), Contenuto1->setEnabled(true), Sconto1->setEnabled(true)) :
+                                   (NomeGioco->setEnabled(false),CasaPro->setEnabled(false),Eta->setEnabled(false),Anno->setEnabled(false),Prezzo->setEnabled(false),PezziMagazzino->setEnabled(false),Usato->setEnabled(false),
+                                    NumGiocatori->setEnabled(false), Tipologia->setEnabled(false), Regolamento->setEnabled(false), Contenuto1->setEnabled(false), Sconto1->setEnabled(false), pulisciTutto());
+}
+
+void layoutInserisci::inserisciGiocoDiCarte() const{
+    checkGiocoCarte->isChecked() ? (NomeGioco->setEnabled(true),CasaPro->setEnabled(true),Eta->setEnabled(true),Anno->setEnabled(true),Prezzo->setEnabled(true),PezziMagazzino->setEnabled(true),Usato->setEnabled(true),
+                                    edLimitata->setEnabled(true), RegolamentoGTC->setEnabled(true), NumGiocatoriGTC->setEnabled(true), ContenutoGTC->setEnabled(true), ScontoGTC->setEnabled(true)) :
+                                    (NomeGioco->setEnabled(false),CasaPro->setEnabled(false),Eta->setEnabled(false),Anno->setEnabled(false),Prezzo->setEnabled(false),PezziMagazzino->setEnabled(false),Usato->setEnabled(false),
+                                     edLimitata->setEnabled(false), RegolamentoGTC->setEnabled(false), NumGiocatoriGTC->setEnabled(false), ContenutoGTC->setEnabled(false), ScontoGTC->setEnabled(false), pulisciTutto());
+}
+
+void layoutInserisci::inserisciCarteColl() const{
+    checkCarteCol->isChecked() ? (NomeGioco->setEnabled(true),CasaPro->setEnabled(true),Eta->setEnabled(true),Anno->setEnabled(true),Prezzo->setEnabled(true),PezziMagazzino->setEnabled(true),Usato->setEnabled(true),
+                                  edLimitata->setEnabled(true), NumCarteCC->setEnabled(true), Edizione->setEnabled(true), ScontoCC->setEnabled(true)) :
+                                 (NomeGioco->setEnabled(false),CasaPro->setEnabled(false),Eta->setEnabled(false),Anno->setEnabled(false),Prezzo->setEnabled(false),PezziMagazzino->setEnabled(false),Usato->setEnabled(false),
+                                  edLimitata->setEnabled(false), NumCarteCC->setEnabled(false), Edizione->setEnabled(false), ScontoCC->setEnabled(false), pulisciTutto());
+}
+
+void layoutInserisci::selezionaSoloVideogioco() const{
+    checkVideogioco->isChecked() ? (checkGiocoTavolo->setEnabled(false), checkGiocoCarte->setEnabled(false), checkCarteCol->setEnabled(false)) :
+                                   (checkGiocoTavolo->setEnabled(true), checkGiocoCarte->setEnabled(true), checkCarteCol->setEnabled(true));
+}
+
+void layoutInserisci::selezionaSoloGiocoDaTavolo() const{
+    checkGiocoTavolo->isChecked() ? (checkVideogioco->setEnabled(false), checkGiocoCarte->setEnabled(false), checkCarteCol->setEnabled(false)) :
+                                    (checkVideogioco->setEnabled(true), checkGiocoCarte->setEnabled(true), checkCarteCol->setEnabled(true));
+}
+
+void layoutInserisci::selezionaSoloCarte() const{
+    checkGiocoCarte->isChecked() ? (checkVideogioco->setEnabled(false), checkGiocoTavolo->setEnabled(false), checkCarteCol->setEnabled(false)) :
+                                   (checkVideogioco->setEnabled(true), checkGiocoTavolo->setEnabled(true), checkCarteCol->setEnabled(true));
+}
+
+void layoutInserisci::selezionaSoloCarteCol() const{
+    checkCarteCol->isChecked() ? (checkVideogioco->setEnabled(false), checkGiocoTavolo->setEnabled(false), checkGiocoCarte->setEnabled(false)) :
+                                 (checkVideogioco->setEnabled(true), checkGiocoTavolo->setEnabled(true), checkGiocoCarte->setEnabled(true));
+}

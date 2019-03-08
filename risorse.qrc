@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Salvataggio dati/Immagini/fifa.jpg</file>
+        <file>Salvataggio dati/Immagini/cod4.png</file>
+        <file>Salvataggio dati/Immagini/Cluedo.jpg</file>
+        <file>Salvataggio dati/Immagini/Munchkin.jpg</file>
+        <file>Salvataggio dati/Immagini/DragonBall.jpg</file>
+        <file>Salvataggio dati/Icone/Galleria.png</file>
+    </qresource>
+</RCC>
