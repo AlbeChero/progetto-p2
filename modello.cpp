@@ -4,7 +4,7 @@
 #include <QXmlStreamReader>
 #include <QFile>
 #include <QDebug>
-
+#include<iostream>
 
 void Modello::setNuovoPercorso(std::string p){
     Path = p;
@@ -39,31 +39,45 @@ void Modello::salvataggio(){
 
     lettore.setAutoFormatting(true); // Per leggibilità del file XML
     lettore.writeStartDocument();  // Scrive le intestazioni XML
+    lettore.writeComment("!!!Non modificate");
 
-    lettore.writeStartElement("Nuovi elementi salvati");
+    lettore.writeStartElement("root");
 
     auto it = cbegin();
     while(it != cend()){
         const ItemStoreToys* daSalvare = *it;
         const QString tipologiaOgg = QString::fromStdString(daSalvare->getTipo());
         lettore.writeEmptyElement(tipologiaOgg); //In questo modo capisco che oggetto sto inserendo
-
+        std::cout<<daSalvare->getNome();
         lettore.writeAttribute("Nome", QString::fromStdString(daSalvare->getNome()));
+        qWarning() << "1";
         lettore.writeAttribute("CasaProduttrice", QString::fromStdString(daSalvare->getCasaProduttrice()));
+        qWarning() << "2";
         lettore.writeAttribute("Eta", QString("%1").arg(daSalvare->getEta()));
+        qWarning() << "3";
         lettore.writeAttribute("AnnoPubblicazione", QString("%1").arg(daSalvare->getAnnoPubblicazione()));
-        lettore.writeAttribute("Prezzo", QString().arg(daSalvare->getPrezzo()));
+        qWarning() << "4";
+        lettore.writeAttribute("Prezzo", QString("%1").arg(daSalvare->getPrezzo()));
+        qWarning() << "5";
         lettore.writeAttribute("PezziInMagazzino", QString("%1").arg(daSalvare->getPezziInMagazzino()));
+        qWarning() << "6";
         lettore.writeAttribute("usato", daSalvare->getUsato() ? "True" : "False");
+        qWarning() << "7";
         lettore.writeAttribute("pathImm", QString::fromStdString(daSalvare->getPath()));
+        qWarning() << "8";
 
         if(tipologiaOgg == "Videogioco"){
             const Videogioco* oggVideogioco = static_cast<const Videogioco*>(daSalvare);
             lettore.writeAttribute("Ps4", oggVideogioco->getPs4() ? "True" : "False");
+            qWarning() << "9";
             lettore.writeAttribute("XboxOne", oggVideogioco->getXboxOne() ? "True" : "False");
+            qWarning() << "10";
             lettore.writeAttribute("Genere", QString::fromStdString(oggVideogioco->getGenere()));
+            qWarning() << "11";
             lettore.writeAttribute("Sconto", QString("%1").arg(oggVideogioco->getSconto()));
+            qWarning() << "12";
             lettore.writeAttribute("Contenuto", QString::fromStdString(oggVideogioco->getContenuto()));
+            qWarning() << "13";
         } else if(tipologiaOgg == "GiocoDaTavolo"){
             const GiocoDaTavolo* oggGiocoDaTavolo = static_cast<const GiocoDaTavolo*>(daSalvare);
             lettore.writeAttribute("NumGiocatori", QString("%1").arg(oggGiocoDaTavolo->getNumGiocatori()));
@@ -162,6 +176,8 @@ void Modello::caricamento(){
             }
         }
     }
+    datiSalvati=true;
+    fileSalvataggio.close();
 }
 
 Modello::Modello(std::string p):

@@ -66,15 +66,5 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    Salvataggio dati/Dati.xml \
-    Salvataggio dati/Dati.xml \
-    Salvataggio dati/Immagini/fifa.jpg \
-    Salvataggio dati/Immagini/cod4.png \
-    Salvataggio dati/Dati.xml \
-    Salvataggio dati/Immagini/fifa.jpg \
-    Salvataggio dati/Immagini/cod4.png
 
-RESOURCES += \
-    risorse.qrc
 

@@ -34,13 +34,14 @@ public:
      void prezzoSeUsato();
      virtual ~ItemStoreToys() = default;
 
-     void setNome();
-     void setCasaProduzione();
-     void setEta();
-     void setAnnoPubblicazione();
-     void setPrezzo();
-     void setPezziMagazzino();
-     void setUsato();
+     void setNome(std::string);
+     void setCasaProduzione(std::string);
+     void setEta(unsigned int);
+     void setAnnoPubblicazione(unsigned int);
+     void setPrezzo(double);
+     void setPezziMagazzino(unsigned int);
+     void setUsato(bool);
+     void setPath(std::string);
 
      std::string getNome() const;
      std::string getCasaProduttrice() const;
@@ -69,10 +70,10 @@ public:
     Videogioco* clone() const;
     virtual std::string infoOggetto() const;
 
-    void setPs4();
-    void setXboX();
-    void setGenere();
-    void setContenuto();
+    void setPs4(bool);
+    void setXboX(bool);
+    void setGenere(std::string);
+    void setContenuto(std::string);
 
     bool getPs4() const;
     bool getXboxOne() const;
@@ -99,10 +100,10 @@ public:
     virtual bool operator==(const ItemStoreToys&) const;
     virtual std::string infoOggetto() const;
 
-    void setNumGiocatori();
-    void setTipologia();
-    void setRegolamento();
-    void setContenuto();
+    void setNumGiocatori(unsigned int);
+    void setTipologia(std::string);
+    void setRegolamento(std::string);
+    void setContenuto(std::string);
 
     unsigned int getNumGiocatori() const;
     std::string getTipologia() const;
@@ -116,7 +117,7 @@ private:
     bool edizioneLimitata;
 public:
     GiocoDiCarte(std::string ="0", std::string ="0", unsigned int =0, unsigned int =0, double =0, unsigned int =0, bool =0, std::string ="0", bool =0);
-    void setEdizioneLimitata();
+    void setEdizioneLimitata(bool);
     virtual bool operator==(const ItemStoreToys&) const;
     virtual std::string getTipo() const = 0;
     virtual std::string infoOggetto() const;
@@ -140,9 +141,9 @@ public:
          virtual bool operator==(const ItemStoreToys&) const;
          virtual std::string infoOggetto() const;
 
-         void setRegolamento();
-         void setNumGicoatori();
-         void setContenuto();
+         void setRegolamento(std::string);
+         void setNumGicoatori(unsigned int);
+         void setContenuto(std::string);
 
          std::string getRegolamento() const;
          unsigned int getNumGiocatori() const;
@@ -166,8 +167,8 @@ public:
         virtual bool operator==(const ItemStoreToys&) const;
         virtual std::string infoOggetto() const;
 
-        void setNumCarte();
-        void setEdizione();
+        void setNumCarte(int);
+        void setEdizione(std::string);
 
         int getNumCarte() const;
         std::string getEdizione() const;

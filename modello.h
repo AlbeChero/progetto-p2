@@ -12,7 +12,7 @@ private:
     bool datiSalvati;
 public:
     Modello(std::string = "../Salvataggio dati/Dati.xml");
-    ~Modello();
+    //~Modello();
 
     void salvataggio(); //Salvataggio dei dati
     void caricamento(); //Caricamento dei dati

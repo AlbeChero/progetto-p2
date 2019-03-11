@@ -17,7 +17,8 @@ modificaVideogioco::modificaVideogioco(QWidget* parent):
     formVideo(new QFormLayout),
     modEffettuata(new QPushButton("Salva Modifica",this)),
     annullaMod(new QPushButton("Annulla", this)),
-    modImm(new QPushButton("Cambia Immagine"))
+    modImm(new QPushButton("Cambia Immagine")),
+    pathImmagine()
 {
 
     QVBoxLayout* layoutPrincipale = new QVBoxLayout(this);
@@ -54,7 +55,25 @@ modificaVideogioco::modificaVideogioco(QWidget* parent):
     layoutBottoni->addWidget(annullaMod);
     layoutPrincipale->addLayout(layoutBottoni);
 
-    layoutPrincipale->insertStretch(2,1);    
+    layoutPrincipale->insertStretch(2,1);
+
+    connect(modImm ,SIGNAL(clicked()),this,SLOT(cambiaImm()));
+}
+
+void modificaVideogioco::inserisciPercorso(std::string p){
+    pathImmagine = QString::fromStdString(p);
+    modImm->setIcon(QIcon(pathImmagine));
+}
+
+
+void modificaVideogioco::cambiaImm(){
+    pathImmagine = QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio Dati" , "File XML(*.JPG)");
+    modImm->setIcon(QIcon(pathImmagine));
+}
+
+
+QString modificaVideogioco::getPath(){
+    return pathImmagine;
 }
 
 QLineEdit* modificaVideogioco::getNomeGioco(){
@@ -104,6 +123,7 @@ QPushButton* modificaVideogioco::getannullaMod(){
 QPushButton* modificaVideogioco::getBottImm(){
         return modImm;
     }
+
 void modificaVideogioco::pulisciTutto(){
     NomeGioco->clear();
     CasaPro->clear();
@@ -118,3 +138,4 @@ void modificaVideogioco::pulisciTutto(){
     Sconto->clear();
     Contenuto->clear();
 }
+

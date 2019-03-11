@@ -23,7 +23,6 @@ modificaGiocoDaTavolo::modificaGiocoDaTavolo(QWidget* parent, GiocoDaTavolo* ogg
     QHBoxLayout* layoutBottoni = new QHBoxLayout;
 
     modImm->setIconSize(QSize(180,180));
-    //bottImm->setIcon(QIcon(QString::fromStdString(ogg->getPath())));
     modImm->setFixedSize(QSize(380,200));
     layoutPrincipale->addWidget(modImm);
 

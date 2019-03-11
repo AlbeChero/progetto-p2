@@ -8,6 +8,7 @@
 #include<QVBoxLayout>
 #include<Gerarchia/itemstoretoys.h>
 #include<QPushButton>
+#include<QFileDialog>
 
 class modificaVideogioco : public QDialog{
     Q_OBJECT
@@ -19,6 +20,7 @@ private:
     QLineEdit* Prezzo;
     QLineEdit* PezziMagazzino;
     QComboBox* Usato;
+    QString path;
 
     QComboBox* playStation;
     QComboBox* xbox;
@@ -31,6 +33,7 @@ private:
     QPushButton* modEffettuata;
     QPushButton* annullaMod;
     QPushButton* modImm;
+    QString pathImmagine;
 public:
     modificaVideogioco(QWidget* = nullptr);
     QLineEdit* getNomeGioco();
@@ -40,6 +43,7 @@ public:
     QLineEdit* getPrezzo();
     QLineEdit* getPezziMagazzino();
     QComboBox* getUsato();
+    QString getPath();
 
     QComboBox* getplayStation();
     QComboBox* getxbox();
@@ -50,8 +54,10 @@ public:
     QPushButton* getmodEffettuata();
     QPushButton* getannullaMod();
     QPushButton* getBottImm();
-
+    void inserisciPercorso(std::string);
     void pulisciTutto();
+public slots:
+    void cambiaImm();
 };
 
 #endif // MODIFICA_H

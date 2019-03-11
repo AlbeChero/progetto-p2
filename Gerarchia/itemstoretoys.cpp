@@ -16,24 +16,26 @@ void ItemStoreToys::itemsComprati(unsigned int n) { if(PezziInMagazzino + n <= P
 
 void ItemStoreToys::prezzoSeUsato(){  Prezzo = Prezzo - ((Prezzo*50)/100); } //se l'oggetto è usato devi togliere dal prezzo il 50%
 
-void ItemStoreToys::setNome() { std::cin>>Nome; }
+void ItemStoreToys::setNome(std::string s) { Nome = s; }
 
-void ItemStoreToys::setCasaProduzione() { std::cin>>CasaProduttrice; }
+void ItemStoreToys::setCasaProduzione(std::string s) { CasaProduttrice = s; }
 
-void ItemStoreToys::setEta() { std::cin>>Eta; }
+void ItemStoreToys::setEta(unsigned int i) { Eta = i; }
 
-void ItemStoreToys::setAnnoPubblicazione() { std::cin>>AnnoPubblicazione; }
+void ItemStoreToys::setAnnoPubblicazione(unsigned int i) { AnnoPubblicazione = i; }
 
-void ItemStoreToys::setPrezzo() { std::cin>>Prezzo; }
+void ItemStoreToys::setPrezzo(double p) { Prezzo = p; }
 
-void ItemStoreToys::setPezziMagazzino() { std::cin>>PezziInMagazzino; }
+void ItemStoreToys::setPezziMagazzino(unsigned int p) { PezziInMagazzino = p; }
 
-void ItemStoreToys::setUsato() { if(usato == false) usato = true; else usato = false; }
+void ItemStoreToys::setUsato(bool b) { usato = b; }
 
 bool ItemStoreToys::operator==(const ItemStoreToys& it) const{
     return Nome == it.Nome && CasaProduttrice == it.CasaProduttrice && Eta == it.Eta && AnnoPubblicazione == it.AnnoPubblicazione &&
            Prezzo == it.Prezzo && PezziInMagazzino == it.PezziInMagazzino && usato == it.usato;
 }
+
+void ItemStoreToys::setPath(std::string s){ pathImm = s; }
 
 unsigned int ItemStoreToys::getEta() const{ return Eta; }
 
@@ -81,13 +83,13 @@ std::string Videogioco::getTipo() const{ return "Videogioco";}
 
 Videogioco* Videogioco::clone() const{ return new Videogioco(*this); }
 
-void Videogioco::setPs4(){ if(Ps4 == false) Ps4 = true; else Ps4 = false; }
+void Videogioco::setPs4(bool b){ Ps4 = b; }
 
-void Videogioco::setXboX(){ if(XboxOne == false) XboxOne = true; else XboxOne = false; }
+void Videogioco::setXboX(bool b){ XboxOne = b; }
 
-void Videogioco::setGenere(){ std::cin>>Genere; }
+void Videogioco::setGenere(std::string g){ Genere = g; }
 
-void Videogioco::setContenuto(){ std::cin>>Contenuto; }
+void Videogioco::setContenuto(std::string c){ Contenuto = c; }
 
 bool Videogioco::operator==(const ItemStoreToys& it) const{
     const Videogioco* punt = dynamic_cast<const Videogioco*>(&it);
@@ -125,13 +127,13 @@ GiocoDaTavolo* GiocoDaTavolo::clone() const{ return new GiocoDaTavolo(*this); }
 
 std::string GiocoDaTavolo::getTipo() const{ return "Gioco da Tavolo";}
 
-void GiocoDaTavolo::setNumGiocatori() { std::cin>>NumGiocatori; }
+void GiocoDaTavolo::setNumGiocatori(unsigned int n) { NumGiocatori = n; }
 
-void GiocoDaTavolo::setTipologia() { std::cin>>Tipologia; }
+void GiocoDaTavolo::setTipologia(std::string t) { Tipologia = t; }
 
-void GiocoDaTavolo::setRegolamento() { std::cin>>Regolamento; }
+void GiocoDaTavolo::setRegolamento(std::string r) { Regolamento = r; }
 
-void GiocoDaTavolo::setContenuto() { std::cin>>Contenuto; }
+void GiocoDaTavolo::setContenuto(std::string c) { Contenuto = c; }
 
 bool GiocoDaTavolo::operator==(const ItemStoreToys& it) const{
     const GiocoDaTavolo* punt = dynamic_cast<const GiocoDaTavolo*>(&it);
@@ -157,7 +159,7 @@ std::string GiocoDaTavolo::infoOggetto() const{
 
 GiocoDiCarte::GiocoDiCarte(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int PezzMag, bool Uso, std::string Path, bool edLimitata) : ItemStoreToys(N, House, Anno, Age, Costo, PezzMag, Uso, Path), edizioneLimitata(edLimitata) {}
 
-void GiocoDiCarte::setEdizioneLimitata() { if(edizioneLimitata == false) edizioneLimitata = true; else edizioneLimitata = false; }
+void GiocoDiCarte::setEdizioneLimitata(bool b) { edizioneLimitata = b; }
 
 bool GiocoDiCarte::operator==(const ItemStoreToys& it) const{
     const GiocoDiCarte* punt = dynamic_cast<const GiocoDiCarte*>(&it);
@@ -187,11 +189,11 @@ GiocoDaTavoloConCarte* GiocoDaTavoloConCarte::clone() const{ return new GiocoDaT
 
 std::string GiocoDaTavoloConCarte::getTipo() const{ return "Gioco da Tavolo con Carte";}
 
-void GiocoDaTavoloConCarte::setRegolamento() { std::cin>>Regolamento; }
+void GiocoDaTavoloConCarte::setRegolamento(std::string s) { Regolamento = s; }
 
-void GiocoDaTavoloConCarte::setNumGicoatori() { std::cin>>NumGiocatori; }
+void GiocoDaTavoloConCarte::setNumGicoatori(unsigned int n) { NumGiocatori = n; }
 
-void GiocoDaTavoloConCarte::setContenuto() { std::cin>>Contenuto; }
+void GiocoDaTavoloConCarte::setContenuto(std::string c) { Contenuto = c; }
 
 bool GiocoDaTavoloConCarte::operator==(const ItemStoreToys& it) const{
     const GiocoDaTavoloConCarte* punt = dynamic_cast<const GiocoDaTavoloConCarte*>(&it);
@@ -227,9 +229,9 @@ std::string CarteCollezionabili::getTipo() const{ return "Carte collezionabili";
 
 CarteCollezionabili* CarteCollezionabili::clone() const{ return new CarteCollezionabili(*this); }
 
-void CarteCollezionabili::setNumCarte() {std::cin>>NumCarte; }
+void CarteCollezionabili::setNumCarte(int n) { NumCarte = n; }
 
-void CarteCollezionabili::setEdizione() { std::cin>>Edizione; }
+void CarteCollezionabili::setEdizione(std::string e) { Edizione = e; }
 
 bool CarteCollezionabili::operator==(const ItemStoreToys& it) const{
     const CarteCollezionabili* punt = dynamic_cast<const CarteCollezionabili*>(&it);

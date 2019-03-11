@@ -3,11 +3,9 @@
 #include <QList>
 #include <QFileDialog>
 #include <QMessageBox>
-
-/*
-void Controller::salvaDati() const{
-     modello->SalvaStringhe();
-} */
+#include <QtGlobal>
+#include <QDebug>
+#include <iostream>
 
 Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagina principale
     QWidget(parent),
@@ -20,7 +18,8 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     modiVideo(new modificaVideogioco(this)),
     modGTavolo(new modificaGiocoDaTavolo(this)),
     modColl(new modificaCarteCollezionabili(this)),
-    modGCarte(new modificaGiocoDaTavoloConCarte(this))
+    modGCarte(new modificaGiocoDaTavoloConCarte(this)),
+    file(QFileDialog::getOpenFileName(this, tr("Scegli file"), "D:/Desktop/progetto-p2/Salvataggio dati" , "File XML(*.xml)"))
 {
     layoutPrincipale->setMenuBar(mainMenu);
     layoutPrincipale->addWidget(layoutNeg);
@@ -33,8 +32,9 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     layoutRic->hide();
     scrollA->hide();
     setLayout(layoutPrincipale);
-
+    caricaDati();
     connect(layoutNeg->getBtnModifica(),SIGNAL(clicked()),this,SLOT(modificaOggetto()));
+    connect(modiVideo->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDatiVideogioco()));
 
 }
 
@@ -48,7 +48,7 @@ void Controller::modificaOggetto(){
     if(dynamic_cast<Videogioco*>(oggettoMod)){
         Videogioco* p = static_cast<Videogioco*>(oggettoMod);
 
-        modiVideo->getBottImm()->setIcon(QIcon(QString::fromStdString(p->getPath())));
+        //modiVideo->inserisciPercorso(p->getPath());
         modiVideo->getNomeGioco()->insert(QString::fromStdString(p->getNome()));
         modiVideo->getCasaPro()->insert(QString::fromStdString(p->getCasaProduttrice()));
         modiVideo->getEta()->insert(QString::fromStdString(std::to_string(p->getEta())));
@@ -114,11 +114,39 @@ void Controller::modificaOggetto(){
     }
 }
 
+void Controller::salvaDatiVideogioco(){
+    ListaDiItemStoreToys* q = layoutNeg->getLista()->oggettoCorrente();
+    ItemStoreToys* oggettoMod = q->prelevaOgg();
+    qWarning() << "Sono prima dell'if";
+    if(dynamic_cast<Videogioco*>(oggettoMod)){
+        qWarning() << "Sono dentro l'if";
+        Videogioco* p = static_cast<Videogioco*>(oggettoMod);
+        p->setNome(modiVideo->getNomeGioco()->text().toStdString());
+        p->setCasaProduzione(modiVideo->getCasaPro()->text().toStdString());
+        p->setAnnoPubblicazione(modiVideo->getAnno()->text().toUInt());
+        p->setEta(modiVideo->getEta()->text().toUInt());
+        p->setPrezzo(modiVideo->getPrezzo()->text().toUInt());
+        p->setPezziMagazzino(modiVideo->getPezziMagazzino()->text().toUInt());
+        p->setUsato(modiVideo->getUsato()->currentIndex()); //Da rivedere
+        //p->setPath(modiVideo->getPath().toStdString());
+        p->setPs4(modiVideo->getplayStation()->currentIndex());
+        p->setXboX(modiVideo->getxbox()->currentIndex());
+        p->setGenere(modiVideo->getGenere()->text().toStdString());
+    }
+    qWarning() << "Sono fuori dall'if";
+    modello->salvataggio();
+    qWarning() << "Fatto salvataggio";
+    caricaDati();
+    qWarning() << "Ricarico tutto";
+    modiVideo->close();
+    qWarning() << "Ho chiuso orco dio";
+}
+
 Modello* Controller::getModello() {
     return modello;
 }
 
-Controller::~Controller(){}
+//Controller::~Controller(){}
 
 void Controller::visualizzaRicerca() const{
     layoutNeg->hide();
@@ -154,15 +182,14 @@ void Controller::visualizzaInserisci() const{
 }
 
 void Controller::caricaDati(){
-    QString file = QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio Dati" , "File XML(*.xml)");
 
     if(file!=""){
         layoutNeg->getLista()->clear();
         modello->setNuovoPercorso(file.toStdString());
         modello->caricamento();
 
-        Container<ItemStoreToys*>::iterator aux = modello->begin();
-        Container<ItemStoreToys*>::iterator auxEnd = modello->end();
+        Container<ItemStoreToys*>::constiterator aux = modello->cbegin();
+        Container<ItemStoreToys*>::constiterator auxEnd = modello->cend();
 
         for(; aux != auxEnd; ++aux){
           layoutNeg->getLista()->aggiungiGioco(*aux);

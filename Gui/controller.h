@@ -36,16 +36,17 @@ private:
     modificaGiocoDaTavolo* modGTavolo;
     modificaCarteCollezionabili* modColl;
     modificaGiocoDaTavoloConCarte* modGCarte;
+    QString file;
 public:
     Controller(Modello* ,QWidget * = nullptr);
-    ~Controller();
+    //~Controller();
     Modello *getModello();
+    void caricaDati();
 public slots:
     void visualizzaRicerca() const;
     void visualizzaNegozio() const;
     void visualizzaInserisci() const;
-    void caricaDati();
-    //void salvaDati() const;
+    void salvaDatiVideogioco();
     void modificaOggetto();
 };
 

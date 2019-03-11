@@ -23,7 +23,7 @@ menuPrincipale::menuPrincipale(QWidget* p):
     connect(negozio, SIGNAL(triggered()), parent, SLOT(visualizzaNegozio()));
     connect(ricerca, SIGNAL(triggered()), parent, SLOT(visualizzaRicerca()));
     connect(inserisci, SIGNAL(triggered()), parent, SLOT(visualizzaInserisci()));
-    connect(caricamento, SIGNAL(triggered()), parent, SLOT(caricaDati()));
+    //connect(caricamento, SIGNAL(triggered()), parent, SLOT(caricaDati()));
 
 }
 
