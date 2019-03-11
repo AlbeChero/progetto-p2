@@ -28,8 +28,25 @@ private:
     QFormLayout* formDaTavolo;
     QPushButton* modEffettuata;
     QPushButton* annullaMod;
+    QPushButton* modImm;
 public:
     modificaGiocoDaTavolo(QWidget* = nullptr, GiocoDaTavolo* =nullptr);
+    QLineEdit* getNomeGioco();
+    QLineEdit* getCasaPro();
+    QLineEdit* getEta();
+    QLineEdit* getAnno();
+    QLineEdit* getPrezzo();
+    QLineEdit* getPezziMagazzino();
+    QComboBox* getUsato();
+    QLineEdit* getNumGiocatori();
+    QLineEdit* getTipologia();
+    QLineEdit* getRegolamento();
+    QLineEdit* getContenuto1();
+    QLineEdit* getSconto1();
+    QPushButton* getmodEffettuata();
+    QPushButton* getannullaMod();
+    QPushButton* getModImm();
+    void pulisciTutto();
 };
 
 #endif // MODIFICAGIOCODATAVOLO_H

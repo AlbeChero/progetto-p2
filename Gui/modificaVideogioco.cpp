@@ -1,7 +1,7 @@
 #include "modificaVideogioco.h"
 #include<QLabel>
 
-modificaVideogioco::modificaVideogioco(QWidget* parent, Videogioco* video):
+modificaVideogioco::modificaVideogioco(QWidget* parent):
     NomeGioco(new QLineEdit(this)),
     CasaPro(new QLineEdit(this)),
     Eta(new QLineEdit(this)),
@@ -16,34 +16,27 @@ modificaVideogioco::modificaVideogioco(QWidget* parent, Videogioco* video):
     Contenuto(new QLineEdit(this)),
     formVideo(new QFormLayout),
     modEffettuata(new QPushButton("Salva Modifica",this)),
-    annullaMod(new QPushButton("Annulla", this))
+    annullaMod(new QPushButton("Annulla", this)),
+    modImm(new QPushButton("Cambia Immagine"))
 {
 
     QVBoxLayout* layoutPrincipale = new QVBoxLayout(this);
     layoutPrincipale->addLayout(formVideo);
     QHBoxLayout* layoutBottoni = new QHBoxLayout;
 
-    QPushButton* bottImm = new QPushButton("Cambia Immagine");
-    bottImm->setIconSize(QSize(180,180));
-    bottImm->setIcon(QIcon(QString::fromStdString(video->getPath())));
-    bottImm->setFixedSize(QSize(380,200));
-    layoutPrincipale->addWidget(bottImm);
+    modImm->setIconSize(QSize(180,180));
+    modImm->setFixedSize(QSize(380,200));
+    layoutPrincipale->addWidget(modImm);
 
     setFixedSize(400,600);
 
     formVideo->addRow("Nome gioco", NomeGioco);
-    NomeGioco->insert(QString::fromStdString(video->getNome()));
     formVideo->addRow("Casa Produzione", CasaPro);
-    CasaPro->insert(QString::fromStdString(video->getCasaProduttrice()));
     formVideo->addRow("Pegi", Eta);
-    Eta->insert(QString::fromStdString(std::to_string(video->getEta())));
     formVideo->addRow("Anno", Anno);
-    Anno->insert(QString::fromStdString(std::to_string(video->getAnnoPubblicazione())));
     formVideo->addRow("Prezzo", Prezzo);
     Prezzo->setMaxLength(5);//Prova
-    Prezzo->insert(QString::fromStdString(std::to_string(video->getPrezzo())));
     formVideo->addRow("Pezzi in magazzino", PezziMagazzino);
-    PezziMagazzino->insert(QString::fromStdString(std::to_string(video->getPezziInMagazzino())));
 
     formVideo->addRow("Usato", Usato);
     formVideo->addRow("Disponibile per PS4", playStation);
@@ -51,23 +44,77 @@ modificaVideogioco::modificaVideogioco(QWidget* parent, Videogioco* video):
     Usato->addItem("Si"); Usato->addItem("No");
     playStation->addItem("Si"); playStation->addItem("No");
     xbox->addItem("Si"); xbox->addItem("No");
-
+    Usato->addItem("No"); Usato->addItem("Si");
     formVideo->addRow("Genere", Genere);
-    Genere->insert(QString::fromStdString(video->getGenere()));
     formVideo->addRow("Sconto", Sconto);
-    Sconto->insert(QString::fromStdString(std::to_string(video->getSconto())));
     formVideo->addRow("Contenuto", Contenuto);
-    Contenuto->insert(QString::fromStdString(video->getContenuto()));
 
-    video->getUsato() ? Usato->setCurrentIndex(1) : Usato->setCurrentIndex(0);
-    video->getPs4() ? Usato->setCurrentIndex(1) : Usato->setCurrentIndex(0);
-    video->getXboxOne() ? Usato->setCurrentIndex(1) : Usato->setCurrentIndex(0);
 
     layoutBottoni->addWidget(modEffettuata);
     layoutBottoni->addWidget(annullaMod);
     layoutPrincipale->addLayout(layoutBottoni);
 
-    layoutPrincipale->insertStretch(2,1);
+    layoutPrincipale->insertStretch(2,1);    
+}
 
-    connect(modEffettuata,SIGNAL(clicked()),parent,SLOT(salvaDati()));
+QLineEdit* modificaVideogioco::getNomeGioco(){
+        return NomeGioco;
+    }
+QLineEdit* modificaVideogioco::getCasaPro(){
+        return CasaPro;
+    }
+QLineEdit* modificaVideogioco::getEta(){
+        return Eta;
+    }
+QLineEdit* modificaVideogioco::getAnno(){
+        return Anno;
+    }
+QLineEdit* modificaVideogioco::getPrezzo(){
+        return Prezzo;
+    }
+QLineEdit* modificaVideogioco::getPezziMagazzino(){
+        return PezziMagazzino;
+    }
+QComboBox* modificaVideogioco::getUsato(){
+        return Usato;
+    }
+
+QComboBox* modificaVideogioco::getplayStation(){
+        return playStation;
+    }
+QComboBox* modificaVideogioco::getxbox(){
+        return xbox;
+    }
+QLineEdit* modificaVideogioco::getGenere(){
+        return Genere;
+    }
+QLineEdit* modificaVideogioco::getSconto(){
+        return Sconto;
+    }
+QLineEdit* modificaVideogioco::getContenuto(){
+        return Contenuto;
+    }
+
+QPushButton* modificaVideogioco::getmodEffettuata(){
+        return modEffettuata;
+    }
+QPushButton* modificaVideogioco::getannullaMod(){
+        return annullaMod;
+    }
+QPushButton* modificaVideogioco::getBottImm(){
+        return modImm;
+    }
+void modificaVideogioco::pulisciTutto(){
+    NomeGioco->clear();
+    CasaPro->clear();
+    Eta->clear();
+    Anno->clear();
+    Prezzo->clear();
+    PezziMagazzino->clear();
+    Usato->setCurrentIndex(0);
+    playStation->setCurrentIndex(0);
+    xbox->setCurrentIndex(0);
+    Genere->clear();
+    Sconto->clear();
+    Contenuto->clear();
 }

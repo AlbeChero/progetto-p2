@@ -17,6 +17,10 @@
 #include <qmenubar.h>
 #include <qwidget.h>
 #include <Gui/scrollarea.h>
+#include "modificaVideogioco.h"
+#include "modificacartecollezionabili.h"
+#include "modificagiocodatavolo.h"
+#include "modificagiocodatavoloconcarte.h"
 
 class Controller : public QWidget{
     Q_OBJECT
@@ -28,7 +32,10 @@ private:
     layoutRicerca *layoutRic;
     layoutInserisci *layoutIns;
     Modello* modello;
-    //modificaVideogioco* prova2;
+    modificaVideogioco* modiVideo;
+    modificaGiocoDaTavolo* modGTavolo;
+    modificaCarteCollezionabili* modColl;
+    modificaGiocoDaTavoloConCarte* modGCarte;
 public:
     Controller(Modello* ,QWidget * = nullptr);
     ~Controller();
@@ -38,7 +45,7 @@ public slots:
     void visualizzaNegozio() const;
     void visualizzaInserisci() const;
     void caricaDati();
-    void salvaDati() const;
+    //void salvaDati() const;
     void modificaOggetto();
 };
 

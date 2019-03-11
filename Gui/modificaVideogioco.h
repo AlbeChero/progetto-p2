@@ -30,8 +30,28 @@ private:
 
     QPushButton* modEffettuata;
     QPushButton* annullaMod;
+    QPushButton* modImm;
 public:
-    modificaVideogioco(QWidget* = nullptr, Videogioco* =nullptr);
+    modificaVideogioco(QWidget* = nullptr);
+    QLineEdit* getNomeGioco();
+    QLineEdit* getCasaPro();
+    QLineEdit* getEta();
+    QLineEdit* getAnno();
+    QLineEdit* getPrezzo();
+    QLineEdit* getPezziMagazzino();
+    QComboBox* getUsato();
+
+    QComboBox* getplayStation();
+    QComboBox* getxbox();
+    QLineEdit* getGenere();
+    QLineEdit* getSconto();
+    QLineEdit* getContenuto();
+
+    QPushButton* getmodEffettuata();
+    QPushButton* getannullaMod();
+    QPushButton* getBottImm();
+
+    void pulisciTutto();
 };
 
 #endif // MODIFICA_H

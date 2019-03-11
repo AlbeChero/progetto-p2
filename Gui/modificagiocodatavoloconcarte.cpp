@@ -16,17 +16,16 @@ modificaGiocoDaTavoloConCarte::modificaGiocoDaTavoloConCarte(QWidget* p, GiocoDa
     ScontoGTC(new QLineEdit(this)),
     form(new QFormLayout),
     modEffettuata(new QPushButton("Salva Modifica",this)),
-    annullaMod(new QPushButton("Annulla", this))
+    annullaMod(new QPushButton("Annulla", this)),
+    modImm(new QPushButton("Cambia Immagine"))
 {
     QVBoxLayout* layoutPrincipale = new QVBoxLayout(this);
     layoutPrincipale->addLayout(form);
     QHBoxLayout* layoutBottoni = new QHBoxLayout;
 
-    QPushButton* bottImm = new QPushButton("Cambia Immagine");
-    bottImm->setIconSize(QSize(180,180));
-    bottImm->setIcon(QIcon(QString::fromStdString(ogg->getPath())));
-    bottImm->setFixedSize(QSize(380,200));
-    layoutPrincipale->addWidget(bottImm);
+    modImm->setIconSize(QSize(180,180));
+    modImm->setFixedSize(QSize(380,200));
+    layoutPrincipale->addWidget(modImm);
 
     setFixedSize(400,600);
 
@@ -46,22 +45,72 @@ modificaGiocoDaTavoloConCarte::modificaGiocoDaTavoloConCarte(QWidget* p, GiocoDa
     Usato->addItem("No"); Usato->addItem("Si");
     edLimitata->addItem("No"); edLimitata->addItem("Si");
 
-    NomeGioco->insert(QString::fromStdString(ogg->getNome()));
-    CasaPro->insert(QString::fromStdString(ogg->getCasaProduttrice()));
-    Eta->insert(QString::fromStdString(std::to_string(ogg->getEta())));
-    Anno->insert(QString::fromStdString(std::to_string(ogg->getAnnoPubblicazione())));
-    Prezzo->insert(QString::fromStdString(std::to_string(ogg->getPrezzo())));
-    PezziMagazzino->insert(QString::fromStdString(std::to_string(ogg->getPezziInMagazzino())));
-    ogg->getUsato() ? Usato->setCurrentIndex(1) : Usato->setCurrentIndex(0);
-    ogg->getEdizioneLimitata() ? edLimitata->setCurrentIndex(1) : edLimitata->setCurrentIndex(0);
-    NumGiocatoriGTC->insert(QString::fromStdString(std::to_string(ogg->getNumGiocatori())));
-    RegolamentoGTC->insert(QString::fromStdString(ogg->getRegolamento()));
-    ContenutoGTC->insert(QString::fromStdString(ogg->getContenuto()));
-    ScontoGTC->insert(QString::fromStdString(std::to_string(ogg->getSconto())));
-
     layoutBottoni->addWidget(modEffettuata);
     layoutBottoni->addWidget(annullaMod);
     layoutPrincipale->addLayout(layoutBottoni);
 
     layoutPrincipale->insertStretch(2,1);
 }
+
+QLineEdit* modificaGiocoDaTavoloConCarte::getNomeGioco(){
+     return NomeGioco;
+ }
+QLineEdit* modificaGiocoDaTavoloConCarte::getCasaPro(){
+     return CasaPro;
+ }
+QLineEdit* modificaGiocoDaTavoloConCarte::getEta(){
+     return Eta;
+ }
+QLineEdit*modificaGiocoDaTavoloConCarte::getAnno(){
+     return Anno;
+ }
+QLineEdit* modificaGiocoDaTavoloConCarte::getPrezzo(){
+     return Prezzo;
+ }
+QLineEdit* modificaGiocoDaTavoloConCarte::getPezziMagazzino(){
+     return PezziMagazzino;
+ }
+QComboBox* modificaGiocoDaTavoloConCarte::getUsato(){
+     return Usato;
+ }
+
+QPushButton* modificaGiocoDaTavoloConCarte::getmodEffettuata(){
+     return modEffettuata;
+ }
+QPushButton* modificaGiocoDaTavoloConCarte::getannullaMod(){
+     return annullaMod;
+ }
+QPushButton* modificaGiocoDaTavoloConCarte::getModImm(){
+     return modImm;
+ }
+
+QLineEdit* modificaGiocoDaTavoloConCarte::getRegolamentoGTC(){
+      return RegolamentoGTC;
+  }
+  QLineEdit* modificaGiocoDaTavoloConCarte::getNumGiocatoriGTC(){
+      return NumGiocatoriGTC;
+  }
+  QLineEdit* modificaGiocoDaTavoloConCarte::getContenutoGTC(){
+      return ContenutoGTC;
+  }
+  QLineEdit* modificaGiocoDaTavoloConCarte::getScontoGTC(){
+      return ScontoGTC;
+  }
+  QComboBox* modificaGiocoDaTavoloConCarte::getEdLimitata(){
+      return edLimitata;
+  }
+
+  void modificaGiocoDaTavoloConCarte::pulisciTutto(){
+      NomeGioco->clear();
+      CasaPro->clear();
+      Eta->clear();
+      Anno->clear();
+      Prezzo->clear();
+      PezziMagazzino->clear();
+      Usato->setCurrentIndex(0);
+      edLimitata->setCurrentIndex(0);
+      RegolamentoGTC->clear();
+      NumGiocatoriGTC->clear();
+      ContenutoGTC->clear();
+      ScontoGTC->clear();
+  }

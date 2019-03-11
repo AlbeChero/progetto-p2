@@ -14,18 +14,17 @@ modificaCarteCollezionabili::modificaCarteCollezionabili(QWidget* p, CarteCollez
     ScontoCC(new QLineEdit(this)),
     form(new QFormLayout),
     modEffettuata(new QPushButton("Salva Modifica",this)),
-    annullaMod(new QPushButton("Annulla", this))
+    annullaMod(new QPushButton("Annulla", this)),
+    modImm(new QPushButton("Cambia Immagine"))
 {
 
     QVBoxLayout* layoutPrincipale = new QVBoxLayout(this);
     layoutPrincipale->addLayout(form);
     QHBoxLayout* layoutBottoni = new QHBoxLayout;
 
-    QPushButton* bottImm = new QPushButton("Cambia Immagine");
-    bottImm->setIconSize(QSize(180,180));
-    bottImm->setIcon(QIcon(QString::fromStdString(ogg->getPath())));
-    bottImm->setFixedSize(QSize(380,200));
-    layoutPrincipale->addWidget(bottImm);
+    modImm->setIconSize(QSize(180,180));
+    modImm->setFixedSize(QSize(380,200));
+    layoutPrincipale->addWidget(modImm);
 
     setFixedSize(400,600);
 
@@ -44,17 +43,7 @@ modificaCarteCollezionabili::modificaCarteCollezionabili(QWidget* p, CarteCollez
     Usato->addItem("No"); Usato->addItem("Si");
     edLimitata->addItem("No"); edLimitata->addItem("Si");
 
-    NomeGioco->insert(QString::fromStdString(ogg->getNome()));
-    CasaPro->insert(QString::fromStdString(ogg->getCasaProduttrice()));
-    Eta->insert(QString::fromStdString(std::to_string(ogg->getEta())));
-    Anno->insert(QString::fromStdString(std::to_string(ogg->getAnnoPubblicazione())));
-    Prezzo->insert(QString::fromStdString(std::to_string(ogg->getPrezzo())));
-    PezziMagazzino->insert(QString::fromStdString(std::to_string(ogg->getPezziInMagazzino())));
-    ogg->getUsato() ? Usato->setCurrentIndex(1) : Usato->setCurrentIndex(0);
-    ogg->getEdizioneLimitata() ? edLimitata->setCurrentIndex(1) : edLimitata->setCurrentIndex(0);
-    NumCarteCC->insert(QString::fromStdString(std::to_string(ogg->getNumCarte())));
-    Edizione->insert(QString::fromStdString(ogg->getEdizione()));
-    ScontoCC->insert(QString::fromStdString(std::to_string(ogg->getSconto())));
+
 
     layoutBottoni->addWidget(modEffettuata);
     layoutBottoni->addWidget(annullaMod);
@@ -62,4 +51,56 @@ modificaCarteCollezionabili::modificaCarteCollezionabili(QWidget* p, CarteCollez
 
     layoutPrincipale->insertStretch(2,1);
 
+}
+
+QLineEdit* modificaCarteCollezionabili::getNomeGioco(){
+     return NomeGioco;
+ }
+QLineEdit* modificaCarteCollezionabili::getCasaPro(){
+     return CasaPro;
+ }
+QLineEdit* modificaCarteCollezionabili::getEta(){
+     return Eta;
+ }
+QLineEdit*modificaCarteCollezionabili::getAnno(){
+     return Anno;
+ }
+QLineEdit* modificaCarteCollezionabili::getPrezzo(){
+     return Prezzo;
+ }
+QLineEdit* modificaCarteCollezionabili::getPezziMagazzino(){
+     return PezziMagazzino;
+ }
+QComboBox* modificaCarteCollezionabili::getUsato(){
+     return Usato;
+ }
+QComboBox* modificaCarteCollezionabili::getEdLimitata(){
+    return edLimitata;
+}
+
+QLineEdit* modificaCarteCollezionabili::getNumCarteCC(){
+      return NumCarteCC;
+  }
+  QLineEdit* modificaCarteCollezionabili::getEdizione(){
+      return Edizione;
+  }
+  QLineEdit* modificaCarteCollezionabili::getScontoCC(){
+      return ScontoCC;
+  }
+QPushButton* modificaCarteCollezionabili::getModImm(){
+       return modImm;
+   }
+
+void modificaCarteCollezionabili::pulisciTutto(){
+    NomeGioco->clear();
+    CasaPro->clear();
+    Eta->clear();
+    Anno->clear();
+    Prezzo->clear();
+    PezziMagazzino->clear();
+    Usato->setCurrentIndex(0);
+    NumCarteCC->clear();
+    edLimitata->setCurrentIndex(0);
+    Edizione->clear();
+    ScontoCC->clear();
 }
