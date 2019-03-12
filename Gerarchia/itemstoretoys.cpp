@@ -28,7 +28,7 @@ void ItemStoreToys::setPrezzo(double p) { Prezzo = p; }
 
 void ItemStoreToys::setPezziMagazzino(unsigned int p) { PezziInMagazzino = p; }
 
-void ItemStoreToys::setUsato(bool b) { usato = b; }
+void ItemStoreToys::setUsato(bool b) { if(b==false) usato = true;  else usato = false; }
 
 bool ItemStoreToys::operator==(const ItemStoreToys& it) const{
     return Nome == it.Nome && CasaProduttrice == it.CasaProduttrice && Eta == it.Eta && AnnoPubblicazione == it.AnnoPubblicazione &&
@@ -83,9 +83,9 @@ std::string Videogioco::getTipo() const{ return "Videogioco";}
 
 Videogioco* Videogioco::clone() const{ return new Videogioco(*this); }
 
-void Videogioco::setPs4(bool b){ Ps4 = b; }
+void Videogioco::setPs4(bool b){ { if(b==false) Ps4 = true;  else Ps4 = false; } }
 
-void Videogioco::setXboX(bool b){ XboxOne = b; }
+void Videogioco::setXboX(bool b){ if(b==false) XboxOne = true;  else XboxOne = false; }
 
 void Videogioco::setGenere(std::string g){ Genere = g; }
 
@@ -125,7 +125,7 @@ void GiocoDaTavolo::modificaSconto(unsigned int sc) { Sconto = sc; }
 
 GiocoDaTavolo* GiocoDaTavolo::clone() const{ return new GiocoDaTavolo(*this); }
 
-std::string GiocoDaTavolo::getTipo() const{ return "Gioco da Tavolo";}
+std::string GiocoDaTavolo::getTipo() const{ return "GiocoDaTavolo";}
 
 void GiocoDaTavolo::setNumGiocatori(unsigned int n) { NumGiocatori = n; }
 
@@ -187,7 +187,7 @@ void GiocoDaTavoloConCarte::modificaSconto(unsigned int sc) { Sconto = sc; }
 
 GiocoDaTavoloConCarte* GiocoDaTavoloConCarte::clone() const{ return new GiocoDaTavoloConCarte(*this); }
 
-std::string GiocoDaTavoloConCarte::getTipo() const{ return "Gioco da Tavolo con Carte";}
+std::string GiocoDaTavoloConCarte::getTipo() const{ return "GiocoDaTavoloConCarte";}
 
 void GiocoDaTavoloConCarte::setRegolamento(std::string s) { Regolamento = s; }
 
@@ -225,7 +225,7 @@ std::string CarteCollezionabili::getContenuto() const{ auto s = std::to_string(N
 
 void CarteCollezionabili::modificaSconto(unsigned int sc) { Sconto = sc; }
 
-std::string CarteCollezionabili::getTipo() const{ return "Carte collezionabili";}
+std::string CarteCollezionabili::getTipo() const{ return "CarteCollezionabili";}
 
 CarteCollezionabili* CarteCollezionabili::clone() const{ return new CarteCollezionabili(*this); }
 

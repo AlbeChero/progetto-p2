@@ -45,7 +45,6 @@ modificaVideogioco::modificaVideogioco(QWidget* parent):
     Usato->addItem("Si"); Usato->addItem("No");
     playStation->addItem("Si"); playStation->addItem("No");
     xbox->addItem("Si"); xbox->addItem("No");
-    Usato->addItem("No"); Usato->addItem("Si");
     formVideo->addRow("Genere", Genere);
     formVideo->addRow("Sconto", Sconto);
     formVideo->addRow("Contenuto", Contenuto);
@@ -58,6 +57,7 @@ modificaVideogioco::modificaVideogioco(QWidget* parent):
     layoutPrincipale->insertStretch(2,1);
 
     connect(modImm ,SIGNAL(clicked()),this,SLOT(cambiaImm()));
+    connect(modEffettuata, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 void modificaVideogioco::inserisciPercorso(std::string p){

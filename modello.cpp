@@ -35,6 +35,11 @@ Container<ItemStoreToys*>::constiterator Modello::cend() const{
 
 void Modello::salvataggio(){
     QSaveFile file(QString::fromStdString(Path));
+
+    if(!file.open(QIODevice::WriteOnly)) {
+        return;
+    }
+
     QXmlStreamWriter lettore(&file);
 
     lettore.setAutoFormatting(true); // Per leggibilità del file XML
@@ -47,37 +52,23 @@ void Modello::salvataggio(){
     while(it != cend()){
         const ItemStoreToys* daSalvare = *it;
         const QString tipologiaOgg = QString::fromStdString(daSalvare->getTipo());
-        lettore.writeEmptyElement(tipologiaOgg); //In questo modo capisco che oggetto sto inserendo
-        std::cout<<daSalvare->getNome();
+        lettore.writeEmptyElement(tipologiaOgg);
         lettore.writeAttribute("Nome", QString::fromStdString(daSalvare->getNome()));
-        qWarning() << "1";
         lettore.writeAttribute("CasaProduttrice", QString::fromStdString(daSalvare->getCasaProduttrice()));
-        qWarning() << "2";
         lettore.writeAttribute("Eta", QString("%1").arg(daSalvare->getEta()));
-        qWarning() << "3";
         lettore.writeAttribute("AnnoPubblicazione", QString("%1").arg(daSalvare->getAnnoPubblicazione()));
-        qWarning() << "4";
         lettore.writeAttribute("Prezzo", QString("%1").arg(daSalvare->getPrezzo()));
-        qWarning() << "5";
         lettore.writeAttribute("PezziInMagazzino", QString("%1").arg(daSalvare->getPezziInMagazzino()));
-        qWarning() << "6";
-        lettore.writeAttribute("usato", daSalvare->getUsato() ? "True" : "False");
-        qWarning() << "7";
+        lettore.writeAttribute("Usato", daSalvare->getUsato() ? "true" : "false");
         lettore.writeAttribute("pathImm", QString::fromStdString(daSalvare->getPath()));
-        qWarning() << "8";
 
         if(tipologiaOgg == "Videogioco"){
             const Videogioco* oggVideogioco = static_cast<const Videogioco*>(daSalvare);
-            lettore.writeAttribute("Ps4", oggVideogioco->getPs4() ? "True" : "False");
-            qWarning() << "9";
-            lettore.writeAttribute("XboxOne", oggVideogioco->getXboxOne() ? "True" : "False");
-            qWarning() << "10";
+            lettore.writeAttribute("Ps4", oggVideogioco->getPs4() ? "true" : "false");
+            lettore.writeAttribute("XboxOne", oggVideogioco->getXboxOne() ? "true" : "false");
             lettore.writeAttribute("Genere", QString::fromStdString(oggVideogioco->getGenere()));
-            qWarning() << "11";
             lettore.writeAttribute("Sconto", QString("%1").arg(oggVideogioco->getSconto()));
-            qWarning() << "12";
             lettore.writeAttribute("Contenuto", QString::fromStdString(oggVideogioco->getContenuto()));
-            qWarning() << "13";
         } else if(tipologiaOgg == "GiocoDaTavolo"){
             const GiocoDaTavolo* oggGiocoDaTavolo = static_cast<const GiocoDaTavolo*>(daSalvare);
             lettore.writeAttribute("NumGiocatori", QString("%1").arg(oggGiocoDaTavolo->getNumGiocatori()));
@@ -130,14 +121,14 @@ void Modello::caricamento(){
                 std::string path= attributo.hasAttribute("pathImm")? attributo.value("pathImm").toString().toStdString(): "";
                 double Prezzo = attributo.hasAttribute("Prezzo") ? attributo.value("Prezzo").toDouble() : 0;
                 unsigned int PezziInMagazzino = attributo.hasAttribute("PezziInMagazzino") ? attributo.value("PezziInMagazzino").toUInt() : 0;
-                bool Usato = attributo.hasAttribute("Usato") ? attributo.value("Usato").toString()=="True"? true: false : false;
+                bool Usato = attributo.hasAttribute("Usato") ? attributo.value("Usato").toString()=="true" ? true : false : false;
                 std::string pathImm = attributo.hasAttribute("pathImm") ? attributo.value("pathImm").toString().toStdString() : "";
 
                 ItemStoreToys* daInserire = nullptr;
 
                 if(lettore.name() == "Videogioco"){
-                    bool Ps4 = attributo.hasAttribute("Ps4") ? attributo.value("Ps4").toString()=="True"? true: false : false;
-                    bool XboxOne = attributo.hasAttribute("XboxOne") ? attributo.value("XboxOne").toString()=="True"? true: false : false;
+                    bool Ps4 = attributo.hasAttribute("Ps4") ? attributo.value("Ps4").toString()=="true"? true: false : false;
+                    bool XboxOne = attributo.hasAttribute("XboxOne") ? attributo.value("XboxOne").toString()=="true"? true: false : false;
                     std::string Genere = attributo.hasAttribute("Genere") ? attributo.value("Genere").toString().toStdString() : "";
                     std::string Contenuto = attributo.hasAttribute("Contenuto") ? attributo.value("Contenuto").toString().toStdString() : "";
                     unsigned int Sconto = attributo.hasAttribute("Sconto") ? attributo.value("Sconto").toUInt() : 0;
@@ -152,7 +143,7 @@ void Modello::caricamento(){
 
                     daInserire = new GiocoDaTavolo(Nome, CasaProduttrice, Pegi, Anno, Prezzo, Sconto, PezziInMagazzino, Usato, pathImm, NumGiocatori, Tipologia, Regolamento, Contenuto);
                 } else if(lettore.name() == "GiocoDaTavoloConCarte"){
-                    bool edizioneLimitata = attributo.hasAttribute("edizioneLimitata") ? attributo.value("edizioneLimitata").toString()=="True"? true : false : false;
+                    bool edizioneLimitata = attributo.hasAttribute("edizioneLimitata") ? attributo.value("edizioneLimitata").toString()=="true"? true : false : false;
                     std::string Regolamento = attributo.hasAttribute("Regolamento") ? attributo.value("Regolamento").toString().toStdString() : "";
                     unsigned int NumGiocatori = attributo.hasAttribute("NumGiocatori") ? attributo.value("NumGiocatori").toUInt() : 0;
                     std::string Contenuto = attributo.hasAttribute("Contenuto") ? attributo.value("Contenuto").toString().toStdString() : "";
@@ -160,7 +151,7 @@ void Modello::caricamento(){
 
                     daInserire = new GiocoDaTavoloConCarte(Nome, CasaProduttrice, Anno, Pegi, Prezzo, Sconto, PezziInMagazzino, Usato, pathImm, edizioneLimitata, Regolamento, NumGiocatori, Contenuto);
                 } else if(lettore.name() == "CarteCollezionabili"){
-                    bool edizioneLimitata = attributo.hasAttribute("edizioneLimitata") ? attributo.value("edizioneLimitata").toString()=="True"? true: false : false;
+                    bool edizioneLimitata = attributo.hasAttribute("edizioneLimitata") ? attributo.value("edizioneLimitata").toString()=="true"? true: false : false;
                     int NumCarte = attributo.hasAttribute("NumCarte") ? attributo.value("NumCarte").toInt() : 0;
                     std::string Edizione = attributo.hasAttribute("Edizione") ? attributo.value("Edizione").toString().toStdString() : "";
                     unsigned int Sconto = attributo.hasAttribute("Sconto") ? attributo.value("Sconto").toUInt() : 0;

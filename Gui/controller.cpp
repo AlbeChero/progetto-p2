@@ -6,6 +6,8 @@
 #include <QtGlobal>
 #include <QDebug>
 #include <iostream>
+#include <QtGlobal>
+#include<QDebug>
 
 Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagina principale
     QWidget(parent),
@@ -19,7 +21,7 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     modGTavolo(new modificaGiocoDaTavolo(this)),
     modColl(new modificaCarteCollezionabili(this)),
     modGCarte(new modificaGiocoDaTavoloConCarte(this)),
-    file(QFileDialog::getOpenFileName(this, tr("Scegli file"), "D:/Desktop/progetto-p2/Salvataggio dati" , "File XML(*.xml)"))
+    file(QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio dati" , "File XML(*.xml)"))
 {
     layoutPrincipale->setMenuBar(mainMenu);
     layoutPrincipale->addWidget(layoutNeg);
@@ -48,7 +50,7 @@ void Controller::modificaOggetto(){
     if(dynamic_cast<Videogioco*>(oggettoMod)){
         Videogioco* p = static_cast<Videogioco*>(oggettoMod);
 
-        //modiVideo->inserisciPercorso(p->getPath());
+        modiVideo->inserisciPercorso(p->getPath());
         modiVideo->getNomeGioco()->insert(QString::fromStdString(p->getNome()));
         modiVideo->getCasaPro()->insert(QString::fromStdString(p->getCasaProduttrice()));
         modiVideo->getEta()->insert(QString::fromStdString(std::to_string(p->getEta())));
@@ -117,29 +119,26 @@ void Controller::modificaOggetto(){
 void Controller::salvaDatiVideogioco(){
     ListaDiItemStoreToys* q = layoutNeg->getLista()->oggettoCorrente();
     ItemStoreToys* oggettoMod = q->prelevaOgg();
-    qWarning() << "Sono prima dell'if";
+
     if(dynamic_cast<Videogioco*>(oggettoMod)){
-        qWarning() << "Sono dentro l'if";
         Videogioco* p = static_cast<Videogioco*>(oggettoMod);
         p->setNome(modiVideo->getNomeGioco()->text().toStdString());
         p->setCasaProduzione(modiVideo->getCasaPro()->text().toStdString());
         p->setAnnoPubblicazione(modiVideo->getAnno()->text().toUInt());
         p->setEta(modiVideo->getEta()->text().toUInt());
-        p->setPrezzo(modiVideo->getPrezzo()->text().toUInt());
+        p->setPrezzo(modiVideo->getPrezzo()->text().toDouble());
         p->setPezziMagazzino(modiVideo->getPezziMagazzino()->text().toUInt());
-        p->setUsato(modiVideo->getUsato()->currentIndex()); //Da rivedere
-        //p->setPath(modiVideo->getPath().toStdString());
+        p->setUsato(modiVideo->getUsato()->currentIndex());
+        p->setPath(modiVideo->getPath().toStdString());
         p->setPs4(modiVideo->getplayStation()->currentIndex());
         p->setXboX(modiVideo->getxbox()->currentIndex());
         p->setGenere(modiVideo->getGenere()->text().toStdString());
+        std::cout<<p->getNome()<<std::endl;
     }
-    qWarning() << "Sono fuori dall'if";
+    modiVideo->pulisciTutto();
     modello->salvataggio();
-    qWarning() << "Fatto salvataggio";
     caricaDati();
-    qWarning() << "Ricarico tutto";
     modiVideo->close();
-    qWarning() << "Ho chiuso orco dio";
 }
 
 Modello* Controller::getModello() {

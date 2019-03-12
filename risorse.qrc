@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Salvataggio dati/Immagini/call of duty.jpg</file>
+        <file>Salvataggio dati/Immagini/cluedo.jpg</file>
+        <file>Salvataggio dati/Immagini/dragonball.jpg</file>
+        <file>Salvataggio dati/Immagini/fifa19.jpg</file>
+        <file>Salvataggio dati/Immagini/Munchking.jpg</file>
+    </qresource>
+</RCC>

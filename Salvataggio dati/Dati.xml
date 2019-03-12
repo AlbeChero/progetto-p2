@@ -1,19 +1,6 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--!!!Non modificate-->
 <root>
-        <Videogioco Nome="Fifa" CasaProduttrice="ElectronicArts" Eta="3" AnnoPubblicazione="2018" Prezzo="60.0" PezziInMagazzino="5" Usato="False"
-        Ps4="True" XboxOne="True" Genere="Simulatore" Sconto="0" Contenuto="1 disco" pathImm="D:/Desktop/progetto-p2/Salvataggio dati/Immagini/fifa19.jpg" />
-
-        <Videogioco Nome="Call Of Duty"	CasaProduttrice="Treyarch" Eta="18" AnnoPubblicazione="2018" Prezzo="60.0" PezziInMagazzino="50" Usato="False"
-         Ps4="True" XboxOne="True" Genere="Sparatutto in prima persona" Sconto="10" Contenuto="1 Disco gioco e 1 libretto" pathImm="D:\Desktop\progetto-p2\Salvataggio dati\Immagini\call of duty.jpg" />
-
-        <GiocoDaTavolo Nome="Cluedo" CasaProduttrice="Hasbro" Eta="6" AnnoPubblicazione="2006" Prezzo="24.0" PezziInMagazzino="30" Usato="False"
-        NumGiocatori="6" Tipologia="Giallo deduttivo" Regolamento="Scoprire chi ha ucciso il Signor Black, dove e con cosa!" pathImm="D:\Desktop\progetto-p2\Salvataggio dati\Immagini\cluedo.jpg"/>
-
-        <CarteCollezionabili Nome="Dragonball" CasaProduttrice="Namco bandai" Eta="3" AnnoPubblicazione="2000" Prezzo="2.0" PezziInMagazzino="100" Usato="False"
-        edizioneLimitata="True" NumCarte="12" Edizione="Edizione Oro" Sconto="0" pathImm="D:\Desktop\progetto-p2\Salvataggio dati\Immagini\dragonBall.jpg"/>
-
-        <GiocoDaTavoloConCarte Nome="Munchkin" CasaProduttrice="Steve Jackson Games" Eta="14" AnnoPubblicazione="2012" Prezzo="14.90" PezziInMagazzino="23" Usato="False"
-        edizioneLimitata="False" Regolamento="In ogni turno di una partita a Munchkin, un giocatore scopre una carta porta (apre una porta)"
-        NumGiocatori="6" Contenuto="2 mazzi di carte e 1 libretto regole di gioco" Sconto="0" pathImm="D:\Desktop\progetto-p2\Salvataggio dati\Immagini\Munchking.jpg" />
+    <Videogioco Nome="Porco dio" CasaProduttrice="CIAO" Eta="10" AnnoPubblicazione="10" Prezzo="30" PezziInMagazzino="10" Usato="true" pathImm="D:/Desktop/progetto-p2/Salvataggio dati/Immagini/fifa19.jpg" Ps4="false" XboxOne="true" Genere="cambia" Sconto="0" Contenuto="1 disco"/>
+    <Videogioco Nome="Call Of Duty" CasaProduttrice="Treyarch" Eta="18" AnnoPubblicazione="2018" Prezzo="70" PezziInMagazzino="50" Usato="true" pathImm="D:/Desktop/poke.jpg" Ps4="true" XboxOne="true" Genere="Gioco di merda" Sconto="10" Contenuto="1 Disco gioco e 1 libretto"/>
 </root>
-

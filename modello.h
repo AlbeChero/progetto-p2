@@ -11,7 +11,7 @@ private:
     std::string Path;
     bool datiSalvati;
 public:
-    Modello(std::string = "../Salvataggio dati/Dati.xml");
+    Modello(std::string = ":/Salvataggio dati");
     //~Modello();
 
     void salvataggio(); //Salvataggio dei dati
