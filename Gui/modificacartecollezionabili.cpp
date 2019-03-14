@@ -40,8 +40,8 @@ modificaCarteCollezionabili::modificaCarteCollezionabili(QWidget* p, CarteCollez
     form->addRow("Edizione", Edizione);
     form->addRow("Sconto", ScontoCC);
 
-    Usato->addItem("No"); Usato->addItem("Si");
-    edLimitata->addItem("No"); edLimitata->addItem("Si");
+    Usato->addItem("Si"); Usato->addItem("No");
+    edLimitata->addItem("Si"); edLimitata->addItem("No");
 
 
 
@@ -90,6 +90,13 @@ QLineEdit* modificaCarteCollezionabili::getNumCarteCC(){
 QPushButton* modificaCarteCollezionabili::getModImm(){
        return modImm;
    }
+
+QPushButton* modificaCarteCollezionabili::getmodEffettuata(){
+    return modEffettuata;
+}
+QPushButton* modificaCarteCollezionabili::getannullaMod(){
+    return annullaMod;
+}
 
 void modificaCarteCollezionabili::pulisciTutto(){
     NomeGioco->clear();

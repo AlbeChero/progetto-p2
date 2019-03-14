@@ -159,7 +159,7 @@ std::string GiocoDaTavolo::infoOggetto() const{
 
 GiocoDiCarte::GiocoDiCarte(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int PezzMag, bool Uso, std::string Path, bool edLimitata) : ItemStoreToys(N, House, Anno, Age, Costo, PezzMag, Uso, Path), edizioneLimitata(edLimitata) {}
 
-void GiocoDiCarte::setEdizioneLimitata(bool b) { edizioneLimitata = b; }
+void GiocoDiCarte::setEdizioneLimitata(bool b) { if(b == false) edizioneLimitata = true;  else edizioneLimitata = false; }
 
 bool GiocoDiCarte::operator==(const ItemStoreToys& it) const{
     const GiocoDiCarte* punt = dynamic_cast<const GiocoDiCarte*>(&it);

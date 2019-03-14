@@ -224,8 +224,13 @@ void Container<T>::togliOggetto(const T& s){
                 (primo.punt)->prev = nullptr;
             }
             else{
+                if(p->next!=nullptr){
                     (prev.punt)->next = (p.punt)->next;  //l'oggetto era in mezzo
-                    (p.punt)->next->prev = prev;
+                    (p.punt)->next->prev = prev; }
+                else{
+                    prev->next = p->next;
+                    ultimo = prev;
+                }
             }
     }
     //Alla fine tutto ciò che viene rimosso verrà cancellato in automatico alla chiusura della funzione

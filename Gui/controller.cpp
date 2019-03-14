@@ -35,9 +35,20 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     scrollA->hide();
     setLayout(layoutPrincipale);
     caricaDati();
-    connect(layoutNeg->getBtnModifica(),SIGNAL(clicked()),this,SLOT(modificaOggetto()));
-    connect(modiVideo->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDatiVideogioco()));
 
+    //I due bottoni MODIFICA e RIMUOVI
+    connect(layoutNeg->getBtnModifica(),SIGNAL(clicked()),this,SLOT(modificaOggetto()));
+    connect(layoutNeg->getBtnRimuovi(),SIGNAL(clicked()),this,SLOT(rimuoviOggetto()));
+    //Connect per le modifiche degli oggetti
+    connect(modiVideo->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDatiVideogioco()));
+    connect(modGTavolo->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDatiVideogioco()));
+    connect(modGCarte->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDatiVideogioco()));
+    connect(modColl->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDatiVideogioco()));
+    //Connect per annullare le modifiche
+    connect(modiVideo->getannullaMod(), SIGNAL(clicked()), this, SLOT(annullaModVideo()));
+    connect(modGTavolo->getannullaMod(), SIGNAL(clicked()), this, SLOT(annullaModGT()));
+    connect(modGCarte->getannullaMod(), SIGNAL(clicked()), this, SLOT(annullaModGcarte()));
+    connect(modColl->getannullaMod(), SIGNAL(clicked()), this, SLOT(annullaModColl()));
 }
 
 void Controller::modificaOggetto(){
@@ -45,8 +56,10 @@ void Controller::modificaOggetto(){
     modGCarte->pulisciTutto();
     modGTavolo->pulisciTutto();
     modColl->pulisciTutto();
+
     ListaDiItemStoreToys* q = layoutNeg->getLista()->oggettoCorrente();
     ItemStoreToys* oggettoMod = q->prelevaOgg();
+
     if(dynamic_cast<Videogioco*>(oggettoMod)){
         Videogioco* p = static_cast<Videogioco*>(oggettoMod);
 
@@ -73,7 +86,8 @@ void Controller::modificaOggetto(){
         modGTavolo->getEta()->insert(QString::fromStdString(std::to_string(p->getEta())));
         modGTavolo->getAnno()->insert(QString::fromStdString(std::to_string(p->getAnnoPubblicazione())));
         modGTavolo->getPrezzo()->insert(QString::fromStdString(std::to_string(p->getPrezzo())));
-        p->getUsato() ? modGTavolo->getUsato()->setCurrentIndex(1) : modGTavolo->getUsato()->setCurrentIndex(0);
+        modGTavolo->getPezziMagazzino()->insert(QString::fromStdString(std::to_string(p->getPezziInMagazzino())));
+        p->getUsato() ? modGTavolo->getUsato()->setCurrentIndex(0) : modGTavolo->getUsato()->setCurrentIndex(1);
         modGTavolo->getNumGiocatori()->insert(QString::fromStdString(std::to_string(p->getNumGiocatori())));
         modGTavolo->getTipologia()->insert(QString::fromStdString(p->getTipologia()));
         modGTavolo->getRegolamento()->insert(QString::fromStdString(p->getRegolamento()));
@@ -89,10 +103,10 @@ void Controller::modificaOggetto(){
         modGCarte->getCasaPro()->insert(QString::fromStdString(p->getCasaProduttrice()));
         modGCarte->getEta()->insert(QString::fromStdString(std::to_string(p->getEta())));
         modGCarte->getAnno()->insert(QString::fromStdString(std::to_string(p->getAnnoPubblicazione())));
-        modGCarte->getPrezzo()->insert(QString::fromStdString(std::to_string(p->getPrezzo())));
-        p->getUsato() ? modGCarte->getUsato()->setCurrentIndex(1) : modGCarte->getUsato()->setCurrentIndex(0);
         modGCarte->getPezziMagazzino()->insert(QString::fromStdString(std::to_string(p->getPezziInMagazzino())));
-        p->getEdizioneLimitata() ? modGCarte->getEdLimitata()->setCurrentIndex(1) : modGCarte->getEdLimitata()->setCurrentIndex(0);
+        modGCarte->getPrezzo()->insert(QString::fromStdString(std::to_string(p->getPrezzo())));
+        p->getUsato() ? modGCarte->getUsato()->setCurrentIndex(0) : modGCarte->getUsato()->setCurrentIndex(1);
+        p->getEdizioneLimitata() ? modGCarte->getEdLimitata()->setCurrentIndex(0) : modGCarte->getEdLimitata()->setCurrentIndex(1);
         modGCarte->getRegolamentoGTC()->insert(QString::fromStdString(p->getRegolamento()));
         modGCarte->getNumGiocatoriGTC()->insert(QString::fromStdString(std::to_string(p->getNumGiocatori())));
         modGCarte->getContenutoGTC()->insert(QString::fromStdString(p->getContenuto()));
@@ -106,12 +120,13 @@ void Controller::modificaOggetto(){
         modColl->getCasaPro()->insert(QString::fromStdString(p->getCasaProduttrice()));
         modColl->getEta()->insert(QString::fromStdString(std::to_string(p->getEta())));
         modColl->getAnno()->insert(QString::fromStdString(std::to_string(p->getAnnoPubblicazione())));
+        modColl->getPezziMagazzino()->insert(QString::fromStdString(std::to_string(p->getPezziInMagazzino())));
         modColl->getPrezzo()->insert(QString::fromStdString(std::to_string(p->getPrezzo())));
-        p->getUsato() ? modColl->getUsato()->setCurrentIndex(1) : modColl->getUsato()->setCurrentIndex(0);
+        p->getUsato() ? modColl->getUsato()->setCurrentIndex(0) : modColl->getUsato()->setCurrentIndex(1);
         modColl->getScontoCC()->insert(QString::fromStdString(std::to_string(p->getSconto())));
         modColl->getNumCarteCC()->insert(QString::fromStdString(std::to_string(p->getNumCarte())));
         modColl->getEdizione()->insert(QString::fromStdString(p->getEdizione()));
-        p->getEdizioneLimitata() ? modColl->getEdLimitata()->setCurrentIndex(1) : modColl->getEdLimitata()->setCurrentIndex(0);
+        p->getEdizioneLimitata() ? modColl->getEdLimitata()->setCurrentIndex(0) : modColl->getEdLimitata()->setCurrentIndex(1);
         modColl->show();
     }
 }
@@ -133,12 +148,96 @@ void Controller::salvaDatiVideogioco(){
         p->setPs4(modiVideo->getplayStation()->currentIndex());
         p->setXboX(modiVideo->getxbox()->currentIndex());
         p->setGenere(modiVideo->getGenere()->text().toStdString());
-        std::cout<<p->getNome()<<std::endl;
+
+        modiVideo->pulisciTutto();
+        modello->salvataggio();
+        caricaDati();
+        modiVideo->close();
+    }else if(dynamic_cast<GiocoDaTavolo*>(oggettoMod)){
+        GiocoDaTavolo* p = static_cast<GiocoDaTavolo*>(oggettoMod);
+        p->setNome(modGTavolo->getNomeGioco()->text().toStdString());
+        p->setCasaProduzione(modGTavolo->getCasaPro()->text().toStdString());
+        p->setAnnoPubblicazione(modGTavolo->getAnno()->text().toUInt());
+        p->setEta(modGTavolo->getEta()->text().toUInt());
+        p->setPrezzo(modGTavolo->getPrezzo()->text().toDouble());
+        p->setPezziMagazzino(modGTavolo->getPezziMagazzino()->text().toUInt());
+        p->setUsato(modGTavolo->getUsato()->currentIndex());
+        p->setNumGiocatori(modGTavolo->getNumGiocatori()->text().toUInt());
+        p->setTipologia(modGTavolo->getTipologia()->text().toStdString());
+        p->setRegolamento(modGTavolo->getTipologia()->text().toStdString());
+        p->setContenuto(modGTavolo->getContenuto1()->text().toStdString());
+        //MANCO LO SCONTO
+
+        modGTavolo->pulisciTutto();
+        modello->salvataggio();
+        caricaDati();
+        modGTavolo->close();
+    } else if(dynamic_cast<GiocoDaTavoloConCarte*>(oggettoMod)){
+        GiocoDaTavoloConCarte* p = static_cast<GiocoDaTavoloConCarte*>(oggettoMod);
+        p->setNome(modGCarte->getNomeGioco()->text().toStdString());
+        p->setCasaProduzione(modGCarte->getCasaPro()->text().toStdString());
+        p->setAnnoPubblicazione(modGCarte->getAnno()->text().toUInt());
+        p->setEta(modGCarte->getEta()->text().toUInt());
+        p->setPrezzo(modGCarte->getPrezzo()->text().toDouble());
+        p->setPezziMagazzino(modGCarte->getPezziMagazzino()->text().toUInt());
+        p->setUsato(modGCarte->getUsato()->currentIndex());
+        p->setNumGicoatori(modGCarte->getNumGiocatoriGTC()->text().toUInt());
+        p->setEdizioneLimitata(modGCarte->getEdLimitata()->currentIndex());
+        p->setNumGicoatori(modGCarte->getNumGiocatoriGTC()->text().toUInt());
+        p->setContenuto(modGCarte->getContenutoGTC()->text().toStdString());
+
+        modGCarte->pulisciTutto();
+        modello->salvataggio();
+        caricaDati();
+        modGCarte->close();
+    } else if(dynamic_cast<CarteCollezionabili*>(oggettoMod)){
+        CarteCollezionabili* p = static_cast<CarteCollezionabili*>(oggettoMod);
+        p->setNome(modColl->getNomeGioco()->text().toStdString());
+        p->setCasaProduzione(modColl->getCasaPro()->text().toStdString());
+        p->setAnnoPubblicazione(modColl->getAnno()->text().toUInt());
+        p->setEta(modColl->getEta()->text().toUInt());
+        p->setPrezzo(modColl->getPrezzo()->text().toDouble());
+        p->setPezziMagazzino(modColl->getPezziMagazzino()->text().toUInt());
+        p->setUsato(modColl->getUsato()->currentIndex());
+        p->setNumCarte(modColl->getNumCarteCC()->text().toInt());
+        p->setEdizione(modColl->getEdizione()->text().toStdString()); std::cout<<modColl->getEdLimitata()->currentIndex()<<std::endl;
+        p->setEdizioneLimitata(modColl->getEdLimitata()->currentIndex());
+
+        modColl->pulisciTutto();
+        modello->salvataggio();
+        caricaDati();
+        modColl->close();
     }
-    modiVideo->pulisciTutto();
+
+}
+
+void Controller::rimuoviOggetto(){
+    ListaDiItemStoreToys* q = layoutNeg->getLista()->oggettoCorrente();
+    ItemStoreToys* oggetto = q->prelevaOgg();
+    modello->rimozione(oggetto);
     modello->salvataggio();
+    modello->caricamento();
     caricaDati();
+}
+
+void Controller::annullaModVideo(){
+    modiVideo->pulisciTutto();
     modiVideo->close();
+}
+
+void Controller::annullaModGT(){
+    modGTavolo->pulisciTutto();
+    modGTavolo->close();
+}
+
+void Controller::annullaModGcarte(){
+    modGCarte->pulisciTutto();
+    modGCarte->close();
+}
+
+void Controller::annullaModColl(){
+    modColl->pulisciTutto();
+    modColl->close();
 }
 
 Modello* Controller::getModello() {

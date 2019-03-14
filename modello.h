@@ -16,6 +16,7 @@ public:
 
     void salvataggio(); //Salvataggio dei dati
     void caricamento(); //Caricamento dei dati
+    void rimozione(ItemStoreToys* =nullptr);
     void setNuovoPercorso(std::string);
     bool getDatiSalvati() const;
     void setDatiSalvati(bool);

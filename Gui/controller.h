@@ -48,6 +48,11 @@ public slots:
     void visualizzaInserisci() const;
     void salvaDatiVideogioco();
     void modificaOggetto();
+    void rimuoviOggetto();
+    void annullaModVideo();
+    void annullaModGT();
+    void annullaModGcarte();
+    void annullaModColl();
 };
 
 #endif // CONTROLLER_H

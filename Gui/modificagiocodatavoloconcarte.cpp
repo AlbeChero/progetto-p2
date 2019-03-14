@@ -42,8 +42,8 @@ modificaGiocoDaTavoloConCarte::modificaGiocoDaTavoloConCarte(QWidget* p, GiocoDa
     form->addRow("Contenuto", ContenutoGTC);
     form->addRow("Sconto", ScontoGTC);
 
-    Usato->addItem("No"); Usato->addItem("Si");
-    edLimitata->addItem("No"); edLimitata->addItem("Si");
+    Usato->addItem("Si"); Usato->addItem("No");
+    edLimitata->addItem("Si"); edLimitata->addItem("No");
 
     layoutBottoni->addWidget(modEffettuata);
     layoutBottoni->addWidget(annullaMod);

@@ -1,6 +1,12 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!--!!!Non modificate-->
 <root>
-    <Videogioco Nome="Porco dio" CasaProduttrice="CIAO" Eta="10" AnnoPubblicazione="10" Prezzo="30" PezziInMagazzino="10" Usato="true" pathImm="D:/Desktop/progetto-p2/Salvataggio dati/Immagini/fifa19.jpg" Ps4="false" XboxOne="true" Genere="cambia" Sconto="0" Contenuto="1 disco"/>
-    <Videogioco Nome="Call Of Duty" CasaProduttrice="Treyarch" Eta="18" AnnoPubblicazione="2018" Prezzo="70" PezziInMagazzino="50" Usato="true" pathImm="D:/Desktop/poke.jpg" Ps4="true" XboxOne="true" Genere="Gioco di merda" Sconto="10" Contenuto="1 Disco gioco e 1 libretto"/>
+ <Videogioco Nome="Fifa19" CasaProduttrice="Eletronic Arts" Eta="3" AnnoPubblicazione="2018" Prezzo="60" PezziInMagazzino="50" Usato="false" pathImm=":/Salvataggio dati/Immagini/fifa19.jpg" Ps4="true" XboxOne="true" Genere="Simulatore" Sconto="0" Contenuto="1 disco"/>
+
+<GiocoDaTavoloConCarte Nome="Munchkin" CasaProduttrice="Steve Jackson Games" Eta="14" AnnoPubblicazione="2012" Prezzo="25.90" PezziInMagazzino="15" Usato="false" pathImm=":/Salvataggio dati/Immagini/Munchkin.jpg" edizioneLimitata="true" Regolamento="Uccidere mostri" NumGiocatori="6" Contenuto="2 mazzi di carte" Sconto="0"/>
+
+<GiocoDaTavolo Nome="Cluedo" CasaProduttrice="Hasbro" Eta="3" AnnoPubblicazione="2006" Prezzo="21.90" PezziInMagazzino="40" Usato="false" pathImm=":/Salvataggio dati/Immagini/Cluedo.jpg"  NumGiocatori="6" Tipologia="Giallo deduttivo" Regolamento="Trovare chi ha uscci Black" Contenuto="1 tabellone, pedine, carte gioco" Sconto="0" />
+
+<CarteCollezionabili Nome="DragonBall" CasaProduttrice="Panini Editore" Eta="3" AnnoPubblicazione="2009" Prezzo="2.0" PezziInMagazzino="35" Usato="false" pathImm=":/Salvataggio dati/Immagini/Dragonball.jpg" edizioneLimitata="true" NumCarte="12" Edizione="Edizione Oro" Sconto="0" />
 </root>

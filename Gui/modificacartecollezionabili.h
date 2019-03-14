@@ -42,6 +42,8 @@ public:
     QLineEdit* getNumCarteCC();
     QLineEdit* getEdizione();
     QLineEdit* getScontoCC();
+    QPushButton* getmodEffettuata();
+    QPushButton* getannullaMod();
     QPushButton* getModImm();
     void pulisciTutto();
 };

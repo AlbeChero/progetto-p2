@@ -41,7 +41,7 @@ modificaGiocoDaTavolo::modificaGiocoDaTavolo(QWidget* parent, GiocoDaTavolo* ogg
     formDaTavolo->addRow("Contenuto", Contenuto1);
     formDaTavolo->addRow("Sconto", Sconto1);
 
-    Usato->addItem("No"); Usato->addItem("Si");
+    Usato->addItem("Si"); Usato->addItem("No");
 
     layoutBottoni->addWidget(modEffettuata);
     layoutBottoni->addWidget(annullaMod);

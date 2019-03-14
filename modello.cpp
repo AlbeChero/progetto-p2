@@ -78,14 +78,14 @@ void Modello::salvataggio(){
             lettore.writeAttribute("Sconto", QString("%1").arg(oggGiocoDaTavolo->getSconto()));
         } else if(tipologiaOgg == "GiocoDaTavoloConCarte"){
             const GiocoDaTavoloConCarte* oggGiocoDaTavoloConCarte = static_cast<const GiocoDaTavoloConCarte*>(daSalvare);
-            lettore.writeAttribute("edizioneLimitata", oggGiocoDaTavoloConCarte->getEdizioneLimitata() ? "True" : "False");
+            lettore.writeAttribute("edizioneLimitata", oggGiocoDaTavoloConCarte->getEdizioneLimitata() ? "true" : "false");
             lettore.writeAttribute("Regolamento", QString::fromStdString(oggGiocoDaTavoloConCarte->getRegolamento()));
             lettore.writeAttribute("NumGiocatori", QString("%1").arg(oggGiocoDaTavoloConCarte->getNumGiocatori()));
             lettore.writeAttribute("Contenuto", QString::fromStdString(oggGiocoDaTavoloConCarte->getContenuto()));
             lettore.writeAttribute("Sconto", QString("%1").arg(oggGiocoDaTavoloConCarte->getSconto()));
         } else if(tipologiaOgg == "CarteCollezionabili"){
             const CarteCollezionabili* oggCarteCollezionabili = static_cast<const CarteCollezionabili*>(daSalvare);
-            lettore.writeAttribute("edizioneLimitata", oggCarteCollezionabili->getEdizioneLimitata() ? "True" : "False");
+            lettore.writeAttribute("edizioneLimitata", oggCarteCollezionabili->getEdizioneLimitata() ? "true" : "false");
             lettore.writeAttribute("NumCarte", QString("%1").arg(oggCarteCollezionabili->getNumCarte()));
             lettore.writeAttribute("Edizione", QString::fromStdString(oggCarteCollezionabili->getEdizione()));
             lettore.writeAttribute("Sconto", QString("%1").arg(oggCarteCollezionabili->getSconto()));
@@ -169,6 +169,10 @@ void Modello::caricamento(){
     }
     datiSalvati=true;
     fileSalvataggio.close();
+}
+
+void Modello::rimozione(ItemStoreToys * ogg){
+    lista->togliOggetto(ogg);
 }
 
 Modello::Modello(std::string p):
