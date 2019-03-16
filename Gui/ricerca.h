@@ -14,6 +14,7 @@
 #include <QCheckBox>
 #include <QWidgetList>
 #include <QPushButton>
+#include <Gui/itemwidget.h>
 
 class layoutRicerca : public QWidget{
     Q_OBJECT
@@ -22,16 +23,22 @@ private:
     QLineEdit *cercaCasaProduttrice;
     QLineEdit *cercaEta;
     QLineEdit *cercaAnnoPubblicazione;
-    QLineEdit *cercaPrezzo;
     QComboBox *tipoGioco;
+    QPushButton *btnCerca;
+    QPushButton *bottoneElimina;
+    QPushButton *bottoneModifica;
+    itemWidget *lista;
 public:
     layoutRicerca(QWidget* = nullptr);
     QLineEdit *getCercaNome() const;
     QLineEdit *getCercaCasaProduttrice() const;
-    QLineEdit *getCercaEta;
+    QLineEdit *getCercaEta() const;
     QLineEdit *getCercaAnnoPubblicazione() const;
-    QLineEdit *getCercaPrezzo() const;
     QComboBox *getTipoGioco() const;
+    QPushButton *getBtnRicerca() const;
+    QPushButton *getBtnModifica() const;
+    QPushButton *getBtnElimina() const;
+    itemWidget* getLista() const;
     void pulisciTutto() const;
 };
 

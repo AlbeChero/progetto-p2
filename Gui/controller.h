@@ -53,6 +53,7 @@ public slots:
     void annullaModGT();
     void annullaModGcarte();
     void annullaModColl();
+    void avviaRicerca();
 };
 
 #endif // CONTROLLER_H

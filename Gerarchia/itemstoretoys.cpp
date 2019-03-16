@@ -31,8 +31,7 @@ void ItemStoreToys::setPezziMagazzino(unsigned int p) { PezziInMagazzino = p; }
 void ItemStoreToys::setUsato(bool b) { if(b==false) usato = true;  else usato = false; }
 
 bool ItemStoreToys::operator==(const ItemStoreToys& it) const{
-    return Nome == it.Nome && CasaProduttrice == it.CasaProduttrice && Eta == it.Eta && AnnoPubblicazione == it.AnnoPubblicazione &&
-           Prezzo == it.Prezzo && PezziInMagazzino == it.PezziInMagazzino && usato == it.usato;
+    return Nome == it.Nome && CasaProduttrice == it.CasaProduttrice && Eta == it.Eta && AnnoPubblicazione == it.AnnoPubblicazione;
 }
 
 void ItemStoreToys::setPath(std::string s){ pathImm = s; }
@@ -93,7 +92,7 @@ void Videogioco::setContenuto(std::string c){ Contenuto = c; }
 
 bool Videogioco::operator==(const ItemStoreToys& it) const{
     const Videogioco* punt = dynamic_cast<const Videogioco*>(&it);
-    return punt && ItemStoreToys::operator==(it) && Ps4 == punt->Ps4 && XboxOne == punt->XboxOne && Genere == punt->Genere && Sconto == punt->Sconto && Contenuto == punt->Contenuto;
+    return punt && ItemStoreToys::operator==(it);
 }
 
 bool Videogioco::getPs4() const{ return Ps4; }
@@ -137,7 +136,7 @@ void GiocoDaTavolo::setContenuto(std::string c) { Contenuto = c; }
 
 bool GiocoDaTavolo::operator==(const ItemStoreToys& it) const{
     const GiocoDaTavolo* punt = dynamic_cast<const GiocoDaTavolo*>(&it);
-    return punt && ItemStoreToys::operator==(it) && NumGiocatori == punt->NumGiocatori && Tipologia == punt->Tipologia && Regolamento == punt->Regolamento && Contenuto == punt->Contenuto && Sconto == punt->Sconto;
+    return punt && ItemStoreToys::operator==(it);
 }
 
 unsigned int GiocoDaTavolo::getNumGiocatori() const{ return NumGiocatori; }
@@ -163,7 +162,7 @@ void GiocoDiCarte::setEdizioneLimitata(bool b) { if(b == false) edizioneLimitata
 
 bool GiocoDiCarte::operator==(const ItemStoreToys& it) const{
     const GiocoDiCarte* punt = dynamic_cast<const GiocoDiCarte*>(&it);
-    return punt && ItemStoreToys::operator==(it) && edizioneLimitata == punt->edizioneLimitata;
+    return punt && ItemStoreToys::operator==(it);
 }
 
 bool GiocoDiCarte::getEdizioneLimitata() const{ return edizioneLimitata; }
@@ -197,7 +196,7 @@ void GiocoDaTavoloConCarte::setContenuto(std::string c) { Contenuto = c; }
 
 bool GiocoDaTavoloConCarte::operator==(const ItemStoreToys& it) const{
     const GiocoDaTavoloConCarte* punt = dynamic_cast<const GiocoDaTavoloConCarte*>(&it);
-    return punt && GiocoDiCarte::operator==(it) && Regolamento == punt->Regolamento && NumGiocatori == punt->NumGiocatori && Contenuto == punt->Contenuto && Sconto == punt->Sconto;
+    return punt && GiocoDiCarte::operator==(it);
 }
 
 std::string GiocoDaTavoloConCarte::getRegolamento() const{ return Contenuto; }
@@ -235,7 +234,7 @@ void CarteCollezionabili::setEdizione(std::string e) { Edizione = e; }
 
 bool CarteCollezionabili::operator==(const ItemStoreToys& it) const{
     const CarteCollezionabili* punt = dynamic_cast<const CarteCollezionabili*>(&it);
-    return punt && GiocoDiCarte::operator==(it) && NumCarte == punt->NumCarte && Edizione == punt->Edizione && Sconto == punt->Sconto;
+    return punt && GiocoDiCarte::operator==(it);
 }
 
 int CarteCollezionabili::getNumCarte() const{ return NumCarte; }

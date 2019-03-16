@@ -1,5 +1,5 @@
 #include <Gui/controller.h>
-#include <iostream>
+
 #include <QList>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -7,7 +7,8 @@
 #include <QDebug>
 #include <iostream>
 #include <QtGlobal>
-#include<QDebug>
+#include <QDebug>
+#include <QMessageBox>
 
 Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagina principale
     QWidget(parent),
@@ -36,6 +37,7 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     setLayout(layoutPrincipale);
     caricaDati();
 
+
     //I due bottoni MODIFICA e RIMUOVI
     connect(layoutNeg->getBtnModifica(),SIGNAL(clicked()),this,SLOT(modificaOggetto()));
     connect(layoutNeg->getBtnRimuovi(),SIGNAL(clicked()),this,SLOT(rimuoviOggetto()));
@@ -49,6 +51,8 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     connect(modGTavolo->getannullaMod(), SIGNAL(clicked()), this, SLOT(annullaModGT()));
     connect(modGCarte->getannullaMod(), SIGNAL(clicked()), this, SLOT(annullaModGcarte()));
     connect(modColl->getannullaMod(), SIGNAL(clicked()), this, SLOT(annullaModColl()));
+    //Connect per la ricerca oggetto
+    connect(layoutRic->getBtnRicerca(), SIGNAL(clicked()), this, SLOT(avviaRicerca()));
 }
 
 void Controller::modificaOggetto(){
@@ -200,7 +204,7 @@ void Controller::salvaDatiVideogioco(){
         p->setPezziMagazzino(modColl->getPezziMagazzino()->text().toUInt());
         p->setUsato(modColl->getUsato()->currentIndex());
         p->setNumCarte(modColl->getNumCarteCC()->text().toInt());
-        p->setEdizione(modColl->getEdizione()->text().toStdString()); std::cout<<modColl->getEdLimitata()->currentIndex()<<std::endl;
+        p->setEdizione(modColl->getEdizione()->text().toStdString());
         p->setEdizioneLimitata(modColl->getEdLimitata()->currentIndex());
 
         modColl->pulisciTutto();
@@ -210,6 +214,77 @@ void Controller::salvaDatiVideogioco(){
     }
 
 }
+
+void Controller::avviaRicerca(){
+
+       layoutRic->getLista()->clear();
+       int indice = layoutRic->getTipoGioco()->currentIndex();
+
+       std::string Nome = layoutRic->getCercaNome()->text().toStdString();
+       std::string CasaProduttrice = layoutRic->getCercaCasaProduttrice()->text().toStdString();
+       unsigned int Eta = layoutRic->getCercaEta()->text().toUInt();
+       unsigned int AnnoP = layoutRic->getCercaAnnoPubblicazione()->text().toUInt();
+
+       if(Nome == "" || CasaProduttrice == "" || Eta == 0 || AnnoP == 0){
+           QMessageBox::warning(this, "Attenzione", "Tutti i campi della ricerca devono essere compilati");
+           return;
+       }
+
+       ItemStoreToys* ogg = nullptr;
+
+       switch(indice){
+
+           case(0):{
+                QMessageBox::warning(this, "Attenzione", "Selezionare il tipo di oggetto che si desidera cercare!");
+                break;
+       }
+           case(1):{
+                 ogg = new Videogioco(Nome, CasaProduttrice, AnnoP, Eta);
+           break;
+       }
+           case(2):{
+                ogg = new GiocoDaTavolo(Nome, CasaProduttrice, AnnoP, Eta);
+           break;
+       }
+           case(3):{
+                 ogg = new GiocoDaTavoloConCarte(Nome, CasaProduttrice, AnnoP, Eta);
+           break;
+       }
+           case(4):{
+                 ogg = new CarteCollezionabili(Nome, CasaProduttrice, AnnoP, Eta);
+           break;
+       }
+   }
+       //ItemStoreToys* PorcaPuttana = nullptr;
+       //PorcaPuttana = modello->getLista()->Ricerca(ogg);
+
+     if(indice != 0){
+
+       if(modello->getLista()->Ricerca(ogg)){
+
+           modello->caricamento();
+           bool sent = false;
+
+           Container<ItemStoreToys*>::constiterator aux = modello->cbegin();
+           Container<ItemStoreToys*>::constiterator auxEnd = modello->cend();
+
+           for(; aux!=auxEnd && !sent; ++aux){
+               if(*ogg == *(*aux)){
+                   layoutRic->getLista()->aggiungiGioco(*aux);
+                   sent = true;
+               }
+           }
+
+           visualizzaRicerca();
+       }
+       else{
+         QMessageBox::warning(this, "Risultato ricerca:", "Nessun oggetto trovato!");
+       }
+     }
+
+}
+
+
 
 void Controller::rimuoviOggetto(){
     ListaDiItemStoreToys* q = layoutNeg->getLista()->oggettoCorrente();

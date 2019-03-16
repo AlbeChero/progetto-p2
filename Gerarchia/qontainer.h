@@ -84,7 +84,7 @@ public:
     constiterator const_begin() const;
     constiterator const_end() const;
 
-    void Ricerca(const T&) const;
+    bool Ricerca(const T&) const;
 };
 
 
@@ -187,14 +187,19 @@ typename Container<T>::iterator Container<T>::it_end() {
     return iterator(&(ultimo->next), true);;
 }
 
-template<class T> //SITUAZIONE TEMPORANEA CON IL COUT, DA RIVEDERE CON L'IMPLEMENTAZIONE DELLA GUI
-void Container<T>::Ricerca(const T& t) const{
-    iterator it = it_begin();
-    for(; it!=it_end(); ++it){
-        if(*(*it) == *t){ /*std::cout<<"Oggetto trovato"<<std::endl; */ return; }
+template<class T>
+bool Container<T>::Ricerca(const T& ric) const {
+
+    constiterator cit = const_begin();
+    for( ; cit != const_end(); ++cit) {
+        if(*(*cit) == *ric) {
+            //return *cit; //Gli ritorno il puntatore all'oggetto
+            return true;
+        }
     }
-    //std::cout<<"Non trovato"<<std::endl;
+    return false;
 }
+
 
 template<class T>
 void Container<T>::togliOggetto(const T& s){

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--!!!Non modificate-->
 <root>
-    <Videogioco Nome="Fifa19" CasaProduttrice="Eletronic Arts" Eta="3" AnnoPubblicazione="2018" Prezzo="60" PezziInMagazzino="56" Usato="true" pathImm=":/Salvataggio dati/Immagini/fifa19.jpg" Ps4="true" XboxOne="true" Genere="Simulatore" Sconto="0" Contenuto="1 disco"/>
-    <GiocoDaTavoloConCarte Nome="Munchkin" CasaProduttrice="Steve Jackson Games" Eta="14" AnnoPubblicazione="2012" Prezzo="25.9" PezziInMagazzino="100" Usato="true" pathImm=":/Salvataggio dati/Immagini/Munchking.jpg" edizioneLimitata="false" Regolamento="2 mazzi di carte" NumGiocatori="6" Contenuto="2 mazzi di carte" Sconto="0"/>
-    <GiocoDaTavolo Nome="Cluedo" CasaProduttrice="Hasbro" Eta="3" AnnoPubblicazione="2006" Prezzo="21.9" PezziInMagazzino="90" Usato="true" pathImm=":/Salvataggio dati/Immagini/cluedo.jpg" NumGiocatori="6" Tipologia="Giallo deduttivo" Regolamento="Giallo deduttivo" Contenuto="1 tabellone, pedine, carte gioco" Sconto="0"/>
-    <CarteCollezionabili Nome="DragonBall" CasaProduttrice="Panini Editore" Eta="3" AnnoPubblicazione="2009" Prezzo="2" PezziInMagazzino="40" Usato="false" pathImm=":/Salvataggio dati/Immagini/dragonball.jpg" edizioneLimitata="true" NumCarte="12" Edizione="Edizione Oro" Sconto="0"/>
+    <Videogioco Nome="Fifa2019" CasaProduttrice="Eletronic Arts" Eta="3" AnnoPubblicazione="2018" Prezzo="60" PezziInMagazzino="56" Usato="true" pathImm="D:/Desktop/progetto-p2/Salvataggio dati/Immagini/fifa19.jpg" Ps4="true" XboxOne="true" Genere="Simulatore" Sconto="0" Contenuto="1 disco"/>
+    <GiocoDaTavoloConCarte Nome="Munchkin" CasaProduttrice="Steve Jackson Games" Eta="14" AnnoPubblicazione="2011" Prezzo="25.9" PezziInMagazzino="100" Usato="true" pathImm=":/Salvataggio dati/Immagini/Munchking.jpg" edizioneLimitata="false" Regolamento="2 mazzi di carte" NumGiocatori="6" Contenuto="2 mazzi di carte" Sconto="0"/>
+    <GiocoDaTavolo Nome="Cluedo" CasaProduttrice="Hasbro" Eta="3" AnnoPubblicazione="2007" Prezzo="21.9" PezziInMagazzino="90" Usato="true" pathImm=":/Salvataggio dati/Immagini/cluedo.jpg" NumGiocatori="6" Tipologia="Giallo deduttivo" Regolamento="Giallo deduttivo" Contenuto="1 tabellone, pedine, carte gioco" Sconto="0"/>
+    <CarteCollezionabili Nome="DragonBall" CasaProduttrice="Panini Editore" Eta="3" AnnoPubblicazione="2009" Prezzo="2" PezziInMagazzino="40" Usato="false" pathImm=":/Salvataggio dati/Immagini/dragonball.jpg" edizioneLimitata="false" NumCarte="12" Edizione="Edizione Oro" Sconto="0"/>
 </root>

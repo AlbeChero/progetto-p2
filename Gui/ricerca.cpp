@@ -8,8 +8,11 @@ layoutRicerca::layoutRicerca(QWidget* p):
     cercaCasaProduttrice(new QLineEdit(this)),
     cercaEta(new QLineEdit(this)),
     cercaAnnoPubblicazione(new QLineEdit(this)),
-    cercaPrezzo(new QLineEdit(this)),
-    tipoGioco(new QComboBox(this))
+    tipoGioco(new QComboBox(this)),
+    btnCerca(new QPushButton("CERCA")),
+    bottoneElimina(new QPushButton("ELIMINA")),
+    bottoneModifica(new QPushButton("MODIFICA")),
+    lista(new itemWidget())
 {
     tipoGioco->addItem("Scegli il tipo di oggetto");
     tipoGioco->addItem("Videogioco");
@@ -19,7 +22,6 @@ layoutRicerca::layoutRicerca(QWidget* p):
 
     cercaNome->setPlaceholderText("Nome..");
     cercaEta->setPlaceholderText("Eta..");
-    cercaPrezzo->setPlaceholderText("Prezzo..");
     cercaCasaProduttrice->setPlaceholderText("Casa produzione..");
     cercaAnnoPubblicazione->setPlaceholderText("Anno pubblicazione..");
 
@@ -29,33 +31,61 @@ layoutRicerca::layoutRicerca(QWidget* p):
     QHBoxLayout *layoutBottoniRicerca = new QHBoxLayout();
     QFormLayout* form = new QFormLayout();
 
-    QListWidget *lista = new QListWidget();
-    QPushButton *bottoneCerca = new QPushButton("CERCA");
-    QPushButton *bottoneElimina = new QPushButton("Elimina");
-    QPushButton *bottoneModifica = new QPushButton("Modifica");
 
     layoutSelOggetto->addWidget(tipoGioco);
     form->addRow("NOME",cercaNome);
     form->addRow("CASA DI PRODUZIONE",cercaCasaProduttrice);
     form->addRow("PEGI", cercaEta);
     form->addRow("ANNO",cercaAnnoPubblicazione);
-    form->addRow("PREZZO",cercaPrezzo);
 
     layoutBottoniRicerca->addWidget(bottoneElimina);
     layoutBottoniRicerca->addWidget(bottoneModifica);
     layoutSottoRicerca->addWidget(lista);
     layoutPrincipaleRicerca->addLayout(layoutSelOggetto);
     layoutPrincipaleRicerca->addLayout(form);
-    layoutPrincipaleRicerca->addWidget(bottoneCerca);
+    layoutPrincipaleRicerca->addWidget(btnCerca);
     layoutPrincipaleRicerca->addLayout(layoutSottoRicerca);
     layoutPrincipaleRicerca->addLayout(layoutBottoniRicerca);
+}
+
+QPushButton* layoutRicerca::getBtnRicerca() const{
+    return btnCerca;
+}
+
+QPushButton* layoutRicerca::getBtnElimina() const{
+    return bottoneElimina;
+}
+
+QPushButton* layoutRicerca::getBtnModifica() const{
+    return bottoneModifica;
+}
+
+QLineEdit * layoutRicerca::getCercaNome() const{
+    return cercaNome;
+}
+
+QLineEdit* layoutRicerca::getCercaCasaProduttrice() const{
+    return cercaCasaProduttrice;
+}
+
+QLineEdit* layoutRicerca::getCercaEta() const{
+    return cercaEta;
+}
+
+QLineEdit *layoutRicerca::getCercaAnnoPubblicazione() const{
+    return cercaAnnoPubblicazione;
+}
+QComboBox *layoutRicerca::getTipoGioco() const{
+    return tipoGioco;
+}
+itemWidget* layoutRicerca::getLista() const{
+    return lista;
 }
 
 void layoutRicerca::pulisciTutto() const{
     tipoGioco->setCurrentIndex(0);
     cercaNome->clear();
     cercaEta->clear();
-    cercaPrezzo->clear();
     cercaCasaProduttrice->clear();
     cercaAnnoPubblicazione->clear();
 }
