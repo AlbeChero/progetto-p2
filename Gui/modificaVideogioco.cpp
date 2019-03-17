@@ -70,12 +70,9 @@ void modificaVideogioco::cambiaImm(){
     pathImmagine = QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio Dati" , "File XML(*.JPG)");
     modImm->setIcon(QIcon(pathImmagine));
 }
-
-
 QString modificaVideogioco::getPath(){
     return pathImmagine;
 }
-
 QLineEdit* modificaVideogioco::getNomeGioco(){
         return NomeGioco;
     }
@@ -113,7 +110,6 @@ QLineEdit* modificaVideogioco::getSconto(){
 QLineEdit* modificaVideogioco::getContenuto(){
         return Contenuto;
     }
-
 QPushButton* modificaVideogioco::getmodEffettuata(){
         return modEffettuata;
     }
@@ -123,7 +119,6 @@ QPushButton* modificaVideogioco::getannullaMod(){
 QPushButton* modificaVideogioco::getBottImm(){
         return modImm;
     }
-
 void modificaVideogioco::pulisciTutto(){
     NomeGioco->clear();
     CasaPro->clear();

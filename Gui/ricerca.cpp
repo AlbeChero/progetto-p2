@@ -20,6 +20,9 @@ layoutRicerca::layoutRicerca(QWidget* p):
     tipoGioco->addItem("Gioco di carte");
     tipoGioco->addItem("Carte collezionabili");
 
+    bottoneElimina->setEnabled(false);
+    bottoneModifica->setEnabled(false);
+
     cercaNome->setPlaceholderText("Nome..");
     cercaEta->setPlaceholderText("Eta..");
     cercaCasaProduttrice->setPlaceholderText("Casa produzione..");
@@ -46,6 +49,8 @@ layoutRicerca::layoutRicerca(QWidget* p):
     layoutPrincipaleRicerca->addWidget(btnCerca);
     layoutPrincipaleRicerca->addLayout(layoutSottoRicerca);
     layoutPrincipaleRicerca->addLayout(layoutBottoniRicerca);
+
+    connect(lista, SIGNAL(itemSelectionChanged()), this, SLOT(slotElementoSelezionato()));
 }
 
 QPushButton* layoutRicerca::getBtnRicerca() const{
@@ -88,4 +93,10 @@ void layoutRicerca::pulisciTutto() const{
     cercaEta->clear();
     cercaCasaProduttrice->clear();
     cercaAnnoPubblicazione->clear();
+}
+
+void layoutRicerca::slotElementoSelezionato() const{
+    bottoneElimina->setEnabled(true);
+    bottoneModifica->setEnabled(true);
+
 }

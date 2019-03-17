@@ -40,6 +40,8 @@ public:
     QPushButton *getBtnElimina() const;
     itemWidget* getLista() const;
     void pulisciTutto() const;
+public slots:
+    void slotElementoSelezionato() const;
 };
 
 #endif // RICERCA_H

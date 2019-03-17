@@ -233,7 +233,7 @@ void Container<T>::togliOggetto(const T& s){
                     (prev.punt)->next = (p.punt)->next;  //l'oggetto era in mezzo
                     (p.punt)->next->prev = prev; }
                 else{
-                    prev->next = p->next;
+                    (prev.punt)->next = (p.punt)->next;
                     ultimo = prev;
                 }
             }

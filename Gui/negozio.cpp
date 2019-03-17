@@ -92,4 +92,3 @@ void layoutNegozio::slotElementoSelezionato() const{
     bottoneRimuovi->setEnabled(true);
 }
 
-

@@ -37,23 +37,29 @@ private:
     modificaCarteCollezionabili* modColl;
     modificaGiocoDaTavoloConCarte* modGCarte;
     QString file;
+    bool NegAttivo;
+    bool RicAttivo;
 public:
     Controller(Modello* ,QWidget * = nullptr);
     //~Controller();
     Modello *getModello();
     void caricaDati();
 public slots:
-    void visualizzaRicerca() const;
-    void visualizzaNegozio() const;
-    void visualizzaInserisci() const;
+    void visualizzaRicerca();
+    void visualizzaNegozio();
+    void visualizzaInserisci();
     void salvaDatiVideogioco();
-    void modificaOggetto();
+    void modificaOggetto(bool);
     void rimuoviOggetto();
     void annullaModVideo();
     void annullaModGT();
     void annullaModGcarte();
     void annullaModColl();
     void avviaRicerca();
+    void setN();
+    void setR();
+signals:
+    void mySignal(bool);
 };
 
 #endif // CONTROLLER_H

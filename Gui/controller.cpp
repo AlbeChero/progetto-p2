@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <QMessageBox>
 
+
 Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagina principale
     QWidget(parent),
     scrollA(new ScrollArea),
@@ -22,7 +23,9 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     modGTavolo(new modificaGiocoDaTavolo(this)),
     modColl(new modificaCarteCollezionabili(this)),
     modGCarte(new modificaGiocoDaTavoloConCarte(this)),
-    file(QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio dati" , "File XML(*.xml)"))
+    file(QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio dati" , "File XML(*.xml)")),
+    NegAttivo(true),
+    RicAttivo(false)
 {
     layoutPrincipale->setMenuBar(mainMenu);
     layoutPrincipale->addWidget(layoutNeg);
@@ -37,9 +40,8 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     setLayout(layoutPrincipale);
     caricaDati();
 
-
     //I due bottoni MODIFICA e RIMUOVI
-    connect(layoutNeg->getBtnModifica(),SIGNAL(clicked()),this,SLOT(modificaOggetto()));
+    connect(layoutNeg->getBtnModifica(),SIGNAL(clicked()),this, SLOT(setN()));
     connect(layoutNeg->getBtnRimuovi(),SIGNAL(clicked()),this,SLOT(rimuoviOggetto()));
     //Connect per le modifiche degli oggetti
     connect(modiVideo->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDatiVideogioco()));
@@ -53,16 +55,39 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     connect(modColl->getannullaMod(), SIGNAL(clicked()), this, SLOT(annullaModColl()));
     //Connect per la ricerca oggetto
     connect(layoutRic->getBtnRicerca(), SIGNAL(clicked()), this, SLOT(avviaRicerca()));
+    connect(layoutRic->getBtnModifica(), SIGNAL(clicked()), this, SLOT(setR()));
+    connect(layoutRic->getBtnElimina(),SIGNAL(clicked()),this,SLOT(rimuoviOggetto()));
+
+    connect(this, SIGNAL(mySignal(bool)), this, SLOT(modificaOggetto(bool))); //Passaggio del booleano per capire da quale lista pescare (Negozio oppure Ricerca)
 }
 
-void Controller::modificaOggetto(){
+void Controller::setN(){
+    bool i = true;
+    emit modificaOggetto(i);
+}
+
+void Controller::setR(){
+    bool i = false;
+    emit modificaOggetto(i);
+}
+
+void Controller::modificaOggetto(bool s){
     modiVideo->pulisciTutto();
     modGCarte->pulisciTutto();
     modGTavolo->pulisciTutto();
     modColl->pulisciTutto();
 
-    ListaDiItemStoreToys* q = layoutNeg->getLista()->oggettoCorrente();
-    ItemStoreToys* oggettoMod = q->prelevaOgg();
+
+    ListaDiItemStoreToys* q = nullptr;
+    ItemStoreToys* oggettoMod = nullptr;
+
+    if(s == true){
+    q = layoutNeg->getLista()->oggettoCorrente();
+    oggettoMod = q->prelevaOgg();
+    } else if(s == false){
+        q = layoutRic->getLista()->oggettoCorrente();
+        oggettoMod = q->prelevaOgg();
+    }
 
     if(dynamic_cast<Videogioco*>(oggettoMod)){
         Videogioco* p = static_cast<Videogioco*>(oggettoMod);
@@ -136,8 +161,17 @@ void Controller::modificaOggetto(){
 }
 
 void Controller::salvaDatiVideogioco(){
-    ListaDiItemStoreToys* q = layoutNeg->getLista()->oggettoCorrente();
-    ItemStoreToys* oggettoMod = q->prelevaOgg();
+
+    ListaDiItemStoreToys* q = nullptr;
+    ItemStoreToys* oggettoMod = nullptr;
+
+    if(NegAttivo == true && RicAttivo == false){
+         q = layoutNeg->getLista()->oggettoCorrente();
+         oggettoMod = q->prelevaOgg(); }
+    else if(NegAttivo == false && RicAttivo == true){
+        q = layoutRic ->getLista()->oggettoCorrente();
+        oggettoMod = q->prelevaOgg();
+    }
 
     if(dynamic_cast<Videogioco*>(oggettoMod)){
         Videogioco* p = static_cast<Videogioco*>(oggettoMod);
@@ -243,7 +277,7 @@ void Controller::avviaRicerca(){
            break;
        }
            case(2):{
-                ogg = new GiocoDaTavolo(Nome, CasaProduttrice, AnnoP, Eta);
+                ogg = new GiocoDaTavolo(Nome, CasaProduttrice, Eta, AnnoP);
            break;
        }
            case(3):{
@@ -262,6 +296,7 @@ void Controller::avviaRicerca(){
 
        if(modello->getLista()->Ricerca(ogg)){
 
+           modello->setNuovoPercorso(file.toStdString());
            modello->caricamento();
            bool sent = false;
 
@@ -287,12 +322,23 @@ void Controller::avviaRicerca(){
 
 
 void Controller::rimuoviOggetto(){
-    ListaDiItemStoreToys* q = layoutNeg->getLista()->oggettoCorrente();
-    ItemStoreToys* oggetto = q->prelevaOgg();
+
+    ListaDiItemStoreToys* q = nullptr;
+    ItemStoreToys* oggetto = nullptr;
+
+    if(NegAttivo && !RicAttivo){
+    q = layoutNeg->getLista()->oggettoCorrente();
+    oggetto = q->prelevaOgg(); }
+    else if(!NegAttivo && RicAttivo){
+        q = layoutRic->getLista()->oggettoCorrente();
+        oggetto = q->prelevaOgg();
+    }
+
     modello->rimozione(oggetto);
     modello->salvataggio();
     modello->caricamento();
     caricaDati();
+    QMessageBox::warning(this, "Esito positivo!", "L'oggetto è stato rimosso dal catalogo!");
 }
 
 void Controller::annullaModVideo(){
@@ -321,32 +367,45 @@ Modello* Controller::getModello() {
 
 //Controller::~Controller(){}
 
-void Controller::visualizzaRicerca() const{
+void Controller::visualizzaRicerca(){
     layoutNeg->hide();
     layoutRic->show();
     scrollA->hide();
 
+    RicAttivo = true;
+    NegAttivo = false;
+
     scrollA->pulisciTutto();
     scrollA->pulisciCheck();
     layoutRic->pulisciTutto();
     layoutNeg->pulisciTutto();
 }
 
-void Controller::visualizzaNegozio() const{
+void Controller::visualizzaNegozio(){
     layoutNeg->show();
     layoutRic->hide();
     scrollA->hide();
 
+    RicAttivo = false;
+    NegAttivo = true;
+
+    layoutRic->getLista()->clear();
+
     scrollA->pulisciTutto();
     scrollA->pulisciCheck();
     layoutRic->pulisciTutto();
     layoutNeg->pulisciTutto();
 }
 
-void Controller::visualizzaInserisci() const{
+void Controller::visualizzaInserisci(){
     layoutNeg->hide();
     layoutRic->hide();
     scrollA->show();
+
+    RicAttivo = false;
+    NegAttivo = false;
+
+    layoutRic->getLista()->clear();
 
     scrollA->pulisciTutto();
     scrollA->pulisciCheck();
