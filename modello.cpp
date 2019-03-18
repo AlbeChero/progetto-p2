@@ -49,6 +49,7 @@ void Modello::salvataggio(){
     lettore.writeStartElement("root");
 
     auto it = cbegin();
+    if(it != cend()) std::cout<<"Sono diversi!"<<std::endl;
     while(it != cend()){
         const ItemStoreToys* daSalvare = *it;
         const QString tipologiaOgg = QString::fromStdString(daSalvare->getTipo());

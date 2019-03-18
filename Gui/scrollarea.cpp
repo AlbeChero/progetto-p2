@@ -1,9 +1,9 @@
 #include "scrollarea.h"
 #include <QHBoxLayout>
 
-ScrollArea::ScrollArea(QScrollArea* parent) :
-    QScrollArea(parent),
-    ins(new layoutInserisci(this)){
+ScrollArea::ScrollArea(QScrollArea* p) :
+    ins(new layoutInserisci(this)),
+    parent(p){
     setWidget(ins);
     setWidgetResizable(true);
 }
@@ -14,4 +14,8 @@ void ScrollArea::pulisciTutto() const{
 
 void ScrollArea::pulisciCheck() const{
     ins->pulisciCheck();
+}
+
+QWidget* ScrollArea::getParent() const{
+    return parent;
 }

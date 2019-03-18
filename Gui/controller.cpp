@@ -56,7 +56,9 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     //Connect per la ricerca oggetto
     connect(layoutRic->getBtnRicerca(), SIGNAL(clicked()), this, SLOT(avviaRicerca()));
     connect(layoutRic->getBtnModifica(), SIGNAL(clicked()), this, SLOT(setR()));
-    connect(layoutRic->getBtnElimina(),SIGNAL(clicked()),this,SLOT(rimuoviOggetto()));
+    connect(layoutRic->getBtnElimina(),SIGNAL(clicked()), this, SLOT(rimuoviOggetto()));
+    //Connect per l'inserisci
+    connect(layoutIns->getBottoneIns(), SIGNAL(clicked()), this, SLOT(inserisciNuovo()));
 
     connect(this, SIGNAL(mySignal(bool)), this, SLOT(modificaOggetto(bool))); //Passaggio del booleano per capire da quale lista pescare (Negozio oppure Ricerca)
 }
@@ -158,6 +160,44 @@ void Controller::modificaOggetto(bool s){
         p->getEdizioneLimitata() ? modColl->getEdLimitata()->setCurrentIndex(0) : modColl->getEdLimitata()->setCurrentIndex(1);
         modColl->show();
     }
+}
+
+void Controller::inserisciNuovo(){
+  /*
+    if(layoutIns->getCheckVideogioco()->isChecked() == true){
+
+        std::string Nome = layoutIns->getNomeGioco()->text().toStdString();
+        std::string CasaProduttrice = layoutIns->getCasaPro()->text().toStdString();
+        unsigned int Pegi = layoutIns->getEta()->text().toUInt();
+        unsigned int Anno = layoutIns->getAnno()->text().toUInt();
+        double Prezzo = layoutIns->getPrezzo()->text().toDouble();
+        unsigned int PezziInMagazzino = layoutIns->getPezziMagazzino()->text().toUInt();
+        int aux = layoutIns->getUsato()->currentIndex();
+        bool Usato;
+        if(aux == 0) Usato = false;
+        else Usato = true;
+        std::string pathImm = ""; //Da sistemare la immagine
+        std::string Genere = layoutIns->getGenere()->text().toStdString();
+        unsigned int Sconto = layoutIns->getSconto()->text().toUInt();
+        std::string Contenuto = layoutIns->getContenuto()->text().toStdString();
+        bool Ps4, xbox;
+        aux = layoutIns->getplayStation()->currentIndex();
+        if(aux == 0) Ps4 = false; else Ps4 = true;
+        aux = layoutIns->getxbox()->currentIndex();
+        if(aux == 0) xbox = false; else xbox = true;
+
+        Videogioco* ogg = new Videogioco(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, Usato, pathImm, Ps4, xbox, Contenuto, Genere, Sconto);
+        modello->getLista()->insertBack(ogg);
+        modello->salvataggio();
+        //caricaDati();
+
+    }else if(layoutIns->getCheckGiocoTavolo()->isChecked()){
+
+    }else if(layoutIns->getCheckGiocoCarte()->isCheckable()){
+
+    }else if(layoutIns->getCheckCarteCol()->isChecked()){
+
+    } */
 }
 
 void Controller::salvaDatiVideogioco(){
@@ -334,11 +374,15 @@ void Controller::rimuoviOggetto(){
         oggetto = q->prelevaOgg();
     }
 
+    if(q != nullptr && oggetto != nullptr){
     modello->rimozione(oggetto);
+    std::cout<<"Ho tolto l'oggetto, ora entro nel salvataggio"<<std::endl;
     modello->salvataggio();
-    modello->caricamento();
     caricaDati();
     QMessageBox::warning(this, "Esito positivo!", "L'oggetto è stato rimosso dal catalogo!");
+    } else{
+        QMessageBox::warning(this, "Esito negativo!", "Nessun oggetto selezionato!");
+    }
 }
 
 void Controller::annullaModVideo(){

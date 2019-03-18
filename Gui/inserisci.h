@@ -15,6 +15,7 @@
 class layoutInserisci : public QWidget{
     Q_OBJECT
 private:
+    QWidget* parent;
     //Campi della classe astratta
     QLineEdit* NomeGioco;
     QLineEdit* CasaPro;
@@ -66,6 +67,35 @@ private:
 
 public:
     layoutInserisci(QWidget* = nullptr);
+    QLineEdit* getNomeGioco() const;
+    QLineEdit* getCasaPro() const;
+    QLineEdit* getEta() const;
+    QLineEdit* getAnno() const;
+    QLineEdit* getPrezzo() const;
+    QLineEdit* getPezziMagazzino() const;
+    QComboBox* getplayStation() const;
+    QComboBox* getxbox() const;
+    QComboBox* getUsato() const;
+    QLineEdit* getGenere() const;
+    QLineEdit* getSconto() const;
+    QLineEdit* getContenuto() const;
+    QLineEdit* getNumGiocatori() const;
+    QLineEdit* getTipologia() const;
+    QLineEdit* getRegolamento() const;
+    QLineEdit* getContenuto1() const;
+    QLineEdit* getSconto1() const;
+    QComboBox* getedLimitata() const;
+    QLineEdit* getRegolamentoGTC() const;
+    QLineEdit* getNumGiocatoriGTC() const;
+    QLineEdit* getContenutoGTC() const;
+    QLineEdit* getScontoGTC() const;
+    QLineEdit* getNumCarteCC() const;
+    QLineEdit* getEdizione() const;
+    QCheckBox* getCheckVideogioco() const;
+    QCheckBox* getCheckGiocoTavolo() const;
+    QCheckBox* getCheckGiocoCarte() const;
+    QCheckBox* getCheckCarteCol() const;
+    QPushButton* getBottoneIns() const;
     void pulisciTutto() const;
     void pulisciCheck() const;
 

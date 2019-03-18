@@ -1,8 +1,7 @@
 #include "inserisci.h"
 
 layoutInserisci::layoutInserisci(QWidget* p):
-    QWidget(p),
-    //contenitore(new QScrollArea(this)),
+    parent(p),
     //Campi della classe astratta
     NomeGioco(new QLineEdit(this)),
     CasaPro(new QLineEdit(this)),
@@ -57,9 +56,6 @@ layoutInserisci::layoutInserisci(QWidget* p):
 
     QVBoxLayout *layoutPrincipaleRicerca = new QVBoxLayout(this);
     QHBoxLayout *layoutCheckOgg = new QHBoxLayout;
-
-    //contenitore->setLayout(layoutPrincipaleRicerca);
-    //contenitore->setStyleSheet("width: 100%");
 
     //Inserisco i checkbox per gli oggetti
     layoutCheckOgg->addWidget(checkVideogioco);
@@ -160,6 +156,95 @@ layoutInserisci::layoutInserisci(QWidget* p):
     connect(checkGiocoCarte, SIGNAL(clicked(bool)), this , SLOT(inserisciGiocoDiCarte()));
     connect(checkCarteCol, SIGNAL(clicked(bool)), this , SLOT(inserisciCarteColl()));
 
+}
+
+QPushButton* layoutInserisci::getBottoneIns() const{
+    return bottoneInserisci;
+}
+
+QLineEdit* layoutInserisci::getNomeGioco() const{
+    return NomeGioco;
+}
+QLineEdit* layoutInserisci::getCasaPro() const{
+    return CasaPro;
+}
+QLineEdit* layoutInserisci::getEta() const{
+    return Eta;
+}
+QLineEdit* layoutInserisci::getAnno() const{
+    return Anno;
+}
+QLineEdit* layoutInserisci::getPrezzo() const{
+    return Prezzo;
+}
+QLineEdit* layoutInserisci::getPezziMagazzino() const{
+    return PezziMagazzino;
+}
+QComboBox* layoutInserisci::getUsato() const{
+    return Usato;
+}
+QComboBox* layoutInserisci::layoutInserisci::getplayStation() const{
+    return playStation;
+}
+QComboBox* layoutInserisci::layoutInserisci::getxbox() const{
+    return xbox;
+}
+QLineEdit* layoutInserisci::layoutInserisci::getGenere() const{
+    return Genere;
+}
+QLineEdit* layoutInserisci::layoutInserisci::getSconto() const{
+    return Sconto;
+}
+QLineEdit* layoutInserisci::layoutInserisci::getContenuto() const{
+    return Contenuto;
+}
+QLineEdit* layoutInserisci::getNumGiocatori() const{
+    return NumGiocatori;
+}
+QLineEdit* layoutInserisci::getTipologia() const{
+    return Tipologia;
+}
+QLineEdit* layoutInserisci::getRegolamento() const{
+    return Regolamento;
+}
+QLineEdit* layoutInserisci::getContenuto1() const{
+    return  Contenuto1;
+}
+QLineEdit* layoutInserisci::getSconto1() const{
+    return Sconto1;
+}
+QComboBox* layoutInserisci::getedLimitata() const{
+    return edLimitata;
+}
+QLineEdit* layoutInserisci::getRegolamentoGTC() const{
+    return RegolamentoGTC;
+}
+QLineEdit* layoutInserisci::getNumGiocatoriGTC() const{
+    return NumGiocatoriGTC;
+}
+QLineEdit* layoutInserisci::getContenutoGTC() const{
+    return ContenutoGTC;
+}
+QLineEdit* layoutInserisci::getScontoGTC() const{
+    return ScontoGTC;
+}
+QLineEdit* layoutInserisci::getNumCarteCC() const{
+    return NumCarteCC;
+}
+QLineEdit* layoutInserisci::getEdizione() const{
+    return Edizione;
+}
+QCheckBox* layoutInserisci::getCheckVideogioco() const{
+    return checkVideogioco;
+}
+QCheckBox* layoutInserisci::getCheckGiocoTavolo() const{
+    return checkGiocoTavolo;
+}
+QCheckBox* layoutInserisci::getCheckGiocoCarte() const{
+    return checkGiocoCarte;
+}
+QCheckBox* layoutInserisci::getCheckCarteCol() const{
+    return checkCarteCol;
 }
 
 void layoutInserisci::pulisciTutto() const{

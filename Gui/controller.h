@@ -51,6 +51,7 @@ public slots:
     void salvaDatiVideogioco();
     void modificaOggetto(bool);
     void rimuoviOggetto();
+    void inserisciNuovo();
     void annullaModVideo();
     void annullaModGT();
     void annullaModGcarte();

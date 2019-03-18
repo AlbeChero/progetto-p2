@@ -29,6 +29,7 @@ private:
         SmartP prev, next;
         int riferimenti; //Serve per lo Smart Pointer
         Nodo(const T& =0, const SmartP& = 0, const SmartP& =0);
+        Nodo();
         ~Nodo();
     };
 
@@ -168,7 +169,9 @@ void Container<T>::insertBack(const T& t){
 }
 
 template<class T>
-typename Container<T>::constiterator Container<T>::const_begin() const{ return constiterator(&primo, false); }
+typename Container<T>::constiterator Container<T>::const_begin() const{
+    if(primo == nullptr) return constiterator(nullptr);
+    return constiterator(&primo, false); }
 
 template<class T>
 typename Container<T>::constiterator Container<T>::const_end() const{
@@ -178,6 +181,7 @@ typename Container<T>::constiterator Container<T>::const_end() const{
 
 template<class T>
 typename Container<T>::iterator Container<T>::it_begin() {
+    if(primo == nullptr) return iterator(nullptr);
     return iterator(&primo, false);
 }
 
@@ -200,11 +204,10 @@ bool Container<T>::Ricerca(const T& ric) const {
     return false;
 }
 
-
 template<class T>
 void Container<T>::togliOggetto(const T& s){
     SmartP p = primo; //p scorre la lista
-    SmartP prev = nullptr; //prev è il nodo che precede quello puntato da p
+    SmartP precedente = nullptr; //prev è il nodo che precede quello puntato da p
     SmartP q; //Punta al nodo precedente
     SmartP originale = primo; //Qui metto il primo originale
     primo = 0;
@@ -214,29 +217,32 @@ void Container<T>::togliOggetto(const T& s){
 
           if((p.punt)->prev == nullptr) primo = q;
           else{
-                (prev.punt)->next = q;
-                (q.punt)->prev = prev;
+                (precedente.punt)->next = q;
+                (q.punt)->prev = precedente;
           }
 
-          prev = q;
+          precedente = q;
           p = p.punt->next;
     }
 
     if(p == 0) { primo = originale; } //Non ho trovato l'oggetto e ricollego tutto
     else {
-            if(prev == nullptr){ //l'oggetto era all'inzio della lista
-                primo = (p.punt)->next;
-                (primo.punt)->prev = nullptr;
-            }
+            if(precedente == nullptr && (p.punt)->next == nullptr) primo = ultimo = nullptr; //c'era solo un oggetto in lidl;sta da rimuovere
             else{
-                if(p->next!=nullptr){
-                    (prev.punt)->next = (p.punt)->next;  //l'oggetto era in mezzo
-                    (p.punt)->next->prev = prev; }
-                else{
-                    (prev.punt)->next = (p.punt)->next;
-                    ultimo = prev;
+                if(precedente == nullptr){ //l'oggetto era all'inzio della lista
+                    primo = (p.punt)->next;
+                    (primo.punt)->prev = nullptr;
                 }
-            }
+                else{
+                    if(p->next!=nullptr){
+                        (precedente.punt)->next = (p.punt)->next;  //l'oggetto era in mezzo
+                        (p.punt)->next->prev = precedente; }
+                    else{
+                        (precedente.punt)->next = (p.punt)->next; //l'oggetto era alla fine della lista
+                        ultimo = precedente;
+                        }
+                    }
+                }
     }
     //Alla fine tutto ciò che viene rimosso verrà cancellato in automatico alla chiusura della funzione
 }
@@ -245,6 +251,9 @@ void Container<T>::togliOggetto(const T& s){
 
 template <class T>
 Container<T>::Nodo::Nodo(const T& t, const SmartP& p, const SmartP& n): info(t), prev(p), next(n), riferimenti(0) {}
+
+template<class T>
+Container<T>::Nodo::Nodo(): riferimenti(0) {}
 
 template <class T>
 Container<T>::Nodo::~Nodo(){ if(info) delete info; }
