@@ -179,7 +179,7 @@ void Controller::inserisciNuovo(){
     std::string pathImm = scrollA->getLayoutInserisci()->getPathImm().toStdString();
 
     if(Nome=="" || CasaProduttrice=="" || Pegi == 0 || Anno==0 || Prezzo == 0.0){
-        QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi 1!");
+        QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
     } else{
 
     if(scrollA->getLayoutInserisci()->getCheckVideogioco()->isChecked() == true){
@@ -193,7 +193,7 @@ void Controller::inserisciNuovo(){
         if(aux == 0) xbox = false; else xbox = true;
 
         if(Genere=="" || Contenuto==""){
-            QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi 2!");
+            QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
         } else{
         Videogioco* ogg = new Videogioco(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, Usato, pathImm, Ps4, xbox, Contenuto, Genere, Sconto);
         modello->getLista()->insertBack(ogg);
@@ -208,7 +208,7 @@ void Controller::inserisciNuovo(){
         unsigned int Sconto = scrollA->getLayoutInserisci()->getSconto1()->text().toUInt();
 
         if(NumGiocatori == 0 || Tipologia == "" || Regolamento == "" || Contenuto == ""){
-            QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi 3!");
+            QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
         } else{
         GiocoDaTavolo* ogg = new GiocoDaTavolo(Nome, CasaProduttrice, Pegi, Anno, Prezzo, Sconto, PezziInMagazzino, Usato, pathImm, NumGiocatori, Tipologia, Regolamento, Contenuto);
         modello->getLista()->insertBack(ogg);
@@ -225,7 +225,7 @@ void Controller::inserisciNuovo(){
         unsigned int Sconto = scrollA->getLayoutInserisci()->getScontoGTC()->text().toUInt();
 
         if(Regolamento == "" || NumGiocatori == 0 || Contenuto == ""){
-            QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi 4!");
+            QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
         }else{
         GiocoDaTavoloConCarte* ogg = new GiocoDaTavoloConCarte(Nome, CasaProduttrice, Anno, Pegi, Prezzo, Sconto, PezziInMagazzino, Usato, pathImm, edLimitata, Regolamento, NumGiocatori, Contenuto);
         modello->getLista()->insertBack(ogg);
@@ -241,7 +241,7 @@ void Controller::inserisciNuovo(){
         unsigned int Sconto = scrollA->getLayoutInserisci()->getScontoGTC()->text().toUInt();
 
         if(NumCarte == 0 || Edizione == ""){
-            QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi 5!");
+            QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
         }else{
         CarteCollezionabili* ogg = new CarteCollezionabili(Nome, CasaProduttrice, Anno, Pegi, Prezzo, Sconto, PezziInMagazzino, edLimitata, pathImm, Usato, NumCarte, Edizione);
         modello->getLista()->insertBack(ogg);
