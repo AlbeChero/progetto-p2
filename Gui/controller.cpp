@@ -178,6 +178,10 @@ void Controller::inserisciNuovo(){
     else Usato = true;
     std::string pathImm = scrollA->getLayoutInserisci()->getPathImm().toStdString();
 
+    if(Nome=="" || CasaProduttrice=="" || Pegi == 0 || Anno==0 || Prezzo == 0.0){
+        QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
+    } else{
+
     if(scrollA->getLayoutInserisci()->getCheckVideogioco()->isChecked() == true){
         std::string Genere = scrollA->getLayoutInserisci()->getGenere()->text().toStdString();
         unsigned int Sconto = scrollA->getLayoutInserisci()->getSconto()->text().toUInt();
@@ -188,10 +192,13 @@ void Controller::inserisciNuovo(){
         aux = scrollA->getLayoutInserisci()->getxbox()->currentIndex();
         if(aux == 0) xbox = false; else xbox = true;
 
+        if(Genere=="" || Contenuto==""){
+            QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
+        } else{
         Videogioco* ogg = new Videogioco(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, Usato, pathImm, Ps4, xbox, Contenuto, Genere, Sconto);
         modello->getLista()->insertBack(ogg);
         modello->salvataggio();
-        caricaDati();
+        caricaDati();}
 
     }else if(scrollA->getLayoutInserisci()->getCheckGiocoTavolo()->isChecked()){
         unsigned int NumGiocatori = scrollA->getLayoutInserisci()->getNumGiocatori()->text().toUInt();
@@ -200,10 +207,13 @@ void Controller::inserisciNuovo(){
         std::string Contenuto = scrollA->getLayoutInserisci()->getContenuto1()->text().toStdString();
         unsigned int Sconto = scrollA->getLayoutInserisci()->getSconto1()->text().toUInt();
 
+        if(NumGiocatori == 0 || Tipologia == "" || Regolamento == "" || Contenuto == ""){
+            QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
+        } else{
         GiocoDaTavolo* ogg = new GiocoDaTavolo(Nome, CasaProduttrice, Pegi, Anno, Prezzo, Sconto, PezziInMagazzino, Usato, pathImm, NumGiocatori, Tipologia, Regolamento, Contenuto);
         modello->getLista()->insertBack(ogg);
         modello->salvataggio();
-        caricaDati();
+        caricaDati(); }
 
     }else if(scrollA->getLayoutInserisci()->getCheckGiocoCarte()->isCheckable()){
         bool edLimitata;
@@ -214,10 +224,13 @@ void Controller::inserisciNuovo(){
         std::string Contenuto = scrollA->getLayoutInserisci()->getContenutoGTC()->text().toStdString();
         unsigned int Sconto = scrollA->getLayoutInserisci()->getScontoGTC()->text().toUInt();
 
+        if(Regolamento == "" || NumGiocatori == 0 || Contenuto == ""){
+            QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
+        }else{
         GiocoDaTavoloConCarte* ogg = new GiocoDaTavoloConCarte(Nome, CasaProduttrice, Anno, Pegi, Prezzo, Sconto, PezziInMagazzino, Usato, pathImm, edLimitata, Regolamento, NumGiocatori, Contenuto);
         modello->getLista()->insertBack(ogg);
         modello->salvataggio();
-        caricaDati();
+        caricaDati(); }
 
     }else if(scrollA->getLayoutInserisci()->getCheckCarteCol()->isChecked()){
         bool edLimitata;
@@ -227,11 +240,15 @@ void Controller::inserisciNuovo(){
         std::string Edizione = scrollA->getLayoutInserisci()->getEdizione()->text().toStdString();
         unsigned int Sconto = scrollA->getLayoutInserisci()->getScontoGTC()->text().toUInt();
 
+        if(NumCarte == 0 || Edizione == ""){
+            QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
+        }else{
         CarteCollezionabili* ogg = new CarteCollezionabili(Nome, CasaProduttrice, Anno, Pegi, Prezzo, Sconto, PezziInMagazzino, edLimitata, pathImm, Usato, NumCarte, Edizione);
         modello->getLista()->insertBack(ogg);
         modello->salvataggio();
-        caricaDati();
+        caricaDati();}
     }
+  }
 }
 
 void Controller::salvaDatiVideogioco(){
@@ -278,7 +295,7 @@ void Controller::salvaDatiVideogioco(){
         p->setUsato(modGTavolo->getUsato()->currentIndex());
         p->setNumGiocatori(modGTavolo->getNumGiocatori()->text().toUInt());
         p->setTipologia(modGTavolo->getTipologia()->text().toStdString());
-        p->setRegolamento(modGTavolo->getTipologia()->text().toStdString());
+        p->setRegolamento(modGTavolo->getRegolamento()->text().toStdString());
         p->setContenuto(modGTavolo->getContenuto1()->text().toStdString());
         //MANCO LO SCONTO
 
@@ -299,6 +316,7 @@ void Controller::salvaDatiVideogioco(){
         p->setNumGicoatori(modGCarte->getNumGiocatoriGTC()->text().toUInt());
         p->setEdizioneLimitata(modGCarte->getEdLimitata()->currentIndex());
         p->setNumGicoatori(modGCarte->getNumGiocatoriGTC()->text().toUInt());
+        p->setRegolamento(modGCarte->getRegolamentoGTC()->text().toStdString());
         p->setContenuto(modGCarte->getContenutoGTC()->text().toStdString());
 
         modGCarte->pulisciTutto();

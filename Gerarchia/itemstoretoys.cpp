@@ -114,7 +114,7 @@ std::string Videogioco::infoOggetto() const{
 
 GiocoDaTavolo::GiocoDaTavolo(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int Scont, unsigned int PezzMag, bool Uso, std::string Path,
                              unsigned int Num, std::string Tipo, std::string Regole, std::string Cont)
-                        : ItemStoreToys(N, House, Age, Anno, Costo, PezzMag, Uso, Path), NumGiocatori(Num), Tipologia(Tipo), Regolamento(Regole), Contenuto(Cont), Sconto(Scont){}
+                        : ItemStoreToys(N, House, Age, Anno, Costo, PezzMag, Uso, Path), NumGiocatori(Num), Tipologia(Tipo), Regolamento(Regole), Contenuto(Cont), Sconto(Scont){ std::cout<<Tipologia<<" "<<Regolamento<<std::endl;}
 
 double GiocoDaTavolo::prezzoScontato() const{ return (Sconto!=0 ? getPrezzo()- (getPrezzo()*Sconto) / 100 : getPrezzo()); }
 
@@ -149,9 +149,9 @@ unsigned int GiocoDaTavolo::getSconto() const{ return Sconto; }
 
 std::string GiocoDaTavolo::infoOggetto() const{
     std::string og = ItemStoreToys::infoOggetto();
-    return og.append("\nTipologia: "+getTipologia())
+    return og.append("\nTipologia: "+ getTipologia())
             .append("\nNumero di giocatori:" + std::to_string(getNumGiocatori()))
-            .append("\nRegolamento: "+getRegolamento());
+            .append("\nRegolamento: "+ getRegolamento());
 }
 
 //============================================================
@@ -201,7 +201,7 @@ bool GiocoDaTavoloConCarte::operator==(const ItemStoreToys& it) const{
     return punt && GiocoDiCarte::operator==(it);
 }
 
-std::string GiocoDaTavoloConCarte::getRegolamento() const{ return Contenuto; }
+std::string GiocoDaTavoloConCarte::getRegolamento() const{ return Regolamento; }
 
 unsigned int GiocoDaTavoloConCarte::getNumGiocatori() const { return NumGiocatori; }
 
