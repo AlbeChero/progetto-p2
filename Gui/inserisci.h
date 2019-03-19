@@ -11,6 +11,7 @@
 #include<QScrollBar>
 #include<QScrollArea>
 #include<QPushButton>
+#include<QFileDialog>
 
 class layoutInserisci : public QWidget{
     Q_OBJECT
@@ -24,6 +25,7 @@ private:
     QLineEdit* Prezzo;
     QLineEdit* PezziMagazzino;
     QComboBox* Usato;
+    QString pathImm;
 
     //Campi della classe Videogioco
     QComboBox* playStation;
@@ -64,6 +66,7 @@ private:
     QFormLayout* formCC;
 
     QPushButton* bottoneInserisci;
+    QPushButton* btnInserisciImm;
 
 public:
     layoutInserisci(QWidget* = nullptr);
@@ -96,6 +99,7 @@ public:
     QCheckBox* getCheckGiocoCarte() const;
     QCheckBox* getCheckCarteCol() const;
     QPushButton* getBottoneIns() const;
+    QString getPathImm() const;
     void pulisciTutto() const;
     void pulisciCheck() const;
 
@@ -109,6 +113,8 @@ public slots:
     void selezionaSoloGiocoDaTavolo() const;
     void selezionaSoloCarte() const;
     void selezionaSoloCarteCol() const;
+
+    void inserisciImmagine();
 };
 
 #endif // INSERISCI_H

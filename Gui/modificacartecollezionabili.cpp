@@ -51,8 +51,21 @@ modificaCarteCollezionabili::modificaCarteCollezionabili(QWidget* p, CarteCollez
 
     layoutPrincipale->insertStretch(2,1);
 
+    connect(modImm ,SIGNAL(clicked()),this,SLOT(cambiaImm()));
+
 }
 
+void modificaCarteCollezionabili::inserisciPercorso(std::string p){
+    pathImmagine = QString::fromStdString(p);
+    modImm->setIcon(QIcon(pathImmagine));
+}
+void modificaCarteCollezionabili::cambiaImm(){
+    pathImmagine = QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio Dati" , "File XML(*.JPG)");
+    modImm->setIcon(QIcon(pathImmagine));
+}
+QString modificaCarteCollezionabili::getPath() const{
+    return pathImmagine;
+}
 QLineEdit* modificaCarteCollezionabili::getNomeGioco(){
      return NomeGioco;
  }

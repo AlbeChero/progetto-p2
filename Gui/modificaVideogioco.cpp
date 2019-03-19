@@ -64,8 +64,6 @@ void modificaVideogioco::inserisciPercorso(std::string p){
     pathImmagine = QString::fromStdString(p);
     modImm->setIcon(QIcon(pathImmagine));
 }
-
-
 void modificaVideogioco::cambiaImm(){
     pathImmagine = QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio Dati" , "File XML(*.JPG)");
     modImm->setIcon(QIcon(pathImmagine));

@@ -19,3 +19,7 @@ void ScrollArea::pulisciCheck() const{
 QWidget* ScrollArea::getParent() const{
     return parent;
 }
+
+layoutInserisci* ScrollArea::getLayoutInserisci() const{
+    return ins;
+}

@@ -48,8 +48,21 @@ modificaGiocoDaTavolo::modificaGiocoDaTavolo(QWidget* parent, GiocoDaTavolo* ogg
     layoutPrincipale->addLayout(layoutBottoni);
 
     layoutPrincipale->insertStretch(2,1);
+
+    connect(modImm ,SIGNAL(clicked()),this,SLOT(cambiaImm()));
 }
 
+void modificaGiocoDaTavolo::inserisciPercorso(std::string p){
+    pathImmagine = QString::fromStdString(p);
+    modImm->setIcon(QIcon(pathImmagine));
+}
+void modificaGiocoDaTavolo::cambiaImm(){
+    pathImmagine = QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio Dati" , "File XML(*.JPG)");
+    modImm->setIcon(QIcon(pathImmagine));
+}
+QString modificaGiocoDaTavolo::getPath() const{
+    return pathImmagine;
+}
 QLineEdit* modificaGiocoDaTavolo::getNomeGioco(){
      return NomeGioco;
  }

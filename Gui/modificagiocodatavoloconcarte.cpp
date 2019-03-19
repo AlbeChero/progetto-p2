@@ -50,11 +50,24 @@ modificaGiocoDaTavoloConCarte::modificaGiocoDaTavoloConCarte(QWidget* p, GiocoDa
     layoutPrincipale->addLayout(layoutBottoni);
 
     layoutPrincipale->insertStretch(2,1);
+
+    connect(modImm ,SIGNAL(clicked()),this,SLOT(cambiaImm()));
 }
 
+void modificaGiocoDaTavoloConCarte::inserisciPercorso(std::string p){
+    pathImmagine = QString::fromStdString(p);
+    modImm->setIcon(QIcon(pathImmagine));
+}
+void modificaGiocoDaTavoloConCarte::cambiaImm(){
+    pathImmagine = QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio Dati" , "File XML(*.JPG)");
+    modImm->setIcon(QIcon(pathImmagine));
+}
 QLineEdit* modificaGiocoDaTavoloConCarte::getNomeGioco(){
      return NomeGioco;
  }
+QString modificaGiocoDaTavoloConCarte::getPath() const{
+    return pathImmagine;
+}
 QLineEdit* modificaGiocoDaTavoloConCarte::getCasaPro(){
      return CasaPro;
  }

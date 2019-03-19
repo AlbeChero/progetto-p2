@@ -8,8 +8,10 @@
 #include<QVBoxLayout>
 #include<Gerarchia/itemstoretoys.h>
 #include<QPushButton>
+#include<QFileDialog>
 
 class modificaGiocoDaTavolo : public QDialog{
+     Q_OBJECT
 private:
     QLineEdit* NomeGioco;
     QLineEdit* CasaPro;
@@ -29,6 +31,8 @@ private:
     QPushButton* modEffettuata;
     QPushButton* annullaMod;
     QPushButton* modImm;
+
+    QString pathImmagine;
 public:
     modificaGiocoDaTavolo(QWidget* = nullptr, GiocoDaTavolo* =nullptr);
     QLineEdit* getNomeGioco();
@@ -46,7 +50,11 @@ public:
     QPushButton* getmodEffettuata();
     QPushButton* getannullaMod();
     QPushButton* getModImm();
+    QString getPath() const;
+    void inserisciPercorso(std::string);
     void pulisciTutto();
+public slots:
+    void cambiaImm();
 };
 
 #endif // MODIFICAGIOCODATAVOLO_H

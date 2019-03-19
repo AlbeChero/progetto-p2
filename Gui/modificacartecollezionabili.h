@@ -8,8 +8,10 @@
 #include<QVBoxLayout>
 #include<Gerarchia/itemstoretoys.h>
 #include<QPushButton>
+#include<QFileDialog>
 
 class modificaCarteCollezionabili : public QDialog{
+     Q_OBJECT
 private:
     QLineEdit* NomeGioco;
     QLineEdit* CasaPro;
@@ -29,6 +31,8 @@ private:
     QPushButton* annullaMod;
     QPushButton* modImm;
 
+    QString pathImmagine;
+
 public:
     modificaCarteCollezionabili(QWidget* =nullptr, CarteCollezionabili* = nullptr);
     QLineEdit* getNomeGioco();
@@ -44,8 +48,12 @@ public:
     QLineEdit* getScontoCC();
     QPushButton* getmodEffettuata();
     QPushButton* getannullaMod();
+    void inserisciPercorso(std::string);
     QPushButton* getModImm();
+    QString getPath() const;
     void pulisciTutto();
+public slots:
+    void cambiaImm();
 };
 
 #endif // MODIFICACARTECOLLEZIONABILI_H

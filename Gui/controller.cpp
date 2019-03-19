@@ -58,7 +58,7 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     connect(layoutRic->getBtnModifica(), SIGNAL(clicked()), this, SLOT(setR()));
     connect(layoutRic->getBtnElimina(),SIGNAL(clicked()), this, SLOT(rimuoviOggetto()));
     //Connect per l'inserisci
-    connect(layoutIns->getBottoneIns(), SIGNAL(clicked()), this, SLOT(inserisciNuovo()));
+    connect(scrollA->getLayoutInserisci()->getBottoneIns(), SIGNAL(clicked()), this, SLOT(inserisciNuovo()));
 
     connect(this, SIGNAL(mySignal(bool)), this, SLOT(modificaOggetto(bool))); //Passaggio del booleano per capire da quale lista pescare (Negozio oppure Ricerca)
 }
@@ -111,7 +111,8 @@ void Controller::modificaOggetto(bool s){
 
     } else if(dynamic_cast<GiocoDaTavolo*>(oggettoMod)){
         GiocoDaTavolo* p = static_cast<GiocoDaTavolo*>(oggettoMod);
-        modGTavolo->getModImm()->setIcon(QIcon(QString::fromStdString(p->getPath())));
+
+        modGTavolo->inserisciPercorso(p->getPath());
         modGTavolo->getNomeGioco()->insert(QString::fromStdString(p->getNome()));
         modGTavolo->getCasaPro()->insert(QString::fromStdString(p->getCasaProduttrice()));
         modGTavolo->getEta()->insert(QString::fromStdString(std::to_string(p->getEta())));
@@ -129,7 +130,7 @@ void Controller::modificaOggetto(bool s){
     } else if(dynamic_cast<GiocoDaTavoloConCarte*>(oggettoMod)){
         GiocoDaTavoloConCarte* p = static_cast<GiocoDaTavoloConCarte*>(oggettoMod);
 
-        modGCarte->getModImm()->setIcon(QIcon(QString::fromStdString(p->getPath())));
+        modGCarte->inserisciPercorso(p->getPath());
         modGCarte->getNomeGioco()->insert(QString::fromStdString(p->getNome()));
         modGCarte->getCasaPro()->insert(QString::fromStdString(p->getCasaProduttrice()));
         modGCarte->getEta()->insert(QString::fromStdString(std::to_string(p->getEta())));
@@ -163,41 +164,74 @@ void Controller::modificaOggetto(bool s){
 }
 
 void Controller::inserisciNuovo(){
-  /*
-    if(layoutIns->getCheckVideogioco()->isChecked() == true){
 
-        std::string Nome = layoutIns->getNomeGioco()->text().toStdString();
-        std::string CasaProduttrice = layoutIns->getCasaPro()->text().toStdString();
-        unsigned int Pegi = layoutIns->getEta()->text().toUInt();
-        unsigned int Anno = layoutIns->getAnno()->text().toUInt();
-        double Prezzo = layoutIns->getPrezzo()->text().toDouble();
-        unsigned int PezziInMagazzino = layoutIns->getPezziMagazzino()->text().toUInt();
-        int aux = layoutIns->getUsato()->currentIndex();
-        bool Usato;
-        if(aux == 0) Usato = false;
-        else Usato = true;
-        std::string pathImm = ""; //Da sistemare la immagine
-        std::string Genere = layoutIns->getGenere()->text().toStdString();
-        unsigned int Sconto = layoutIns->getSconto()->text().toUInt();
-        std::string Contenuto = layoutIns->getContenuto()->text().toStdString();
+    //Prima dichiaro i campi in comune che hanno tutti gli oggetti
+    std::string Nome = scrollA->getLayoutInserisci()->getNomeGioco()->text().toStdString();
+    std::string CasaProduttrice = scrollA->getLayoutInserisci()->getCasaPro()->text().toStdString();
+    unsigned int Pegi = scrollA->getLayoutInserisci()->getEta()->text().toUInt();
+    unsigned int Anno = scrollA->getLayoutInserisci()->getAnno()->text().toUInt();
+    double Prezzo = scrollA->getLayoutInserisci()->getPrezzo()->text().toDouble();
+    unsigned int PezziInMagazzino = scrollA->getLayoutInserisci()->getPezziMagazzino()->text().toUInt();
+    int aux = scrollA->getLayoutInserisci()->getUsato()->currentIndex();
+    bool Usato;
+    if(aux == 0) Usato = false;
+    else Usato = true;
+    std::string pathImm = scrollA->getLayoutInserisci()->getPathImm().toStdString();
+
+    if(scrollA->getLayoutInserisci()->getCheckVideogioco()->isChecked() == true){
+        std::string Genere = scrollA->getLayoutInserisci()->getGenere()->text().toStdString();
+        unsigned int Sconto = scrollA->getLayoutInserisci()->getSconto()->text().toUInt();
+        std::string Contenuto = scrollA->getLayoutInserisci()->getContenuto()->text().toStdString();
         bool Ps4, xbox;
-        aux = layoutIns->getplayStation()->currentIndex();
+        aux = scrollA->getLayoutInserisci()->getplayStation()->currentIndex();
         if(aux == 0) Ps4 = false; else Ps4 = true;
-        aux = layoutIns->getxbox()->currentIndex();
+        aux = scrollA->getLayoutInserisci()->getxbox()->currentIndex();
         if(aux == 0) xbox = false; else xbox = true;
 
         Videogioco* ogg = new Videogioco(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, Usato, pathImm, Ps4, xbox, Contenuto, Genere, Sconto);
         modello->getLista()->insertBack(ogg);
         modello->salvataggio();
-        //caricaDati();
+        caricaDati();
 
-    }else if(layoutIns->getCheckGiocoTavolo()->isChecked()){
+    }else if(scrollA->getLayoutInserisci()->getCheckGiocoTavolo()->isChecked()){
+        unsigned int NumGiocatori = scrollA->getLayoutInserisci()->getNumGiocatori()->text().toUInt();
+        std::string Tipologia = scrollA->getLayoutInserisci()->getTipologia()->text().toStdString();
+        std::string Regolamento = scrollA->getLayoutInserisci()->getRegolamento()->text().toStdString();
+        std::string Contenuto = scrollA->getLayoutInserisci()->getContenuto1()->text().toStdString();
+        unsigned int Sconto = scrollA->getLayoutInserisci()->getSconto1()->text().toUInt();
 
-    }else if(layoutIns->getCheckGiocoCarte()->isCheckable()){
+        GiocoDaTavolo* ogg = new GiocoDaTavolo(Nome, CasaProduttrice, Pegi, Anno, Prezzo, Sconto, PezziInMagazzino, Usato, pathImm, NumGiocatori, Tipologia, Regolamento, Contenuto);
+        modello->getLista()->insertBack(ogg);
+        modello->salvataggio();
+        caricaDati();
 
-    }else if(layoutIns->getCheckCarteCol()->isChecked()){
+    }else if(scrollA->getLayoutInserisci()->getCheckGiocoCarte()->isCheckable()){
+        bool edLimitata;
+        aux = scrollA->getLayoutInserisci()->getedLimitata()->currentIndex();
+        if(aux == 0) edLimitata = false; else edLimitata = true;
+        std::string Regolamento = scrollA->getLayoutInserisci()->getRegolamentoGTC()->text().toStdString();
+        unsigned int NumGiocatori = scrollA->getLayoutInserisci()->getNumGiocatoriGTC()->text().toUInt();
+        std::string Contenuto = scrollA->getLayoutInserisci()->getContenutoGTC()->text().toStdString();
+        unsigned int Sconto = scrollA->getLayoutInserisci()->getScontoGTC()->text().toUInt();
 
-    } */
+        GiocoDaTavoloConCarte* ogg = new GiocoDaTavoloConCarte(Nome, CasaProduttrice, Anno, Pegi, Prezzo, Sconto, PezziInMagazzino, Usato, pathImm, edLimitata, Regolamento, NumGiocatori, Contenuto);
+        modello->getLista()->insertBack(ogg);
+        modello->salvataggio();
+        caricaDati();
+
+    }else if(scrollA->getLayoutInserisci()->getCheckCarteCol()->isChecked()){
+        bool edLimitata;
+        aux = scrollA->getLayoutInserisci()->getedLimitata()->currentIndex();
+        if(aux == 0) edLimitata = false; else edLimitata = true;
+        int NumCarte = scrollA->getLayoutInserisci()->getNumCarteCC()->text().toInt();
+        std::string Edizione = scrollA->getLayoutInserisci()->getEdizione()->text().toStdString();
+        unsigned int Sconto = scrollA->getLayoutInserisci()->getScontoGTC()->text().toUInt();
+
+        CarteCollezionabili* ogg = new CarteCollezionabili(Nome, CasaProduttrice, Anno, Pegi, Prezzo, Sconto, PezziInMagazzino, edLimitata, pathImm, Usato, NumCarte, Edizione);
+        modello->getLista()->insertBack(ogg);
+        modello->salvataggio();
+        caricaDati();
+    }
 }
 
 void Controller::salvaDatiVideogioco(){
@@ -215,6 +249,7 @@ void Controller::salvaDatiVideogioco(){
 
     if(dynamic_cast<Videogioco*>(oggettoMod)){
         Videogioco* p = static_cast<Videogioco*>(oggettoMod);
+        p->setPath(modiVideo->getPath().toStdString());
         p->setNome(modiVideo->getNomeGioco()->text().toStdString());
         p->setCasaProduzione(modiVideo->getCasaPro()->text().toStdString());
         p->setAnnoPubblicazione(modiVideo->getAnno()->text().toUInt());
@@ -233,6 +268,7 @@ void Controller::salvaDatiVideogioco(){
         modiVideo->close();
     }else if(dynamic_cast<GiocoDaTavolo*>(oggettoMod)){
         GiocoDaTavolo* p = static_cast<GiocoDaTavolo*>(oggettoMod);
+        p->setPath(modGTavolo->getPath().toStdString());
         p->setNome(modGTavolo->getNomeGioco()->text().toStdString());
         p->setCasaProduzione(modGTavolo->getCasaPro()->text().toStdString());
         p->setAnnoPubblicazione(modGTavolo->getAnno()->text().toUInt());
@@ -252,6 +288,7 @@ void Controller::salvaDatiVideogioco(){
         modGTavolo->close();
     } else if(dynamic_cast<GiocoDaTavoloConCarte*>(oggettoMod)){
         GiocoDaTavoloConCarte* p = static_cast<GiocoDaTavoloConCarte*>(oggettoMod);
+        p->setPath(modGCarte->getPath().toStdString());
         p->setNome(modGCarte->getNomeGioco()->text().toStdString());
         p->setCasaProduzione(modGCarte->getCasaPro()->text().toStdString());
         p->setAnnoPubblicazione(modGCarte->getAnno()->text().toUInt());
@@ -270,6 +307,7 @@ void Controller::salvaDatiVideogioco(){
         modGCarte->close();
     } else if(dynamic_cast<CarteCollezionabili*>(oggettoMod)){
         CarteCollezionabili* p = static_cast<CarteCollezionabili*>(oggettoMod);
+        p->setPath(modColl->getPath().toStdString());
         p->setNome(modColl->getNomeGioco()->text().toStdString());
         p->setCasaProduzione(modColl->getCasaPro()->text().toStdString());
         p->setAnnoPubblicazione(modColl->getAnno()->text().toUInt());

@@ -16,6 +16,7 @@ public:
     QWidget* getParent() const;
     void pulisciTutto() const;
     void pulisciCheck() const;
+    layoutInserisci* getLayoutInserisci() const;
 };
 
 #endif // SCROLLAREA_H
