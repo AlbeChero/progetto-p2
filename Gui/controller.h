@@ -43,8 +43,8 @@ public:
     Controller(Modello* ,QWidget * = nullptr);
     //~Controller();
     Modello *getModello();
-    void caricaDati();
 public slots:
+    void caricaDati();
     void visualizzaRicerca();
     void visualizzaNegozio();
     void visualizzaInserisci();

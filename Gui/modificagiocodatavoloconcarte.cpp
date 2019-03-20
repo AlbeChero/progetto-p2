@@ -96,7 +96,6 @@ QPushButton* modificaGiocoDaTavoloConCarte::getannullaMod(){
 QPushButton* modificaGiocoDaTavoloConCarte::getModImm(){
      return modImm;
  }
-
 QLineEdit* modificaGiocoDaTavoloConCarte::getRegolamentoGTC(){
       return RegolamentoGTC;
   }

@@ -73,6 +73,11 @@ layoutNegozio::layoutNegozio(QWidget* p) :
     layoutN->addLayout(sottoNegozio);
 
     connect(lista, SIGNAL(itemSelectionChanged()), this, SLOT(slotElementoSelezionato()));
+
+    connect(checkbox1, SIGNAL(clicked(bool)), this, SLOT(selezionaSoloVideogioco()));
+    connect(checkbox2, SIGNAL(clicked(bool)), this, SLOT(selezionaSoloGiocoDaTavolo()));
+    connect(checkbox3, SIGNAL(clicked(bool)), this, SLOT(selezionaSoloCarte()));
+    connect(checkbox4, SIGNAL(clicked(bool)), this, SLOT(selezionaSoloCarteCol()));
 }
 
 void layoutNegozio::pulisciTutto() const{
@@ -90,5 +95,25 @@ void layoutNegozio::pulisciTutto() const{
 void layoutNegozio::slotElementoSelezionato() const{
     bottoneModifica->setEnabled(true);
     bottoneRimuovi->setEnabled(true);
+}
+
+void layoutNegozio::selezionaSoloVideogioco() const{
+    checkbox1->isChecked() ? (checkbox2->setEnabled(false), checkbox3->setEnabled(false), checkbox4->setEnabled(false)) :
+                                   (checkbox2->setEnabled(true), checkbox3->setEnabled(true), checkbox4->setEnabled(true));
+}
+
+void layoutNegozio::selezionaSoloGiocoDaTavolo() const{
+    checkbox2->isChecked() ? (checkbox1->setEnabled(false), checkbox3->setEnabled(false), checkbox4->setEnabled(false)) :
+                                    (checkbox1->setEnabled(true), checkbox3->setEnabled(true), checkbox4->setEnabled(true));
+}
+
+void layoutNegozio::selezionaSoloCarte() const{
+    checkbox3->isChecked() ? (checkbox1->setEnabled(false), checkbox2->setEnabled(false), checkbox4->setEnabled(false)) :
+                                   (checkbox1->setEnabled(true), checkbox2->setEnabled(true), checkbox4->setEnabled(true));
+}
+
+void layoutNegozio::selezionaSoloCarteCol() const{
+    checkbox4->isChecked() ? (checkbox1->setEnabled(false), checkbox2->setEnabled(false), checkbox3->setEnabled(false)) :
+                                 (checkbox1->setEnabled(true), checkbox2->setEnabled(true), checkbox3->setEnabled(true));
 }
 

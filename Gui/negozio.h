@@ -34,6 +34,10 @@ public:
 
 public slots:
         void slotElementoSelezionato() const;
+        void selezionaSoloVideogioco() const;
+        void selezionaSoloGiocoDaTavolo() const;
+        void selezionaSoloCarte() const;
+        void selezionaSoloCarteCol() const;
 
 };
 

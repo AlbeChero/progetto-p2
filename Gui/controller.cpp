@@ -59,8 +59,11 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     connect(layoutRic->getBtnElimina(),SIGNAL(clicked()), this, SLOT(rimuoviOggetto()));
     //Connect per l'inserisci
     connect(scrollA->getLayoutInserisci()->getBottoneIns(), SIGNAL(clicked()), this, SLOT(inserisciNuovo()));
-
     connect(this, SIGNAL(mySignal(bool)), this, SLOT(modificaOggetto(bool))); //Passaggio del booleano per capire da quale lista pescare (Negozio oppure Ricerca)
+    connect(layoutNeg->getCheckBox1(), SIGNAL(clicked()), this, SLOT(caricaDati()));
+    connect(layoutNeg->getCheckBox2(), SIGNAL(clicked()), this, SLOT(caricaDati()));
+    connect(layoutNeg->getCheckBox3(), SIGNAL(clicked()), this, SLOT(caricaDati()));
+    connect(layoutNeg->getCheckBox4(), SIGNAL(clicked()), this, SLOT(caricaDati()));
 }
 
 void Controller::setN(){
@@ -182,7 +185,7 @@ void Controller::inserisciNuovo(){
         QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
     } else{
 
-    if(scrollA->getLayoutInserisci()->getCheckVideogioco()->isChecked() == true){
+    if(scrollA->getLayoutInserisci()->getCheckVideogioco()->isChecked()){
         std::string Genere = scrollA->getLayoutInserisci()->getGenere()->text().toStdString();
         unsigned int Sconto = scrollA->getLayoutInserisci()->getSconto()->text().toUInt();
         std::string Contenuto = scrollA->getLayoutInserisci()->getContenuto()->text().toStdString();
@@ -385,8 +388,6 @@ void Controller::avviaRicerca(){
            break;
        }
    }
-       //ItemStoreToys* PorcaPuttana = nullptr;
-       //PorcaPuttana = modello->getLista()->Ricerca(ogg);
 
      if(indice != 0){
 
@@ -416,7 +417,6 @@ void Controller::avviaRicerca(){
 }
 
 
-
 void Controller::rimuoviOggetto(){
 
     ListaDiItemStoreToys* q = nullptr;
@@ -432,7 +432,6 @@ void Controller::rimuoviOggetto(){
 
     if(q != nullptr && oggetto != nullptr){
     modello->rimozione(oggetto);
-    std::cout<<"Ho tolto l'oggetto, ora entro nel salvataggio"<<std::endl;
     modello->salvataggio();
     caricaDati();
     QMessageBox::warning(this, "Esito positivo!", "L'oggetto è stato rimosso dal catalogo!");
@@ -516,18 +515,64 @@ void Controller::visualizzaInserisci(){
 void Controller::caricaDati(){
 
     if(file!=""){
-        layoutNeg->getLista()->clear();
-        modello->setNuovoPercorso(file.toStdString());
-        modello->caricamento();
 
-        Container<ItemStoreToys*>::constiterator aux = modello->cbegin();
-        Container<ItemStoreToys*>::constiterator auxEnd = modello->cend();
+        if(!(layoutNeg->getCheckBox1()->isChecked()) && !(layoutNeg->getCheckBox2()->isChecked())
+           && !(layoutNeg->getCheckBox3()->isChecked()) && !(layoutNeg->getCheckBox4()->isChecked())){
 
-        for(; aux != auxEnd; ++aux){
-          layoutNeg->getLista()->aggiungiGioco(*aux);
+            layoutNeg->getLista()->clear();
+            modello->setNuovoPercorso(file.toStdString());
+            modello->caricamento();
+
+            Container<ItemStoreToys*>::constiterator aux = modello->cbegin();
+            Container<ItemStoreToys*>::constiterator auxEnd = modello->cend();
+
+            for(; aux != auxEnd; ++aux){
+              layoutNeg->getLista()->aggiungiGioco(*aux);
+            }
+
+            visualizzaNegozio();
+
+        }else{
+
+            layoutNeg->getLista()->clear();
+            modello->setNuovoPercorso(file.toStdString());
+            modello->caricamento();
+
+            if(layoutNeg->getCheckBox1()->isChecked()){
+                Container<ItemStoreToys*>::constiterator aux = modello->cbegin();
+                Container<ItemStoreToys*>::constiterator auxEnd = modello->cend();
+                for(; aux != auxEnd; ++aux){
+                    if((*aux)->getTipo() == "Videogioco")
+                        layoutNeg->getLista()->aggiungiGioco(*aux);
+                }
+            }
+            else if(layoutNeg->getCheckBox2()->isChecked()){
+                Container<ItemStoreToys*>::constiterator aux = modello->cbegin();
+                Container<ItemStoreToys*>::constiterator auxEnd = modello->cend();
+                for(; aux != auxEnd; ++aux){
+                    if((*aux)->getTipo() == "GiocoDaTavolo")
+                        layoutNeg->getLista()->aggiungiGioco(*aux);
+                }
+            }
+            else if(layoutNeg->getCheckBox3()->isChecked()){
+                Container<ItemStoreToys*>::constiterator aux = modello->cbegin();
+                Container<ItemStoreToys*>::constiterator auxEnd = modello->cend();
+                for(; aux != auxEnd; ++aux){
+                    if((*aux)->getTipo() == "GiocoDaTavoloConCarte")
+                        layoutNeg->getLista()->aggiungiGioco(*aux);
+                }
+            }
+            else if(layoutNeg->getCheckBox4()->isChecked()){
+                Container<ItemStoreToys*>::constiterator aux = modello->cbegin();
+                Container<ItemStoreToys*>::constiterator auxEnd = modello->cend();
+                for(; aux != auxEnd; ++aux){
+                    if((*aux)->getTipo() == "CarteCollezionabili")
+                        layoutNeg->getLista()->aggiungiGioco(*aux);
+                }
+            }
+
         }
 
-        modello->setDatiSalvati(true);
-        visualizzaNegozio();
     }
+
 }

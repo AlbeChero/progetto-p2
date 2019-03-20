@@ -1,4 +1,5 @@
 #include"itemstoretoys.h"
+#include<iostream>
 using std::cin;
 
 //CAMPI STATICI
@@ -114,7 +115,7 @@ std::string Videogioco::infoOggetto() const{
 
 GiocoDaTavolo::GiocoDaTavolo(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int Scont, unsigned int PezzMag, bool Uso, std::string Path,
                              unsigned int Num, std::string Tipo, std::string Regole, std::string Cont)
-                        : ItemStoreToys(N, House, Age, Anno, Costo, PezzMag, Uso, Path), NumGiocatori(Num), Tipologia(Tipo), Regolamento(Regole), Contenuto(Cont), Sconto(Scont){ std::cout<<Tipologia<<" "<<Regolamento<<std::endl;}
+                        : ItemStoreToys(N, House, Age, Anno, Costo, PezzMag, Uso, Path), NumGiocatori(Num), Tipologia(Tipo), Regolamento(Regole), Contenuto(Cont), Sconto(Scont){}
 
 double GiocoDaTavolo::prezzoScontato() const{ return (Sconto!=0 ? getPrezzo()- (getPrezzo()*Sconto) / 100 : getPrezzo()); }
 
