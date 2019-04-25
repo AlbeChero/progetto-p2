@@ -14,7 +14,7 @@
 #include <QCheckBox>
 #include <QWidgetList>
 #include <QPushButton>
-#include <Gui/itemwidget.h>
+#include <Gui/itemWidget.h>
 
 class layoutRicerca : public QWidget{
     Q_OBJECT

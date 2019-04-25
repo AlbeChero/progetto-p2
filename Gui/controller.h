@@ -41,14 +41,14 @@ private:
     bool RicAttivo;
 public:
     Controller(Modello* ,QWidget * = nullptr);
-    //~Controller();
+    ~Controller();
     Modello *getModello();
 public slots:
     void caricaDati();
     void visualizzaRicerca();
     void visualizzaNegozio();
     void visualizzaInserisci();
-    void salvaDatiVideogioco();
+    void salvaDati();
     void modificaOggetto(bool);
     void rimuoviOggetto();
     void inserisciNuovo();

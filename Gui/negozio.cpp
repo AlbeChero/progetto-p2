@@ -116,4 +116,3 @@ void layoutNegozio::selezionaSoloCarteCol() const{
     checkbox4->isChecked() ? (checkbox1->setEnabled(false), checkbox2->setEnabled(false), checkbox3->setEnabled(false)) :
                                  (checkbox1->setEnabled(true), checkbox2->setEnabled(true), checkbox3->setEnabled(true));
 }
-

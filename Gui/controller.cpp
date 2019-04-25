@@ -23,7 +23,7 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     modGTavolo(new modificaGiocoDaTavolo(this)),
     modColl(new modificaCarteCollezionabili(this)),
     modGCarte(new modificaGiocoDaTavoloConCarte(this)),
-    file(QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio dati" , "File XML(*.xml)")),
+    file(QFileDialog::getOpenFileName(this, tr("Scegli FIle"), ":/SalvataggioDati", "File XML(*.xml)")),
     NegAttivo(true),
     RicAttivo(false)
 {
@@ -44,10 +44,10 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     connect(layoutNeg->getBtnModifica(),SIGNAL(clicked()),this, SLOT(setN()));
     connect(layoutNeg->getBtnRimuovi(),SIGNAL(clicked()),this,SLOT(rimuoviOggetto()));
     //Connect per le modifiche degli oggetti
-    connect(modiVideo->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDatiVideogioco()));
-    connect(modGTavolo->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDatiVideogioco()));
-    connect(modGCarte->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDatiVideogioco()));
-    connect(modColl->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDatiVideogioco()));
+    connect(modiVideo->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDati()));
+    connect(modGTavolo->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDati()));
+    connect(modGCarte->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDati()));
+    connect(modColl->getmodEffettuata(), SIGNAL(clicked()), this, SLOT(salvaDati()));
     //Connect per annullare le modifiche
     connect(modiVideo->getannullaMod(), SIGNAL(clicked()), this, SLOT(annullaModVideo()));
     connect(modGTavolo->getannullaMod(), SIGNAL(clicked()), this, SLOT(annullaModGT()));
@@ -86,12 +86,14 @@ void Controller::modificaOggetto(bool s){
     ListaDiItemStoreToys* q = nullptr;
     ItemStoreToys* oggettoMod = nullptr;
 
-    if(s == true){
+    if(s == true && layoutNeg->getLista()->oggettoCorrente() != nullptr){
     q = layoutNeg->getLista()->oggettoCorrente();
     oggettoMod = q->prelevaOgg();
-    } else if(s == false){
+    } else if(s == false && layoutRic->getLista()->oggettoCorrente() != nullptr){
         q = layoutRic->getLista()->oggettoCorrente();
         oggettoMod = q->prelevaOgg();
+    } else{
+        QMessageBox::warning(this, "Attenzione", "Nessun oggetto selezionato!");
     }
 
     if(dynamic_cast<Videogioco*>(oggettoMod)){
@@ -102,7 +104,9 @@ void Controller::modificaOggetto(bool s){
         modiVideo->getCasaPro()->insert(QString::fromStdString(p->getCasaProduttrice()));
         modiVideo->getEta()->insert(QString::fromStdString(std::to_string(p->getEta())));
         modiVideo->getAnno()->insert(QString::fromStdString(std::to_string(p->getAnnoPubblicazione())));
-        modiVideo->getPrezzo()->insert(QString::fromStdString(std::to_string(p->getPrezzo())));
+        std::string s = (std::to_string(p->getPrezzo()));
+        std::replace( s.begin(), s.end(), ',', '.');
+        modiVideo->getPrezzo()->insert(QString::fromStdString(s));
         modiVideo->getPezziMagazzino()->insert(QString::fromStdString(std::to_string(p->getPezziInMagazzino())));
         modiVideo->getGenere()->insert(QString::fromStdString(p->getGenere()));
         modiVideo->getSconto()->insert(QString::fromStdString(std::to_string(p->getSconto())));
@@ -120,7 +124,9 @@ void Controller::modificaOggetto(bool s){
         modGTavolo->getCasaPro()->insert(QString::fromStdString(p->getCasaProduttrice()));
         modGTavolo->getEta()->insert(QString::fromStdString(std::to_string(p->getEta())));
         modGTavolo->getAnno()->insert(QString::fromStdString(std::to_string(p->getAnnoPubblicazione())));
-        modGTavolo->getPrezzo()->insert(QString::fromStdString(std::to_string(p->getPrezzo())));
+        std::string s = (std::to_string(p->getPrezzo()));
+        std::replace( s.begin(), s.end(), ',', '.');
+        modGTavolo->getPrezzo()->insert(QString::fromStdString(s));
         modGTavolo->getPezziMagazzino()->insert(QString::fromStdString(std::to_string(p->getPezziInMagazzino())));
         p->getUsato() ? modGTavolo->getUsato()->setCurrentIndex(0) : modGTavolo->getUsato()->setCurrentIndex(1);
         modGTavolo->getNumGiocatori()->insert(QString::fromStdString(std::to_string(p->getNumGiocatori())));
@@ -139,7 +145,9 @@ void Controller::modificaOggetto(bool s){
         modGCarte->getEta()->insert(QString::fromStdString(std::to_string(p->getEta())));
         modGCarte->getAnno()->insert(QString::fromStdString(std::to_string(p->getAnnoPubblicazione())));
         modGCarte->getPezziMagazzino()->insert(QString::fromStdString(std::to_string(p->getPezziInMagazzino())));
-        modGCarte->getPrezzo()->insert(QString::fromStdString(std::to_string(p->getPrezzo())));
+        std::string s = (std::to_string(p->getPrezzo()));
+        std::replace( s.begin(), s.end(), ',', '.');
+        modGCarte->getPrezzo()->insert(QString::fromStdString(s));
         p->getUsato() ? modGCarte->getUsato()->setCurrentIndex(0) : modGCarte->getUsato()->setCurrentIndex(1);
         p->getEdizioneLimitata() ? modGCarte->getEdLimitata()->setCurrentIndex(0) : modGCarte->getEdLimitata()->setCurrentIndex(1);
         modGCarte->getRegolamentoGTC()->insert(QString::fromStdString(p->getRegolamento()));
@@ -150,13 +158,15 @@ void Controller::modificaOggetto(bool s){
 
     } else if(dynamic_cast<CarteCollezionabili*>(oggettoMod)){
         CarteCollezionabili* p = static_cast<CarteCollezionabili*>(oggettoMod);
-        modColl->getModImm()->setIcon(QIcon(QString::fromStdString(p->getPath())));
+        modColl->inserisciPercorso(p->getPath());
         modColl->getNomeGioco()->insert(QString::fromStdString(p->getNome()));
         modColl->getCasaPro()->insert(QString::fromStdString(p->getCasaProduttrice()));
         modColl->getEta()->insert(QString::fromStdString(std::to_string(p->getEta())));
         modColl->getAnno()->insert(QString::fromStdString(std::to_string(p->getAnnoPubblicazione())));
         modColl->getPezziMagazzino()->insert(QString::fromStdString(std::to_string(p->getPezziInMagazzino())));
-        modColl->getPrezzo()->insert(QString::fromStdString(std::to_string(p->getPrezzo())));
+        std::string s = (std::to_string(p->getPrezzo()));
+        std::replace( s.begin(), s.end(), ',', '.');
+        modColl->getPrezzo()->insert(QString::fromStdString(s));
         p->getUsato() ? modColl->getUsato()->setCurrentIndex(0) : modColl->getUsato()->setCurrentIndex(1);
         modColl->getScontoCC()->insert(QString::fromStdString(std::to_string(p->getSconto())));
         modColl->getNumCarteCC()->insert(QString::fromStdString(std::to_string(p->getNumCarte())));
@@ -176,6 +186,7 @@ void Controller::inserisciNuovo(){
     double Prezzo = scrollA->getLayoutInserisci()->getPrezzo()->text().toDouble();
     unsigned int PezziInMagazzino = scrollA->getLayoutInserisci()->getPezziMagazzino()->text().toUInt();
     int aux = scrollA->getLayoutInserisci()->getUsato()->currentIndex();
+    unsigned int Sconto = scrollA->getLayoutInserisci()->getSconto()->text().toUInt();
     bool Usato;
     if(aux == 0) Usato = false;
     else Usato = true;
@@ -187,7 +198,6 @@ void Controller::inserisciNuovo(){
 
     if(scrollA->getLayoutInserisci()->getCheckVideogioco()->isChecked()){
         std::string Genere = scrollA->getLayoutInserisci()->getGenere()->text().toStdString();
-        unsigned int Sconto = scrollA->getLayoutInserisci()->getSconto()->text().toUInt();
         std::string Contenuto = scrollA->getLayoutInserisci()->getContenuto()->text().toStdString();
         bool Ps4, xbox;
         aux = scrollA->getLayoutInserisci()->getplayStation()->currentIndex();
@@ -198,7 +208,7 @@ void Controller::inserisciNuovo(){
         if(Genere=="" || Contenuto==""){
             QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
         } else{
-        Videogioco* ogg = new Videogioco(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, Usato, pathImm, Ps4, xbox, Contenuto, Genere, Sconto);
+        Videogioco* ogg = new Videogioco(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, Usato, pathImm, Sconto, Ps4, xbox, Contenuto, Genere);
         modello->getLista()->insertBack(ogg);
         modello->salvataggio();
         caricaDati();}
@@ -208,12 +218,11 @@ void Controller::inserisciNuovo(){
         std::string Tipologia = scrollA->getLayoutInserisci()->getTipologia()->text().toStdString();
         std::string Regolamento = scrollA->getLayoutInserisci()->getRegolamento()->text().toStdString();
         std::string Contenuto = scrollA->getLayoutInserisci()->getContenuto1()->text().toStdString();
-        unsigned int Sconto = scrollA->getLayoutInserisci()->getSconto1()->text().toUInt();
 
         if(NumGiocatori == 0 || Tipologia == "" || Regolamento == "" || Contenuto == ""){
             QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
         } else{
-        GiocoDaTavolo* ogg = new GiocoDaTavolo(Nome, CasaProduttrice, Pegi, Anno, Prezzo, Sconto, PezziInMagazzino, Usato, pathImm, NumGiocatori, Tipologia, Regolamento, Contenuto);
+        GiocoDaTavolo* ogg = new GiocoDaTavolo(Nome, CasaProduttrice, Pegi, Anno, Prezzo, PezziInMagazzino, Usato, pathImm, Sconto, NumGiocatori, Tipologia, Regolamento, Contenuto);
         modello->getLista()->insertBack(ogg);
         modello->salvataggio();
         caricaDati(); }
@@ -225,12 +234,11 @@ void Controller::inserisciNuovo(){
         std::string Regolamento = scrollA->getLayoutInserisci()->getRegolamentoGTC()->text().toStdString();
         unsigned int NumGiocatori = scrollA->getLayoutInserisci()->getNumGiocatoriGTC()->text().toUInt();
         std::string Contenuto = scrollA->getLayoutInserisci()->getContenutoGTC()->text().toStdString();
-        unsigned int Sconto = scrollA->getLayoutInserisci()->getScontoGTC()->text().toUInt();
 
         if(Regolamento == "" || NumGiocatori == 0 || Contenuto == ""){
             QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
         }else{
-        GiocoDaTavoloConCarte* ogg = new GiocoDaTavoloConCarte(Nome, CasaProduttrice, Anno, Pegi, Prezzo, Sconto, PezziInMagazzino, Usato, pathImm, edLimitata, Regolamento, NumGiocatori, Contenuto);
+        GiocoDaTavoloConCarte* ogg = new GiocoDaTavoloConCarte(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, Usato, pathImm, Sconto, edLimitata, Regolamento, NumGiocatori, Contenuto);
         modello->getLista()->insertBack(ogg);
         modello->salvataggio();
         caricaDati(); }
@@ -241,12 +249,11 @@ void Controller::inserisciNuovo(){
         if(aux == 0) edLimitata = false; else edLimitata = true;
         int NumCarte = scrollA->getLayoutInserisci()->getNumCarteCC()->text().toInt();
         std::string Edizione = scrollA->getLayoutInserisci()->getEdizione()->text().toStdString();
-        unsigned int Sconto = scrollA->getLayoutInserisci()->getScontoGTC()->text().toUInt();
 
         if(NumCarte == 0 || Edizione == ""){
             QMessageBox::warning(this, "Attenzione", "E' obbligatorio compilare tutti i campi!");
         }else{
-        CarteCollezionabili* ogg = new CarteCollezionabili(Nome, CasaProduttrice, Anno, Pegi, Prezzo, Sconto, PezziInMagazzino, edLimitata, pathImm, Usato, NumCarte, Edizione);
+        CarteCollezionabili* ogg = new CarteCollezionabili(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, edLimitata, pathImm, Sconto, Usato, NumCarte, Edizione);
         modello->getLista()->insertBack(ogg);
         modello->salvataggio();
         caricaDati();}
@@ -254,7 +261,7 @@ void Controller::inserisciNuovo(){
   }
 }
 
-void Controller::salvaDatiVideogioco(){
+void Controller::salvaDati(){
 
     ListaDiItemStoreToys* q = nullptr;
     ItemStoreToys* oggettoMod = nullptr;
@@ -265,6 +272,11 @@ void Controller::salvaDatiVideogioco(){
     else if(NegAttivo == false && RicAttivo == true){
         q = layoutRic ->getLista()->oggettoCorrente();
         oggettoMod = q->prelevaOgg();
+    }
+
+    if(q == nullptr && oggettoMod == nullptr){
+        QMessageBox::warning(this, "Attenzione", "Nessun oggetto selezionato!");
+        return;
     }
 
     if(dynamic_cast<Videogioco*>(oggettoMod)){
@@ -281,6 +293,7 @@ void Controller::salvaDatiVideogioco(){
         p->setPs4(modiVideo->getplayStation()->currentIndex());
         p->setXboX(modiVideo->getxbox()->currentIndex());
         p->setGenere(modiVideo->getGenere()->text().toStdString());
+        p->setSconto(modiVideo->getSconto()->text().toUInt());
 
         modiVideo->pulisciTutto();
         modello->salvataggio();
@@ -300,7 +313,7 @@ void Controller::salvaDatiVideogioco(){
         p->setTipologia(modGTavolo->getTipologia()->text().toStdString());
         p->setRegolamento(modGTavolo->getRegolamento()->text().toStdString());
         p->setContenuto(modGTavolo->getContenuto1()->text().toStdString());
-        //MANCO LO SCONTO
+        p->setSconto(modGTavolo->getSconto1()->text().toUInt());
 
         modGTavolo->pulisciTutto();
         modello->salvataggio();
@@ -321,6 +334,7 @@ void Controller::salvaDatiVideogioco(){
         p->setNumGicoatori(modGCarte->getNumGiocatoriGTC()->text().toUInt());
         p->setRegolamento(modGCarte->getRegolamentoGTC()->text().toStdString());
         p->setContenuto(modGCarte->getContenutoGTC()->text().toStdString());
+        p->setSconto(modGCarte->getScontoGTC()->text().toUInt());
 
         modGCarte->pulisciTutto();
         modello->salvataggio();
@@ -339,6 +353,7 @@ void Controller::salvaDatiVideogioco(){
         p->setNumCarte(modColl->getNumCarteCC()->text().toInt());
         p->setEdizione(modColl->getEdizione()->text().toStdString());
         p->setEdizioneLimitata(modColl->getEdLimitata()->currentIndex());
+        p->setSconto(modColl->getScontoCC()->text().toUInt());
 
         modColl->pulisciTutto();
         modello->salvataggio();
@@ -422,10 +437,10 @@ void Controller::rimuoviOggetto(){
     ListaDiItemStoreToys* q = nullptr;
     ItemStoreToys* oggetto = nullptr;
 
-    if(NegAttivo && !RicAttivo){
+    if(NegAttivo && !RicAttivo && layoutNeg->getLista()->oggettoCorrente() != nullptr){
     q = layoutNeg->getLista()->oggettoCorrente();
     oggetto = q->prelevaOgg(); }
-    else if(!NegAttivo && RicAttivo){
+    else if(!NegAttivo && RicAttivo && layoutRic->getLista()->oggettoCorrente() != nullptr){
         q = layoutRic->getLista()->oggettoCorrente();
         oggetto = q->prelevaOgg();
     }
@@ -464,7 +479,7 @@ Modello* Controller::getModello() {
     return modello;
 }
 
-//Controller::~Controller(){}
+Controller::~Controller(){}
 
 void Controller::visualizzaRicerca(){
     layoutNeg->hide();

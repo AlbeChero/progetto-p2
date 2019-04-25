@@ -8,14 +8,14 @@ const unsigned int ItemStoreToys::PezziMassimi = 100; //non è più modificabile
 
 //============================================================
 
-ItemStoreToys::ItemStoreToys(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int PezzMag, bool Uso, std::string Path) :
-                Nome(N), CasaProduttrice(House), Eta(Age), AnnoPubblicazione(Anno), Prezzo(Costo), PezziInMagazzino(PezzMag), usato(Uso), pathImm(Path) {}
+ItemStoreToys::ItemStoreToys(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int PezzMag, bool Uso, std::string Path, unsigned int Scon) :
+                Nome(N), CasaProduttrice(House), Eta(Age), AnnoPubblicazione(Anno), Prezzo(Costo), PezziInMagazzino(PezzMag), usato(Uso), pathImm(Path), Sconto(Scon) {}
 
 void ItemStoreToys::itemsVenduti(unsigned int n) { PezziInMagazzino -= n; } //Metodo che mi serve per decrementare il num di pezzi in magazzino
 
 void ItemStoreToys::itemsComprati(unsigned int n) { if(PezziInMagazzino + n <= PezziMassimi) PezziInMagazzino += n; } //Se posso mantenere tutti i nuovi n pezzi in magazzino bene, se no non fa nulla, non li compra
 
-void ItemStoreToys::prezzoSeUsato(){  Prezzo = Prezzo - ((Prezzo*50)/100); } //se l'oggetto è usato devi togliere dal prezzo il 50%
+//void ItemStoreToys::prezzoSeUsato(){  Prezzo = Prezzo - ((Prezzo*50)/100); } //se l'oggetto è usato devi togliere dal prezzo il 50%
 
 void ItemStoreToys::setNome(std::string s) { Nome = s; }
 
@@ -30,6 +30,8 @@ void ItemStoreToys::setPrezzo(double p) { Prezzo = p; }
 void ItemStoreToys::setPezziMagazzino(unsigned int p) { PezziInMagazzino = p; }
 
 void ItemStoreToys::setUsato(bool b) { if(b==false) usato = true;  else usato = false; }
+
+void ItemStoreToys::setSconto(unsigned int s) { Sconto = s; }
 
 bool ItemStoreToys::operator==(const ItemStoreToys& it) const{
     return Nome == it.Nome && CasaProduttrice == it.CasaProduttrice && Eta == it.Eta && AnnoPubblicazione == it.AnnoPubblicazione;
@@ -53,35 +55,41 @@ unsigned int ItemStoreToys::getAnnoPubblicazione() const{ return AnnoPubblicazio
 
 std::string ItemStoreToys::getPath() const{ return pathImm; }
 
-std::string ItemStoreToys::infoOggetto() const{
+unsigned int ItemStoreToys::getSconto() const{ return Sconto; }
+
+std::string ItemStoreToys::infoOggetto(){
+    std::string tipologia, contenitore;
+    if(getTipo()=="Videogioco"){ tipologia="Videogioco"; contenitore="Contenuto cofanetto: "; }
+    else if(getTipo()=="GiocoDaTavolo"){ tipologia="Gioco da Tavolo"; contenitore="Contenuto scatola di gioco: ";}
+    else if(getTipo()=="GiocoDaTavoloConCarte"){ tipologia="Gioco da Tavolo con Carte"; contenitore="Contenuto scatola di gioco: "; }
+    else if(getTipo()=="CarteCollezionabili"){ tipologia="Carte Collezionabili"; contenitore="Numero di carte: "; }
+    double PrezzoAux = Prezzo;
+
     std::stringstream stream;
-    stream << std::fixed << std::setprecision(2) << getPrezzo();
+    if(usato){ PrezzoAux -= ((getPrezzo()*50)/100); stream << std::fixed << std::setprecision(2) <<PrezzoAux<< "€ (Scontanto del 50% perche`usato)"; }
+    else{ if(Sconto != 0) { PrezzoAux -= (getPrezzo()*Sconto)/100; stream << std::fixed << std::setprecision(2) << PrezzoAux<< "€ Scontanto del "<<Sconto<<"% "; }
+        else  stream << std::fixed << std::setprecision(2) << getPrezzo()<<"€"; }
     std::string str = "";
-    return str.append("Tipologia prodotto: " + getTipo())
+    return str.append("\n").append("Tipologia prodotto: " + tipologia)
             .append("\nNome: " + getNome())
             .append("\nCasaProduttrice: " + getCasaProduttrice())
             .append("\nAnno pubblicazione: " + std::to_string(getAnnoPubblicazione()))
             .append("\nPegi: " + std::to_string(getEta()))
             .append("\nPezzi in magazzino: " + std::to_string(getPezziInMagazzino()))
-            .append("\nPrezzo: " + stream.str().append("€"))
-            .append("\nUsato: ").append(getUsato() ? "Si" : "No");
+            .append("\nPrezzo: " + stream.str())
+            .append("\nUsato: ").append(getUsato() ? "Si" : "No")
+            .append("\n" + contenitore + (getContenuto()));
 }
 
 //============================================================
 
-Videogioco::Videogioco(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int PezzMag, bool Uso, std::string Path,
-                       bool ps4, bool xbox, std::string Contenut, std::string Gen, unsigned int Scont)
-    : ItemStoreToys(N, House, Anno, Age, Costo, PezzMag, Uso, Path), Ps4(ps4), XboxOne(xbox), Genere(Gen), Sconto(Scont), Contenuto(Contenut) {}
-
-double Videogioco::prezzoScontato() const{ return (Sconto!=0 ? getPrezzo()- (getPrezzo()*Sconto) / 100 : getPrezzo()); }
+Videogioco::Videogioco(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int PezzMag, bool Uso, std::string Path, unsigned int Scon,
+                       bool ps4, bool xbox, std::string Contenut, std::string Gen)
+    : ItemStoreToys(N, House, Anno, Age, Costo, PezzMag, Uso, Path, Scon), Ps4(ps4), XboxOne(xbox), Genere(Gen), Contenuto(Contenut) {}
 
 std::string Videogioco::getContenuto() const{ return Contenuto; }
 
-void Videogioco::modificaSconto(unsigned int sc) { Sconto = sc; }
-
 std::string Videogioco::getTipo() const{ return "Videogioco";}
-
-Videogioco* Videogioco::clone() const{ return new Videogioco(*this); }
 
 void Videogioco::setPs4(bool b){ { if(b==false) Ps4 = true;  else Ps4 = false; } }
 
@@ -102,9 +110,7 @@ bool Videogioco::getXboxOne() const{ return XboxOne; }
 
 std::string Videogioco::getGenere() const{ return Genere; }
 
-unsigned int Videogioco::getSconto() const{ return Sconto; }
-
-std::string Videogioco::infoOggetto() const{
+std::string Videogioco::infoOggetto(){
     std::string og = ItemStoreToys::infoOggetto();
     return og.append("\nDisponibile per Ps4: ").append(getPs4() ? "Si" : "No")
             .append("\nDisponibile per XboxOne: ").append(getXboxOne() ? "Si" : "No")
@@ -113,17 +119,11 @@ std::string Videogioco::infoOggetto() const{
 
 //============================================================
 
-GiocoDaTavolo::GiocoDaTavolo(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int Scont, unsigned int PezzMag, bool Uso, std::string Path,
+GiocoDaTavolo::GiocoDaTavolo(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int PezzMag, bool Uso, std::string Path, unsigned int Scon,
                              unsigned int Num, std::string Tipo, std::string Regole, std::string Cont)
-                        : ItemStoreToys(N, House, Age, Anno, Costo, PezzMag, Uso, Path), NumGiocatori(Num), Tipologia(Tipo), Regolamento(Regole), Contenuto(Cont), Sconto(Scont){}
-
-double GiocoDaTavolo::prezzoScontato() const{ return (Sconto!=0 ? getPrezzo()- (getPrezzo()*Sconto) / 100 : getPrezzo()); }
+                        : ItemStoreToys(N, House, Age, Anno, Costo, PezzMag, Uso, Path, Scon), NumGiocatori(Num), Tipologia(Tipo), Regolamento(Regole), Contenuto(Cont){}
 
 std::string GiocoDaTavolo::getContenuto() const{ return Contenuto; }
-
-void GiocoDaTavolo::modificaSconto(unsigned int sc) { Sconto = sc; }
-
-GiocoDaTavolo* GiocoDaTavolo::clone() const{ return new GiocoDaTavolo(*this); }
 
 std::string GiocoDaTavolo::getTipo() const{ return "GiocoDaTavolo";}
 
@@ -146,9 +146,7 @@ std::string GiocoDaTavolo::getTipologia() const{ return Tipologia; }
 
 std::string GiocoDaTavolo::getRegolamento() const { return Regolamento; }
 
-unsigned int GiocoDaTavolo::getSconto() const{ return Sconto; }
-
-std::string GiocoDaTavolo::infoOggetto() const{
+std::string GiocoDaTavolo::infoOggetto(){
     std::string og = ItemStoreToys::infoOggetto();
     return og.append("\nTipologia: "+ getTipologia())
             .append("\nNumero di giocatori:" + std::to_string(getNumGiocatori()))
@@ -157,36 +155,29 @@ std::string GiocoDaTavolo::infoOggetto() const{
 
 //============================================================
 
-GiocoDiCarte::GiocoDiCarte(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int PezzMag, bool Uso, std::string Path, bool edLimitata) : ItemStoreToys(N, House, Anno, Age, Costo, PezzMag, Uso, Path), edizioneLimitata(edLimitata) {}
+GiocoDiCarte::GiocoDiCarte(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int PezzMag, bool Uso, std::string Path, unsigned int Scon, bool edLimitata) : ItemStoreToys(N, House, Anno, Age, Costo, PezzMag, Uso, Path, Scon), edizioneLimitata(edLimitata) {}
 
 void GiocoDiCarte::setEdizioneLimitata(bool b) { if(b == false) edizioneLimitata = true;  else edizioneLimitata = false; }
 
 bool GiocoDiCarte::operator==(const ItemStoreToys& it) const{
     const GiocoDiCarte* punt = dynamic_cast<const GiocoDiCarte*>(&it);
-    std::cout<<"Base Astratta"<<std::endl;
     return punt && ItemStoreToys::operator==(it);
 }
 
 bool GiocoDiCarte::getEdizioneLimitata() const{ return edizioneLimitata; }
 
-std::string GiocoDiCarte::infoOggetto() const{
+std::string GiocoDiCarte::infoOggetto(){
     std::string og = ItemStoreToys::infoOggetto();
     return og.append("\nEdizione limitata: ").append(getEdizioneLimitata() ? "Si" : "No");
 }
 
 //============================================================
 
-GiocoDaTavoloConCarte::GiocoDaTavoloConCarte(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int Scont, unsigned int PezzMag, bool Uso, std::string Path,
+GiocoDaTavoloConCarte::GiocoDaTavoloConCarte(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int PezzMag, bool Uso, std::string Path, unsigned int Scon,
                                              bool edLimitata, std::string Regole, unsigned int N_giocatori, std::string cont)
-                                            : GiocoDiCarte(N, House, Age, Anno, Costo, PezzMag, Uso, Path, edLimitata), Regolamento(Regole), NumGiocatori(N_giocatori), Contenuto(cont), Sconto(Scont) {}
-
-double GiocoDaTavoloConCarte::prezzoScontato() const{ return (Sconto!=0 ? getPrezzo()- (getPrezzo()*Sconto) / 100 : getPrezzo()); }
+                                            : GiocoDiCarte(N, House, Age, Anno, Costo, PezzMag, Uso, Path, Scon ,edLimitata), Regolamento(Regole), NumGiocatori(N_giocatori), Contenuto(cont) {}
 
 std::string GiocoDaTavoloConCarte::getContenuto() const{ return Contenuto; }
-
-void GiocoDaTavoloConCarte::modificaSconto(unsigned int sc) { Sconto = sc; }
-
-GiocoDaTavoloConCarte* GiocoDaTavoloConCarte::clone() const{ return new GiocoDaTavoloConCarte(*this); }
 
 std::string GiocoDaTavoloConCarte::getTipo() const{ return "GiocoDaTavoloConCarte";}
 
@@ -206,9 +197,7 @@ std::string GiocoDaTavoloConCarte::getRegolamento() const{ return Regolamento; }
 
 unsigned int GiocoDaTavoloConCarte::getNumGiocatori() const { return NumGiocatori; }
 
-unsigned int GiocoDaTavoloConCarte::getSconto() const{ return Sconto; }
-
-std::string GiocoDaTavoloConCarte::infoOggetto() const{
+std::string GiocoDaTavoloConCarte::infoOggetto(){
     std::string og = GiocoDiCarte::infoOggetto();
     return og.append("\nRegolamento: "+ getRegolamento())
             .append("\nNumero di giocatori: " + std::to_string(getNumGiocatori()))
@@ -217,19 +206,13 @@ std::string GiocoDaTavoloConCarte::infoOggetto() const{
 
 //=============================================================
 
-CarteCollezionabili::CarteCollezionabili(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int Scont, unsigned int PezzMag, bool edLimitata,  std::string Path, bool Uso,
+CarteCollezionabili::CarteCollezionabili(std::string N, std::string House, unsigned int Age ,unsigned int Anno, double Costo, unsigned int PezzMag, bool edLimitata,  std::string Path, unsigned int Scon, bool Uso,
                                            int NCarte, std::string Edition)
-                                        : GiocoDiCarte(N, House, Age, Anno, Costo, PezzMag, Uso, Path, edLimitata), NumCarte(NCarte), Edizione(Edition), Sconto(Scont) {}
-
-double CarteCollezionabili::prezzoScontato() const{ return (Sconto!=0 ? getPrezzo()- (getPrezzo()*Sconto) / 100 : getPrezzo()); }
+                                        : GiocoDiCarte(N, House, Age, Anno, Costo, PezzMag, Uso, Path, Scon, edLimitata), NumCarte(NCarte), Edizione(Edition) {}
 
 std::string CarteCollezionabili::getContenuto() const{ auto s = std::to_string(NumCarte); return s; } //conversione da int a string
 
-void CarteCollezionabili::modificaSconto(unsigned int sc) { Sconto = sc; }
-
 std::string CarteCollezionabili::getTipo() const{ return "CarteCollezionabili";}
-
-CarteCollezionabili* CarteCollezionabili::clone() const{ return new CarteCollezionabili(*this); }
 
 void CarteCollezionabili::setNumCarte(int n) { NumCarte = n; }
 
@@ -245,9 +228,7 @@ int CarteCollezionabili::getNumCarte() const{ return NumCarte; }
 
 std::string CarteCollezionabili::getEdizione() const { return Edizione; }
 
-unsigned int CarteCollezionabili::getSconto() const{ return Sconto; }
-
-std::string CarteCollezionabili::infoOggetto() const{
+std::string CarteCollezionabili::infoOggetto(){
     std::string og = GiocoDiCarte::infoOggetto();
     return og.append("\nNumero di carte: " + std::to_string(getNumCarte()))
             .append("\nEdizione: " + getEdizione());

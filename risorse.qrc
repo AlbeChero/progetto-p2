@@ -1,11 +1,18 @@
 <RCC>
     <qresource prefix="/">
-        <file>Salvataggio dati/Immagini/call of duty.jpg</file>
-        <file>Salvataggio dati/Immagini/cluedo.jpg</file>
-        <file>Salvataggio dati/Immagini/dragonball.jpg</file>
-        <file>Salvataggio dati/Immagini/fifa19.jpg</file>
-        <file>Salvataggio dati/Immagini/Munchking.jpg</file>
-        <file>Salvataggio dati/Immagini/Dixit.jpg</file>
-        <file>Salvataggio dati/Immagini/JustCause4.jpg</file>
+        <file>SalvataggioDati/Immagini/CardsAHumanity.jpg</file>
+        <file>SalvataggioDati/Immagini/cluedo.jpg</file>
+        <file>SalvataggioDati/Immagini/Crack.jpg</file>
+        <file>SalvataggioDati/Immagini/Dixit.jpg</file>
+        <file>SalvataggioDati/Immagini/dragonball.jpg</file>
+        <file>SalvataggioDati/Immagini/FarCry4.jpg</file>
+        <file>SalvataggioDati/Immagini/fifa19.jpg</file>
+        <file>SalvataggioDati/Immagini/GearsOfWar4.jpg</file>
+        <file>SalvataggioDati/Immagini/JustCause4.jpg</file>
+        <file>SalvataggioDati/Immagini/Monopoly.jpg</file>
+        <file>SalvataggioDati/Immagini/Munchking.jpg</file>
+        <file>SalvataggioDati/Immagini/Pokemon.jpg</file>
+        <file>SalvataggioDati/Immagini/Yu gi oh.jpg</file>
+        <file>SalvataggioDati/Dati.xml</file>
     </qresource>
 </RCC>

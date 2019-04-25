@@ -1,7 +1,7 @@
 #ifndef NEGOZIO_H
 #define NEGOZIO_H
 
-#include "itemwidget.h"
+#include "itemWidget.h"
 
 #include <QPushButton>
 #include <QScrollBar>

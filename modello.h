@@ -12,14 +12,12 @@ private:
     bool datiSalvati;
 public:
     Modello(std::string = ":/Salvataggio dati");
-    //~Modello();
+    ~Modello();
 
     void salvataggio(); //Salvataggio dei dati
     void caricamento(); //Caricamento dei dati
     void rimozione(ItemStoreToys* =nullptr);
     void setNuovoPercorso(std::string);
-    bool getDatiSalvati() const;
-    void setDatiSalvati(bool);
     Container<ItemStoreToys*>::iterator begin();
     Container<ItemStoreToys*>::iterator end();
     Container<ItemStoreToys*>::constiterator cbegin() const;

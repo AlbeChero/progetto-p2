@@ -35,21 +35,21 @@ private:
 
 public:
     modificaCarteCollezionabili(QWidget* =nullptr, CarteCollezionabili* = nullptr);
-    QLineEdit* getNomeGioco();
-    QLineEdit* getCasaPro();
-    QLineEdit* getEta();
-    QLineEdit* getAnno();
-    QLineEdit* getPrezzo();
-    QLineEdit* getPezziMagazzino();
-    QComboBox* getUsato();
-    QComboBox* getEdLimitata();
-    QLineEdit* getNumCarteCC();
-    QLineEdit* getEdizione();
-    QLineEdit* getScontoCC();
-    QPushButton* getmodEffettuata();
-    QPushButton* getannullaMod();
+    QLineEdit* getNomeGioco() const;
+    QLineEdit* getCasaPro() const;
+    QLineEdit* getEta() const;
+    QLineEdit* getAnno() const;
+    QLineEdit* getPrezzo() const;
+    QLineEdit* getPezziMagazzino() const;
+    QComboBox* getUsato() const;
+    QComboBox* getEdLimitata() const;
+    QLineEdit* getNumCarteCC() const;
+    QLineEdit* getEdizione() const;
+    QLineEdit* getScontoCC() const;
+    QPushButton* getmodEffettuata() const;
+    QPushButton* getannullaMod() const;
     void inserisciPercorso(std::string);
-    QPushButton* getModImm();
+    QPushButton* getModImm() const;
     QString getPath() const;
     void pulisciTutto();
 public slots:

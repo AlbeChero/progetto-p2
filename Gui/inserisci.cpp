@@ -10,12 +10,12 @@ layoutInserisci::layoutInserisci(QWidget* p):
     Prezzo(new QLineEdit(this)),
     PezziMagazzino(new QLineEdit(this)),
     Usato(new QComboBox(this)),
+    Sconto(new QLineEdit(this)),
 
     //Campi della classe Videogioco
     playStation(new QComboBox(this)),
     xbox(new QComboBox(this)),
     Genere(new QLineEdit(this)),
-    Sconto(new QLineEdit(this)),
     Contenuto(new QLineEdit(this)),
 
     //Campi della classe Gioco da tavolo
@@ -23,7 +23,6 @@ layoutInserisci::layoutInserisci(QWidget* p):
     Tipologia(new QLineEdit(this)),
     Regolamento(new QLineEdit(this)),
     Contenuto1(new QLineEdit(this)),
-    Sconto1(new QLineEdit(this)),
 
     //Campo seconda base astratta
     edLimitata(new QComboBox(this)),
@@ -32,12 +31,10 @@ layoutInserisci::layoutInserisci(QWidget* p):
     RegolamentoGTC(new QLineEdit(this)),
     NumGiocatoriGTC(new QLineEdit(this)),
     ContenutoGTC(new QLineEdit(this)),
-    ScontoGTC(new QLineEdit(this)),
 
     //Campi della classe Carte Collezionabili
     NumCarteCC(new QLineEdit(this)),
     Edizione(new QLineEdit(this)),
-    ScontoCC(new QLineEdit(this)),
 
     checkVideogioco(new QCheckBox("Videogioco", this)),
     checkGiocoTavolo(new QCheckBox("Gioco da Tavolo", this)),
@@ -85,21 +82,20 @@ layoutInserisci::layoutInserisci(QWidget* p):
     Tipologia->setEnabled(false);
     Regolamento->setEnabled(false);
     Contenuto1->setEnabled(false);
-    Sconto1->setEnabled(false);
     //Setto a false il campo della seconda base astratta
     edLimitata->setEnabled(false);
     //Setto a false i campi della classe Gioco da tavolo con carte
     RegolamentoGTC->setEnabled(false);
     NumGiocatoriGTC->setEnabled(false);
     ContenutoGTC->setEnabled(false);
-    ScontoGTC->setEnabled(false);
     //Setto a false i campi della classe Carte collezionabili
     NumCarteCC->setEnabled(false);
     Edizione->setEnabled(false);
-    ScontoCC->setEnabled(false);
 
     bottoneInserisci->setEnabled(false);
     btnInserisciImm->setEnabled(false);
+
+    Sconto->setPlaceholderText("Lo sconto viene applicato solo se il prodotto risulta essere non usato");
 
     //Form campi base astratta
     formAstratta->addRow("Nome gioco", NomeGioco);
@@ -109,32 +105,29 @@ layoutInserisci::layoutInserisci(QWidget* p):
     formAstratta->addRow("Prezzo", Prezzo);
     formAstratta->addRow("Pezzi in magazzino", PezziMagazzino);
     formAstratta->addRow("Usato", Usato);
+    formAstratta->addRow("Sconto", Sconto);
 
     //Form videogiochi
     formVideo->addRow("Disponibile per PS4", playStation);
     formVideo->addRow("Disponibile per XboxOne", xbox);
     formVideo->addRow("Genere", Genere);
-    formVideo->addRow("Sconto", Sconto);
-    formVideo->addRow("Contenuto", Contenuto);
+    formVideo->addRow("Contenuto cofanetto", Contenuto);
 
     //Form giochi da tavolo
     formGiocoTavolo->addRow("NumGiocatori", NumGiocatori);
     formGiocoTavolo->addRow("Tipologia", Tipologia);
     formGiocoTavolo->addRow("Regolamento", Regolamento);
-    formGiocoTavolo->addRow("Contenuto1", Contenuto1);
-    formGiocoTavolo->addRow("Sconto1", Sconto1);
+    formGiocoTavolo->addRow("Contenuto scatola gioco", Contenuto1);
 
     //Form Giochi da tavolo con carte
     formGTC->addRow("Edizione limitata", edLimitata);
     formGTC->addRow("Regolamento", RegolamentoGTC);
     formGTC->addRow("Numero di giocatori", NumGiocatoriGTC);
     formGTC->addRow("Contenuto", ContenutoGTC);
-    formGTC->addRow("Sconto", ScontoGTC);
 
     //Form giochi di carte collezionabili
     formCC->addRow("Numero di carte", NumCarteCC);
     formCC->addRow("Edizione", Edizione);
-    formCC->addRow("Sconto", ScontoCC);
 
     //Compilo tutte le check box
     Usato->addItem("No"); Usato->addItem("Si");
@@ -171,7 +164,7 @@ layoutInserisci::layoutInserisci(QWidget* p):
 }
 
 void layoutInserisci::inserisciImmagine(){
-    pathImm = QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio Dati" , "File XML(*.JPG)");
+    pathImm = QFileDialog::getOpenFileName(this, tr("Scegli file"), "..Desktop" , "File immagine(*.JPG;*.PNG)");
     btnInserisciImm->setIcon(QIcon(pathImm));
 }
 QString layoutInserisci::getPathImm() const{
@@ -228,9 +221,6 @@ QLineEdit* layoutInserisci::getRegolamento() const{
 QLineEdit* layoutInserisci::getContenuto1() const{
     return  Contenuto1;
 }
-QLineEdit* layoutInserisci::getSconto1() const{
-    return Sconto1;
-}
 QComboBox* layoutInserisci::getedLimitata() const{
     return edLimitata;
 }
@@ -242,9 +232,6 @@ QLineEdit* layoutInserisci::getNumGiocatoriGTC() const{
 }
 QLineEdit* layoutInserisci::getContenutoGTC() const{
     return ContenutoGTC;
-}
-QLineEdit* layoutInserisci::getScontoGTC() const{
-    return ScontoGTC;
 }
 QLineEdit* layoutInserisci::getNumCarteCC() const{
     return NumCarteCC;
@@ -282,15 +269,12 @@ void layoutInserisci::pulisciTutto() const{
     Tipologia->clear();
     Regolamento->clear();
     Contenuto1->clear();
-    Sconto1->clear();
     edLimitata->setCurrentIndex(0);
     RegolamentoGTC->clear();
     NumGiocatoriGTC->clear();
     ContenutoGTC->clear();
-    ScontoGTC->clear();
     NumCarteCC->clear();
     Edizione->clear();
-    ScontoCC->clear();
     btnInserisciImm->setIcon(QIcon());
 }
 
@@ -323,18 +307,15 @@ void layoutInserisci::pulisciCheck() const{
     Tipologia->setEnabled(false);
     Regolamento->setEnabled(false);
     Contenuto1->setEnabled(false);
-    Sconto1->setEnabled(false);
     //Setto a false il campo della seconda base astratta
     edLimitata->setEnabled(false);
     //Setto a false i campi della classe Gioco da tavolo con carte
     RegolamentoGTC->setEnabled(false);
     NumGiocatoriGTC->setEnabled(false);
     ContenutoGTC->setEnabled(false);
-    ScontoGTC->setEnabled(false);
     //Setto a false i campi della classe Carte collezionabili
     NumCarteCC->setEnabled(false);
     Edizione->setEnabled(false);
-    ScontoCC->setEnabled(false);
 
     bottoneInserisci->setEnabled(false);
     btnInserisciImm->setEnabled(false);
@@ -349,23 +330,23 @@ void layoutInserisci::inserisciVideogioco() const{
 
 void layoutInserisci::inserisciGiocoDaTavolo() const{
     checkGiocoTavolo->isChecked() ? (NomeGioco->setEnabled(true),CasaPro->setEnabled(true),Eta->setEnabled(true),Anno->setEnabled(true),Prezzo->setEnabled(true),PezziMagazzino->setEnabled(true),Usato->setEnabled(true), NumGiocatori->setEnabled(true),
-                                     Tipologia->setEnabled(true), Regolamento->setEnabled(true), Contenuto1->setEnabled(true), Sconto1->setEnabled(true), bottoneInserisci->setEnabled(true), btnInserisciImm->setEnabled(true)) :
+                                     Tipologia->setEnabled(true), Regolamento->setEnabled(true), Contenuto1->setEnabled(true), Sconto->setEnabled(true), bottoneInserisci->setEnabled(true), btnInserisciImm->setEnabled(true)) :
                                    (NomeGioco->setEnabled(false),CasaPro->setEnabled(false),Eta->setEnabled(false),Anno->setEnabled(false),Prezzo->setEnabled(false),PezziMagazzino->setEnabled(false),Usato->setEnabled(false),
-                                    NumGiocatori->setEnabled(false), Tipologia->setEnabled(false), Regolamento->setEnabled(false), Contenuto1->setEnabled(false), Sconto1->setEnabled(false), bottoneInserisci->setEnabled(false), btnInserisciImm->setEnabled(false), pulisciTutto());
+                                    NumGiocatori->setEnabled(false), Tipologia->setEnabled(false), Regolamento->setEnabled(false), Contenuto1->setEnabled(false), Sconto->setEnabled(false), bottoneInserisci->setEnabled(false), btnInserisciImm->setEnabled(false), pulisciTutto());
 }
 
 void layoutInserisci::inserisciGiocoDiCarte() const{
     checkGiocoCarte->isChecked() ? (NomeGioco->setEnabled(true),CasaPro->setEnabled(true),Eta->setEnabled(true),Anno->setEnabled(true),Prezzo->setEnabled(true),PezziMagazzino->setEnabled(true),Usato->setEnabled(true),
-                                    edLimitata->setEnabled(true), RegolamentoGTC->setEnabled(true), NumGiocatoriGTC->setEnabled(true), ContenutoGTC->setEnabled(true), ScontoGTC->setEnabled(true), bottoneInserisci->setEnabled(true), btnInserisciImm->setEnabled(true)) :
+                                    edLimitata->setEnabled(true), RegolamentoGTC->setEnabled(true), NumGiocatoriGTC->setEnabled(true), ContenutoGTC->setEnabled(true), Sconto->setEnabled(true), bottoneInserisci->setEnabled(true), btnInserisciImm->setEnabled(true)) :
                                     (NomeGioco->setEnabled(false),CasaPro->setEnabled(false),Eta->setEnabled(false),Anno->setEnabled(false),Prezzo->setEnabled(false),PezziMagazzino->setEnabled(false),Usato->setEnabled(false),
-                                     edLimitata->setEnabled(false), RegolamentoGTC->setEnabled(false), NumGiocatoriGTC->setEnabled(false), ContenutoGTC->setEnabled(false), ScontoGTC->setEnabled(false), bottoneInserisci->setEnabled(false), btnInserisciImm->setEnabled(false), pulisciTutto());
+                                     edLimitata->setEnabled(false), RegolamentoGTC->setEnabled(false), NumGiocatoriGTC->setEnabled(false), ContenutoGTC->setEnabled(false), Sconto->setEnabled(false), bottoneInserisci->setEnabled(false), btnInserisciImm->setEnabled(false), pulisciTutto());
 }
 
 void layoutInserisci::inserisciCarteColl() const{
     checkCarteCol->isChecked() ? (NomeGioco->setEnabled(true),CasaPro->setEnabled(true),Eta->setEnabled(true),Anno->setEnabled(true),Prezzo->setEnabled(true),PezziMagazzino->setEnabled(true),Usato->setEnabled(true),
-                                  edLimitata->setEnabled(true), NumCarteCC->setEnabled(true), Edizione->setEnabled(true), ScontoCC->setEnabled(true), bottoneInserisci->setEnabled(true), btnInserisciImm->setEnabled(true)) :
+                                  edLimitata->setEnabled(true), NumCarteCC->setEnabled(true), Edizione->setEnabled(true), Sconto->setEnabled(true), bottoneInserisci->setEnabled(true), btnInserisciImm->setEnabled(true)) :
                                  (NomeGioco->setEnabled(false),CasaPro->setEnabled(false),Eta->setEnabled(false),Anno->setEnabled(false),Prezzo->setEnabled(false),PezziMagazzino->setEnabled(false),Usato->setEnabled(false),
-                                  edLimitata->setEnabled(false), NumCarteCC->setEnabled(false), Edizione->setEnabled(false), ScontoCC->setEnabled(false), bottoneInserisci->setEnabled(false), btnInserisciImm->setEnabled(false),pulisciTutto());
+                                  edLimitata->setEnabled(false), NumCarteCC->setEnabled(false), Edizione->setEnabled(false), Sconto->setEnabled(false), bottoneInserisci->setEnabled(false), btnInserisciImm->setEnabled(false),pulisciTutto());
 }
 
 void layoutInserisci::selezionaSoloVideogioco() const{

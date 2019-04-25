@@ -26,12 +26,12 @@ private:
     QLineEdit* PezziMagazzino;
     QComboBox* Usato;
     QString pathImm;
+    QLineEdit* Sconto;
 
     //Campi della classe Videogioco
     QComboBox* playStation;
     QComboBox* xbox;
     QLineEdit* Genere;
-    QLineEdit* Sconto;
     QLineEdit* Contenuto;
 
     //Campi della classe Gioco da tavolo
@@ -39,7 +39,6 @@ private:
     QLineEdit* Tipologia;
     QLineEdit* Regolamento;
     QLineEdit* Contenuto1;
-    QLineEdit* Sconto1;
 
     QComboBox* edLimitata; //Campo della seconda base astratta
 
@@ -47,12 +46,10 @@ private:
     QLineEdit* RegolamentoGTC;
     QLineEdit* NumGiocatoriGTC;
     QLineEdit* ContenutoGTC;
-    QLineEdit* ScontoGTC;
 
     //Campi della classe Carte Collezionabili
     QLineEdit* NumCarteCC;
     QLineEdit* Edizione;
-    QLineEdit* ScontoCC;
 
     QCheckBox* checkVideogioco;
     QCheckBox* checkGiocoTavolo;
@@ -86,12 +83,10 @@ public:
     QLineEdit* getTipologia() const;
     QLineEdit* getRegolamento() const;
     QLineEdit* getContenuto1() const;
-    QLineEdit* getSconto1() const;
     QComboBox* getedLimitata() const;
     QLineEdit* getRegolamentoGTC() const;
     QLineEdit* getNumGiocatoriGTC() const;
     QLineEdit* getContenutoGTC() const;
-    QLineEdit* getScontoGTC() const;
     QLineEdit* getNumCarteCC() const;
     QLineEdit* getEdizione() const;
     QCheckBox* getCheckVideogioco() const;

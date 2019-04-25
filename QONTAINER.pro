@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-02-14T12:38:04
+# Project created by QtCreator 2019-04-02T11:07:25
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = QONTAINER
+TARGET = Qontainer
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -27,39 +27,37 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
     Gerarchia/itemstoretoys.cpp \
-    Gui/controller.cpp \
-    Gui/negozio.cpp \
-    Gui/menuPrincipale.cpp \
-    Gui/ricerca.cpp \
     Gui/inserisci.cpp \
-    Gui/scrollarea.cpp \
-    Gui/modificaVideogioco.cpp \
-    modello.cpp \
-    Gui/listadiitemstoretoys.cpp \
     Gui/itemWidget.cpp \
+    Gui/listadiitemstoretoys.cpp \
+    Gui/menuprincipale.cpp \
+    Gui/modificacartecollezionabili.cpp \
     Gui/modificagiocodatavolo.cpp \
     Gui/modificagiocodatavoloconcarte.cpp \
-    Gui/modificacartecollezionabili.cpp
+    Gui/modificavideogioco.cpp \
+    Gui/negozio.cpp \
+    Gui/ricerca.cpp \
+    Gui/scrollarea.cpp \
+    modello.cpp \
+    Gui/controller.cpp
 
 HEADERS += \
-    modello.h \
-    Gui/controller.h \
-    Gui/menuPrincipale.h \
-    Gui/negozio.h \
     Gerarchia/itemstoretoys.h \
-    Gerarchia/qontainer.h \
-    Gui/ricerca.h \
+    Gui/controller.h \
     Gui/inserisci.h \
-    Gui/scrollarea.h \
-    Gui/modificaVideogioco.h \
-    Gui/listadiitemstoretoys.h \
     Gui/itemWidget.h \
+    Gui/listadiitemstoretoys.h \
+    Gui/menuprincipale.h \
+    Gui/modificacartecollezionabili.h \
     Gui/modificagiocodatavolo.h \
     Gui/modificagiocodatavoloconcarte.h \
-    Gui/modificacartecollezionabili.h
+    Gui/modificavideogioco.h \
+    Gui/negozio.h \
+    Gui/ricerca.h \
+    Gui/scrollarea.h \
+    modello.h \
+    Gerarchia/qontainer.h
 
-FORMS += \
-        qontainer.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -68,6 +66,3 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     risorse.qrc
-
-
-

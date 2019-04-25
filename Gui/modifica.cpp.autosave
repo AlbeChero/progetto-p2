@@ -1,5 +1,0 @@
-#include "modifica.h"
-
-modifica::modifica(){
-
-}

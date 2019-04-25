@@ -11,10 +11,6 @@ class menuPrincipale : public QMenuBar{
     Q_OBJECT
 private:
     QWidget* parent;
-    QMenu *menu;
-    QAction *salva;
-    QAction *esci;
-    QAction* caricamento;
     QAction *negozio;
     QAction *ricerca;
     QAction *inserisci;

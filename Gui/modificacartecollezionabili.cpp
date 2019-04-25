@@ -21,23 +21,25 @@ modificaCarteCollezionabili::modificaCarteCollezionabili(QWidget* p, CarteCollez
     QVBoxLayout* layoutPrincipale = new QVBoxLayout(this);
     layoutPrincipale->addLayout(form);
     QHBoxLayout* layoutBottoni = new QHBoxLayout;
+    QHBoxLayout* layoutImm = new QHBoxLayout;
 
     modImm->setIconSize(QSize(180,180));
     modImm->setFixedSize(QSize(380,200));
-    layoutPrincipale->addWidget(modImm);
+    layoutPrincipale->addLayout(layoutImm);
+    layoutImm->addWidget(modImm);
 
-    setFixedSize(400,600);
+    setMinimumSize(500,600);
 
-    form->addRow("Nome gioco", NomeGioco);
-    form->addRow("Casa Produzione", CasaPro);
-    form->addRow("Pegi", Eta);
-    form->addRow("Anno", Anno);
-    form->addRow("Prezzo", Prezzo);
-    form->addRow("Pezzi in magazzino", PezziMagazzino);
+    form->addRow("Nome gioco", NomeGioco); NomeGioco->setMaxLength(70);
+    form->addRow("Casa Produzione", CasaPro); CasaPro->setMaxLength(70);
+    form->addRow("Pegi", Eta); Eta->setValidator(new QIntValidator(0,99, Eta)); Eta->setMaxLength(2);
+    form->addRow("Anno", Anno); Anno->setValidator(new QIntValidator(0, 2100, Anno)); Anno->setMaxLength(4);
+    form->addRow("Prezzo originale", Prezzo); Prezzo->setValidator(new QDoubleValidator(0, 999.99, 2, Prezzo)); Prezzo->setMaxLength(5);
+    form->addRow("Pezzi in magazzino", PezziMagazzino);  PezziMagazzino->setValidator(new QIntValidator(0, 999,PezziMagazzino)); PezziMagazzino->setMaxLength(3);
     form->addRow("Usato", Usato);
     form->addRow("Edizione limitata", edLimitata);
-    form->addRow("Numero di carte", NumCarteCC);
-    form->addRow("Edizione", Edizione);
+    form->addRow("Numero di carte", NumCarteCC); NumCarteCC->setValidator(new QIntValidator(0,99, NumCarteCC)); NumCarteCC->setMaxLength(2);
+    form->addRow("Edizione", Edizione); Edizione->setMaxLength(70);
     form->addRow("Sconto", ScontoCC);
 
     Usato->addItem("Si"); Usato->addItem("No");
@@ -60,54 +62,57 @@ void modificaCarteCollezionabili::inserisciPercorso(std::string p){
     modImm->setIcon(QIcon(pathImmagine));
 }
 void modificaCarteCollezionabili::cambiaImm(){
-    pathImmagine = QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio Dati" , "File XML(*.JPG)");
-    modImm->setIcon(QIcon(pathImmagine));
+    QString pathImm = QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/SalvataggioDati" , "File immagini(*.JPG;*.PNG)");
+    if(pathImm != "") {
+        pathImmagine = pathImm;
+        modImm->setIcon(QIcon(pathImmagine));
+    }
 }
 QString modificaCarteCollezionabili::getPath() const{
     return pathImmagine;
 }
-QLineEdit* modificaCarteCollezionabili::getNomeGioco(){
+QLineEdit* modificaCarteCollezionabili::getNomeGioco() const{
      return NomeGioco;
  }
-QLineEdit* modificaCarteCollezionabili::getCasaPro(){
+QLineEdit* modificaCarteCollezionabili::getCasaPro() const{
      return CasaPro;
  }
-QLineEdit* modificaCarteCollezionabili::getEta(){
+QLineEdit* modificaCarteCollezionabili::getEta() const{
      return Eta;
  }
-QLineEdit*modificaCarteCollezionabili::getAnno(){
+QLineEdit*modificaCarteCollezionabili::getAnno() const{
      return Anno;
  }
-QLineEdit* modificaCarteCollezionabili::getPrezzo(){
+QLineEdit* modificaCarteCollezionabili::getPrezzo()  const{
      return Prezzo;
  }
-QLineEdit* modificaCarteCollezionabili::getPezziMagazzino(){
+QLineEdit* modificaCarteCollezionabili::getPezziMagazzino() const{
      return PezziMagazzino;
  }
-QComboBox* modificaCarteCollezionabili::getUsato(){
+QComboBox* modificaCarteCollezionabili::getUsato() const{
      return Usato;
  }
-QComboBox* modificaCarteCollezionabili::getEdLimitata(){
+QComboBox* modificaCarteCollezionabili::getEdLimitata() const{
     return edLimitata;
 }
 
-QLineEdit* modificaCarteCollezionabili::getNumCarteCC(){
+QLineEdit* modificaCarteCollezionabili::getNumCarteCC() const{
       return NumCarteCC;
   }
-  QLineEdit* modificaCarteCollezionabili::getEdizione(){
+  QLineEdit* modificaCarteCollezionabili::getEdizione() const{
       return Edizione;
   }
-  QLineEdit* modificaCarteCollezionabili::getScontoCC(){
+  QLineEdit* modificaCarteCollezionabili::getScontoCC() const{
       return ScontoCC;
   }
-QPushButton* modificaCarteCollezionabili::getModImm(){
+QPushButton* modificaCarteCollezionabili::getModImm() const{
        return modImm;
    }
 
-QPushButton* modificaCarteCollezionabili::getmodEffettuata(){
+QPushButton* modificaCarteCollezionabili::getmodEffettuata() const{
     return modEffettuata;
 }
-QPushButton* modificaCarteCollezionabili::getannullaMod(){
+QPushButton* modificaCarteCollezionabili::getannullaMod() const{
     return annullaMod;
 }
 

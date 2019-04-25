@@ -21,24 +21,30 @@ modificaGiocoDaTavolo::modificaGiocoDaTavolo(QWidget* parent, GiocoDaTavolo* ogg
     QVBoxLayout* layoutPrincipale = new QVBoxLayout(this);
     layoutPrincipale->addLayout(formDaTavolo);
     QHBoxLayout* layoutBottoni = new QHBoxLayout;
+    QHBoxLayout* layoutImm = new QHBoxLayout;
 
     modImm->setIconSize(QSize(180,180));
     modImm->setFixedSize(QSize(380,200));
-    layoutPrincipale->addWidget(modImm);
+    layoutPrincipale->addLayout(layoutImm);
+    layoutImm->addWidget(modImm);
 
-    setFixedSize(400,600);
+    setMinimumSize(500,600);
 
-    formDaTavolo->addRow("Nome gioco", NomeGioco);
-    formDaTavolo->addRow("Casa Produzione", CasaPro);
+    formDaTavolo->addRow("Nome gioco", NomeGioco); NomeGioco->setMaxLength(70);
+    formDaTavolo->addRow("Casa Produzione", CasaPro); CasaPro->setMaxLength(70);
     formDaTavolo->addRow("Pegi", Eta);
+    Eta->setValidator(new QIntValidator(0,99, Eta)); Eta->setMaxLength(2);
     formDaTavolo->addRow("Anno", Anno);
-    formDaTavolo->addRow("Prezzo", Prezzo);
+    Anno->setValidator(new QIntValidator(0, 2100, Anno)); Anno->setMaxLength(4);
+    formDaTavolo->addRow("Prezzo originale", Prezzo);
+    Prezzo->setValidator(new QDoubleValidator(0, 999.99, 2, Prezzo)); Prezzo->setMaxLength(5);
     formDaTavolo->addRow("Pezzi in magazzino", PezziMagazzino);
+    PezziMagazzino->setValidator(new QIntValidator(0, 999,PezziMagazzino)); PezziMagazzino->setMaxLength(3);
     formDaTavolo->addRow("Usato", Usato);
-    formDaTavolo->addRow("NumGiocatori", NumGiocatori);
-    formDaTavolo->addRow("Tipologia", Tipologia);
-    formDaTavolo->addRow("Regolamento", Regolamento);
-    formDaTavolo->addRow("Contenuto", Contenuto1);
+    formDaTavolo->addRow("NumGiocatori", NumGiocatori); NumGiocatori->setValidator(new QIntValidator(0,99, NumGiocatori)); NumGiocatori->setMaxLength(5);
+    formDaTavolo->addRow("Tipologia", Tipologia); Tipologia->setMaxLength(70);
+    formDaTavolo->addRow("Regolamento", Regolamento); Regolamento->setMaxLength(70);
+    formDaTavolo->addRow("Contenuto", Contenuto1); Contenuto1->setMaxLength(70);
     formDaTavolo->addRow("Sconto", Sconto1);
 
     Usato->addItem("Si"); Usato->addItem("No");
@@ -57,55 +63,58 @@ void modificaGiocoDaTavolo::inserisciPercorso(std::string p){
     modImm->setIcon(QIcon(pathImmagine));
 }
 void modificaGiocoDaTavolo::cambiaImm(){
-    pathImmagine = QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Salvataggio Dati" , "File XML(*.JPG)");
+    QString pathImm = QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/SalvataggioDati" , "File immagini(*.JPG;*.PNG)");
+    if(pathImm != "") {
+    pathImmagine = pathImm;
     modImm->setIcon(QIcon(pathImmagine));
+    }
 }
 QString modificaGiocoDaTavolo::getPath() const{
     return pathImmagine;
 }
-QLineEdit* modificaGiocoDaTavolo::getNomeGioco(){
+QLineEdit* modificaGiocoDaTavolo::getNomeGioco() const{
      return NomeGioco;
  }
- QLineEdit* modificaGiocoDaTavolo::getCasaPro(){
+ QLineEdit* modificaGiocoDaTavolo::getCasaPro() const{
      return CasaPro;
  }
- QLineEdit* modificaGiocoDaTavolo::getEta(){
+ QLineEdit* modificaGiocoDaTavolo::getEta() const{
      return Eta;
  }
- QLineEdit* modificaGiocoDaTavolo::getAnno(){
+ QLineEdit* modificaGiocoDaTavolo::getAnno() const{
      return Anno;
  }
- QLineEdit* modificaGiocoDaTavolo::getPrezzo(){
+ QLineEdit* modificaGiocoDaTavolo::getPrezzo() const{
      return Prezzo;
  }
- QLineEdit* modificaGiocoDaTavolo::getPezziMagazzino(){
+ QLineEdit* modificaGiocoDaTavolo::getPezziMagazzino() const{
      return PezziMagazzino;
  }
- QComboBox* modificaGiocoDaTavolo::getUsato(){
+ QComboBox* modificaGiocoDaTavolo::getUsato() const{
      return Usato;
  }
- QLineEdit* modificaGiocoDaTavolo::getNumGiocatori(){
+ QLineEdit* modificaGiocoDaTavolo::getNumGiocatori() const{
      return NumGiocatori;
  }
- QLineEdit* modificaGiocoDaTavolo::getTipologia(){
+ QLineEdit* modificaGiocoDaTavolo::getTipologia() const{
      return Tipologia;
  }
- QLineEdit* modificaGiocoDaTavolo::getRegolamento(){
+ QLineEdit* modificaGiocoDaTavolo::getRegolamento() const{
      return Regolamento;
  }
- QLineEdit* modificaGiocoDaTavolo::getContenuto1(){
+ QLineEdit* modificaGiocoDaTavolo::getContenuto1() const{
      return Contenuto1;
  }
- QLineEdit* modificaGiocoDaTavolo::getSconto1(){
+ QLineEdit* modificaGiocoDaTavolo::getSconto1() const{
      return Sconto1;
  }
- QPushButton* modificaGiocoDaTavolo::getmodEffettuata(){
+ QPushButton* modificaGiocoDaTavolo::getmodEffettuata() const{
      return modEffettuata;
  }
- QPushButton* modificaGiocoDaTavolo::getannullaMod(){
+ QPushButton* modificaGiocoDaTavolo::getannullaMod() const{
      return annullaMod;
  }
- QPushButton* modificaGiocoDaTavolo::getModImm(){
+ QPushButton* modificaGiocoDaTavolo::getModImm() const{
      return modImm;
  }
  void modificaGiocoDaTavolo::pulisciTutto(){

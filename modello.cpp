@@ -13,10 +13,6 @@ void Modello::setNuovoPercorso(std::string p){
     lista = new Container<ItemStoreToys*>();
 }
 
-void Modello::setDatiSalvati(bool p){ datiSalvati = p; }
-
-bool Modello::getDatiSalvati() const{ return datiSalvati; }
-
 Container<ItemStoreToys*>::iterator Modello::begin(){
     return lista->it_begin();
 }
@@ -49,7 +45,6 @@ void Modello::salvataggio(){
     lettore.writeStartElement("root");
 
     auto it = cbegin();
-    if(it != cend()) std::cout<<"Sono diversi!"<<std::endl;
     while(it != cend()){
         const ItemStoreToys* daSalvare = *it;
         const QString tipologiaOgg = QString::fromStdString(daSalvare->getTipo());
@@ -62,13 +57,13 @@ void Modello::salvataggio(){
         lettore.writeAttribute("PezziInMagazzino", QString("%1").arg(daSalvare->getPezziInMagazzino()));
         lettore.writeAttribute("Usato", daSalvare->getUsato() ? "true" : "false");
         lettore.writeAttribute("pathImm", QString::fromStdString(daSalvare->getPath()));
+        lettore.writeAttribute("Sconto", QString("%1").arg(daSalvare->getSconto()));
 
         if(tipologiaOgg == "Videogioco"){
             const Videogioco* oggVideogioco = static_cast<const Videogioco*>(daSalvare);
             lettore.writeAttribute("Ps4", oggVideogioco->getPs4() ? "true" : "false");
             lettore.writeAttribute("XboxOne", oggVideogioco->getXboxOne() ? "true" : "false");
             lettore.writeAttribute("Genere", QString::fromStdString(oggVideogioco->getGenere()));
-            lettore.writeAttribute("Sconto", QString("%1").arg(oggVideogioco->getSconto()));
             lettore.writeAttribute("Contenuto", QString::fromStdString(oggVideogioco->getContenuto()));
         } else if(tipologiaOgg == "GiocoDaTavolo"){
             const GiocoDaTavolo* oggGiocoDaTavolo = static_cast<const GiocoDaTavolo*>(daSalvare);
@@ -76,20 +71,17 @@ void Modello::salvataggio(){
             lettore.writeAttribute("Tipologia", QString::fromStdString(oggGiocoDaTavolo->getTipologia()));
             lettore.writeAttribute("Regolamento", QString::fromStdString(oggGiocoDaTavolo->getRegolamento()));
             lettore.writeAttribute("Contenuto", QString::fromStdString(oggGiocoDaTavolo->getContenuto()));
-            lettore.writeAttribute("Sconto", QString("%1").arg(oggGiocoDaTavolo->getSconto()));
         } else if(tipologiaOgg == "GiocoDaTavoloConCarte"){
             const GiocoDaTavoloConCarte* oggGiocoDaTavoloConCarte = static_cast<const GiocoDaTavoloConCarte*>(daSalvare);
             lettore.writeAttribute("edizioneLimitata", oggGiocoDaTavoloConCarte->getEdizioneLimitata() ? "true" : "false");
             lettore.writeAttribute("Regolamento", QString::fromStdString(oggGiocoDaTavoloConCarte->getRegolamento()));
             lettore.writeAttribute("NumGiocatori", QString("%1").arg(oggGiocoDaTavoloConCarte->getNumGiocatori()));
             lettore.writeAttribute("Contenuto", QString::fromStdString(oggGiocoDaTavoloConCarte->getContenuto()));
-            lettore.writeAttribute("Sconto", QString("%1").arg(oggGiocoDaTavoloConCarte->getSconto()));
         } else if(tipologiaOgg == "CarteCollezionabili"){
             const CarteCollezionabili* oggCarteCollezionabili = static_cast<const CarteCollezionabili*>(daSalvare);
             lettore.writeAttribute("edizioneLimitata", oggCarteCollezionabili->getEdizioneLimitata() ? "true" : "false");
             lettore.writeAttribute("NumCarte", QString("%1").arg(oggCarteCollezionabili->getNumCarte()));
             lettore.writeAttribute("Edizione", QString::fromStdString(oggCarteCollezionabili->getEdizione()));
-            lettore.writeAttribute("Sconto", QString("%1").arg(oggCarteCollezionabili->getSconto()));
         }
 
         ++it;
@@ -124,6 +116,7 @@ void Modello::caricamento(){
                 unsigned int PezziInMagazzino = attributo.hasAttribute("PezziInMagazzino") ? attributo.value("PezziInMagazzino").toUInt() : 0;
                 bool Usato = attributo.hasAttribute("Usato") ? attributo.value("Usato").toString()=="true" ? true : false : false;
                 std::string pathImm = attributo.hasAttribute("pathImm") ? attributo.value("pathImm").toString().toStdString() : "";
+                unsigned int Sconto = attributo.hasAttribute("Sconto") ? attributo.value("Sconto").toUInt() : 0;
 
                 ItemStoreToys* daInserire = nullptr;
 
@@ -132,32 +125,29 @@ void Modello::caricamento(){
                     bool XboxOne = attributo.hasAttribute("XboxOne") ? attributo.value("XboxOne").toString()=="true"? true: false : false;
                     std::string Genere = attributo.hasAttribute("Genere") ? attributo.value("Genere").toString().toStdString() : "";
                     std::string Contenuto = attributo.hasAttribute("Contenuto") ? attributo.value("Contenuto").toString().toStdString() : "";
-                    unsigned int Sconto = attributo.hasAttribute("Sconto") ? attributo.value("Sconto").toUInt() : 0;
 
-                    daInserire = new Videogioco(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, Usato, pathImm, Ps4, XboxOne, Contenuto, Genere, Sconto);
+
+                    daInserire = new Videogioco(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, Usato, pathImm, Sconto, Ps4, XboxOne, Contenuto, Genere);
                 } else if(lettore.name() == "GiocoDaTavolo"){
                     unsigned int NumGiocatori = attributo.hasAttribute("NumGiocatori") ? attributo.value("NumGiocatori").toUInt() : 0;
                     std::string Tipologia = attributo.hasAttribute("Tipologia") ? attributo.value("Tipologia").toString().toStdString() : "";
                     std::string Regolamento = attributo.hasAttribute("Regolamento") ? attributo.value("Regolamento").toString().toStdString() : "";
                     std::string Contenuto = attributo.hasAttribute("Contenuto") ? attributo.value("Contenuto").toString().toStdString() : "";
-                    unsigned int Sconto = attributo.hasAttribute("Sconto") ? attributo.value("Sconto").toUInt() : 0;
 
-                    daInserire = new GiocoDaTavolo(Nome, CasaProduttrice, Pegi, Anno, Prezzo, Sconto, PezziInMagazzino, Usato, pathImm, NumGiocatori, Tipologia, Regolamento, Contenuto);
+                    daInserire = new GiocoDaTavolo(Nome, CasaProduttrice, Pegi, Anno, Prezzo, PezziInMagazzino, Usato, pathImm, Sconto, NumGiocatori, Tipologia, Regolamento, Contenuto);
                 } else if(lettore.name() == "GiocoDaTavoloConCarte"){
                     bool edizioneLimitata = attributo.hasAttribute("edizioneLimitata") ? attributo.value("edizioneLimitata").toString()=="true"? true : false : false;
                     std::string Regolamento = attributo.hasAttribute("Regolamento") ? attributo.value("Regolamento").toString().toStdString() : "";
                     unsigned int NumGiocatori = attributo.hasAttribute("NumGiocatori") ? attributo.value("NumGiocatori").toUInt() : 0;
                     std::string Contenuto = attributo.hasAttribute("Contenuto") ? attributo.value("Contenuto").toString().toStdString() : "";
-                    unsigned int Sconto = attributo.hasAttribute("Sconto") ? attributo.value("Sconto").toUInt() : 0;
 
-                    daInserire = new GiocoDaTavoloConCarte(Nome, CasaProduttrice, Anno, Pegi, Prezzo, Sconto, PezziInMagazzino, Usato, pathImm, edizioneLimitata, Regolamento, NumGiocatori, Contenuto);
+                    daInserire = new GiocoDaTavoloConCarte(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, Usato, pathImm, Sconto, edizioneLimitata, Regolamento, NumGiocatori, Contenuto);
                 } else if(lettore.name() == "CarteCollezionabili"){
                     bool edizioneLimitata = attributo.hasAttribute("edizioneLimitata") ? attributo.value("edizioneLimitata").toString()=="true"? true: false : false;
                     int NumCarte = attributo.hasAttribute("NumCarte") ? attributo.value("NumCarte").toInt() : 0;
                     std::string Edizione = attributo.hasAttribute("Edizione") ? attributo.value("Edizione").toString().toStdString() : "";
-                    unsigned int Sconto = attributo.hasAttribute("Sconto") ? attributo.value("Sconto").toUInt() : 0;
 
-                    daInserire = new CarteCollezionabili(Nome, CasaProduttrice, Anno, Pegi, Prezzo, Sconto, PezziInMagazzino, edizioneLimitata, pathImm, Usato, NumCarte, Edizione);
+                    daInserire = new CarteCollezionabili(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, edizioneLimitata, pathImm, Sconto, Usato, NumCarte, Edizione);
                 }
 
                 if(daInserire!=nullptr)
@@ -182,3 +172,5 @@ Modello::Modello(std::string p):
     datiSalvati(true) {}
 
 Container<ItemStoreToys*>* Modello::getLista() const{ return lista; }
+
+Modello::~Modello(){delete lista;}

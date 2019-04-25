@@ -13,4 +13,3 @@ void itemWidget::aggiungiGioco(ItemStoreToys* gioco){
 ListaDiItemStoreToys* itemWidget::oggettoCorrente() const{
     return static_cast<ListaDiItemStoreToys*>(QListWidget::currentItem());
 }
-

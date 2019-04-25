@@ -36,24 +36,24 @@ private:
     QString pathImmagine;
 public:
     modificaVideogioco(QWidget* = nullptr);
-    QLineEdit* getNomeGioco();
-    QLineEdit* getCasaPro();
-    QLineEdit* getEta();
-    QLineEdit* getAnno();
-    QLineEdit* getPrezzo();
-    QLineEdit* getPezziMagazzino();
-    QComboBox* getUsato();
-    QString getPath();
+    QLineEdit* getNomeGioco() const;
+    QLineEdit* getCasaPro() const;
+    QLineEdit* getEta() const;
+    QLineEdit* getAnno() const;
+    QLineEdit* getPrezzo() const;
+    QLineEdit* getPezziMagazzino() const;
+    QComboBox* getUsato() const;
+    QString getPath() const;
 
-    QComboBox* getplayStation();
-    QComboBox* getxbox();
-    QLineEdit* getGenere();
-    QLineEdit* getSconto();
-    QLineEdit* getContenuto();
+    QComboBox* getplayStation() const;
+    QComboBox* getxbox() const;
+    QLineEdit* getGenere() const;
+    QLineEdit* getSconto() const;
+    QLineEdit* getContenuto() const;
 
-    QPushButton* getmodEffettuata();
-    QPushButton* getannullaMod();
-    QPushButton* getBottImm();
+    QPushButton* getmodEffettuata() const;
+    QPushButton* getannullaMod() const;
+    QPushButton* getBottImm() const;
     void inserisciPercorso(std::string);
     void pulisciTutto();
 public slots:
