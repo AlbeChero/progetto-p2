@@ -47,16 +47,16 @@ HEADERS += \
     Gui/inserisci.h \
     Gui/itemWidget.h \
     Gui/listadiitemstoretoys.h \
-    Gui/menuprincipale.h \
     Gui/modificacartecollezionabili.h \
     Gui/modificagiocodatavolo.h \
     Gui/modificagiocodatavoloconcarte.h \
-    Gui/modificavideogioco.h \
     Gui/negozio.h \
     Gui/ricerca.h \
     Gui/scrollarea.h \
     modello.h \
-    Gerarchia/qontainer.h
+    Gerarchia/qontainer.h \
+    Gui/menuPrincipale.h \
+    Gui/modificaVideogioco.h
 
 
 # Default rules for deployment.

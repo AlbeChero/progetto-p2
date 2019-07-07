@@ -23,7 +23,7 @@ Controller::Controller(Modello* m, QWidget *parent) : //Costruttore per la pagin
     modGTavolo(new modificaGiocoDaTavolo(this)),
     modColl(new modificaCarteCollezionabili(this)),
     modGCarte(new modificaGiocoDaTavoloConCarte(this)),
-    file(QFileDialog::getOpenFileName(this, tr("Scegli FIle"), ":/SalvataggioDati", "File XML(*.xml)")),
+    file(QFileDialog::getOpenFileName(parent, tr("Scegli FIle"), ":/SalvataggioDati", "File XML(*.xml)")),
     NegAttivo(true),
     RicAttivo(false)
 {
@@ -183,7 +183,9 @@ void Controller::inserisciNuovo(){
     std::string CasaProduttrice = scrollA->getLayoutInserisci()->getCasaPro()->text().toStdString();
     unsigned int Pegi = scrollA->getLayoutInserisci()->getEta()->text().toUInt();
     unsigned int Anno = scrollA->getLayoutInserisci()->getAnno()->text().toUInt();
-    double Prezzo = scrollA->getLayoutInserisci()->getPrezzo()->text().toDouble();
+    QString PrezzoStringa = scrollA->getLayoutInserisci()->getPrezzo()->text();
+    PrezzoStringa.replace(QString(","), QString("."));
+    double Prezzo = PrezzoStringa.toDouble();
     unsigned int PezziInMagazzino = scrollA->getLayoutInserisci()->getPezziMagazzino()->text().toUInt();
     int aux = scrollA->getLayoutInserisci()->getUsato()->currentIndex();
     unsigned int Sconto = scrollA->getLayoutInserisci()->getSconto()->text().toUInt();
@@ -211,7 +213,9 @@ void Controller::inserisciNuovo(){
         Videogioco* ogg = new Videogioco(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, Usato, pathImm, Sconto, Ps4, xbox, Contenuto, Genere);
         modello->getLista()->insertBack(ogg);
         modello->salvataggio();
-        caricaDati();}
+        caricaDati();
+        QMessageBox::about(this, "Esito positivo", "Nuovo oggetto inserito correttamente!");
+        }
 
     }else if(scrollA->getLayoutInserisci()->getCheckGiocoTavolo()->isChecked()){
         unsigned int NumGiocatori = scrollA->getLayoutInserisci()->getNumGiocatori()->text().toUInt();
@@ -225,7 +229,9 @@ void Controller::inserisciNuovo(){
         GiocoDaTavolo* ogg = new GiocoDaTavolo(Nome, CasaProduttrice, Pegi, Anno, Prezzo, PezziInMagazzino, Usato, pathImm, Sconto, NumGiocatori, Tipologia, Regolamento, Contenuto);
         modello->getLista()->insertBack(ogg);
         modello->salvataggio();
-        caricaDati(); }
+        caricaDati();
+        QMessageBox::about(this, "Esito positivo", "Nuovo oggetto inserito correttamente!");
+        }
 
     }else if(scrollA->getLayoutInserisci()->getCheckGiocoCarte()->isChecked()){
         bool edLimitata;
@@ -241,7 +247,9 @@ void Controller::inserisciNuovo(){
         GiocoDaTavoloConCarte* ogg = new GiocoDaTavoloConCarte(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, Usato, pathImm, Sconto, edLimitata, Regolamento, NumGiocatori, Contenuto);
         modello->getLista()->insertBack(ogg);
         modello->salvataggio();
-        caricaDati(); }
+        caricaDati();
+        QMessageBox::about(this, "Esito positivo", "Nuovo oggetto inserito correttamente!");
+        }
 
     }else if(scrollA->getLayoutInserisci()->getCheckCarteCol()->isChecked()){
         bool edLimitata;
@@ -256,7 +264,9 @@ void Controller::inserisciNuovo(){
         CarteCollezionabili* ogg = new CarteCollezionabili(Nome, CasaProduttrice, Anno, Pegi, Prezzo, PezziInMagazzino, edLimitata, pathImm, Sconto, Usato, NumCarte, Edizione);
         modello->getLista()->insertBack(ogg);
         modello->salvataggio();
-        caricaDati();}
+        caricaDati();
+        QMessageBox::about(this, "Esito positivo", "Nuovo oggetto inserito correttamente!");
+       }
     }
   }
 }
@@ -286,10 +296,14 @@ void Controller::salvaDati(){
         p->setCasaProduzione(modiVideo->getCasaPro()->text().toStdString());
         p->setAnnoPubblicazione(modiVideo->getAnno()->text().toUInt());
         p->setEta(modiVideo->getEta()->text().toUInt());
-        p->setPrezzo(modiVideo->getPrezzo()->text().toDouble());
+        QString PrezzoStringa = modiVideo->getPrezzo()->text();
+        PrezzoStringa.replace(QString(","), QString("."));
+        double Prezzo = PrezzoStringa.toDouble();
+        p->setPrezzo(Prezzo);
         p->setPezziMagazzino(modiVideo->getPezziMagazzino()->text().toUInt());
         p->setUsato(modiVideo->getUsato()->currentIndex());
         p->setPath(modiVideo->getPath().toStdString());
+        p->setContenuto(modiVideo->getContenuto()->text().toStdString());
         p->setPs4(modiVideo->getplayStation()->currentIndex());
         p->setXboX(modiVideo->getxbox()->currentIndex());
         p->setGenere(modiVideo->getGenere()->text().toStdString());
@@ -299,6 +313,8 @@ void Controller::salvaDati(){
         modello->salvataggio();
         caricaDati();
         modiVideo->close();
+        QMessageBox::about(this, "Esito positivo", "L'oggetto e' stato modificato!");
+
     }else if(dynamic_cast<GiocoDaTavolo*>(oggettoMod)){
         GiocoDaTavolo* p = static_cast<GiocoDaTavolo*>(oggettoMod);
         p->setPath(modGTavolo->getPath().toStdString());
@@ -306,7 +322,10 @@ void Controller::salvaDati(){
         p->setCasaProduzione(modGTavolo->getCasaPro()->text().toStdString());
         p->setAnnoPubblicazione(modGTavolo->getAnno()->text().toUInt());
         p->setEta(modGTavolo->getEta()->text().toUInt());
-        p->setPrezzo(modGTavolo->getPrezzo()->text().toDouble());
+        QString PrezzoStringa = modGTavolo->getPrezzo()->text();
+        PrezzoStringa.replace(QString(","), QString("."));
+        double Prezzo = PrezzoStringa.toDouble();
+        p->setPrezzo(Prezzo);
         p->setPezziMagazzino(modGTavolo->getPezziMagazzino()->text().toUInt());
         p->setUsato(modGTavolo->getUsato()->currentIndex());
         p->setNumGiocatori(modGTavolo->getNumGiocatori()->text().toUInt());
@@ -319,6 +338,8 @@ void Controller::salvaDati(){
         modello->salvataggio();
         caricaDati();
         modGTavolo->close();
+        QMessageBox::about(this, "Esito positivo", "L'oggetto e' stato modificato!");
+
     } else if(dynamic_cast<GiocoDaTavoloConCarte*>(oggettoMod)){
         GiocoDaTavoloConCarte* p = static_cast<GiocoDaTavoloConCarte*>(oggettoMod);
         p->setPath(modGCarte->getPath().toStdString());
@@ -326,7 +347,10 @@ void Controller::salvaDati(){
         p->setCasaProduzione(modGCarte->getCasaPro()->text().toStdString());
         p->setAnnoPubblicazione(modGCarte->getAnno()->text().toUInt());
         p->setEta(modGCarte->getEta()->text().toUInt());
-        p->setPrezzo(modGCarte->getPrezzo()->text().toDouble());
+        QString PrezzoStringa = modGCarte->getPrezzo()->text();
+        PrezzoStringa.replace(QString(","), QString("."));
+        double Prezzo = PrezzoStringa.toDouble();
+        p->setPrezzo(Prezzo);
         p->setPezziMagazzino(modGCarte->getPezziMagazzino()->text().toUInt());
         p->setUsato(modGCarte->getUsato()->currentIndex());
         p->setNumGicoatori(modGCarte->getNumGiocatoriGTC()->text().toUInt());
@@ -340,6 +364,8 @@ void Controller::salvaDati(){
         modello->salvataggio();
         caricaDati();
         modGCarte->close();
+        QMessageBox::about(this, "Esito positivo", "L'oggetto e' stato modificato!");
+
     } else if(dynamic_cast<CarteCollezionabili*>(oggettoMod)){
         CarteCollezionabili* p = static_cast<CarteCollezionabili*>(oggettoMod);
         p->setPath(modColl->getPath().toStdString());
@@ -347,7 +373,10 @@ void Controller::salvaDati(){
         p->setCasaProduzione(modColl->getCasaPro()->text().toStdString());
         p->setAnnoPubblicazione(modColl->getAnno()->text().toUInt());
         p->setEta(modColl->getEta()->text().toUInt());
-        p->setPrezzo(modColl->getPrezzo()->text().toDouble());
+        QString PrezzoStringa = modColl->getPrezzo()->text();
+        PrezzoStringa.replace(QString(","), QString("."));
+        double Prezzo = PrezzoStringa.toDouble();
+        p->setPrezzo(Prezzo);
         p->setPezziMagazzino(modColl->getPezziMagazzino()->text().toUInt());
         p->setUsato(modColl->getUsato()->currentIndex());
         p->setNumCarte(modColl->getNumCarteCC()->text().toInt());
@@ -359,6 +388,7 @@ void Controller::salvaDati(){
         modello->salvataggio();
         caricaDati();
         modColl->close();
+        QMessageBox::about(this, "Esito positivo", "L'oggetto e' stato modificato!");
     }
 
 }
@@ -449,7 +479,7 @@ void Controller::rimuoviOggetto(){
     modello->rimozione(oggetto);
     modello->salvataggio();
     caricaDati();
-    QMessageBox::warning(this, "Esito positivo!", "L'oggetto è stato rimosso dal catalogo!");
+    QMessageBox::about(this, "Esito positivo!", "L'oggetto è stato rimosso dal catalogo!");
     } else{
         QMessageBox::warning(this, "Esito negativo!", "Nessun oggetto selezionato!");
     }
@@ -493,6 +523,11 @@ void Controller::visualizzaRicerca(){
     scrollA->pulisciCheck();
     layoutRic->pulisciTutto();
     layoutNeg->pulisciTutto();
+}
+
+void Controller::caricaFile(){
+    file = QFileDialog::getOpenFileName(this, tr("Scegli FIle"), ":/SalvataggioDati", "File XML(*.xml)");
+    caricaDati();
 }
 
 void Controller::visualizzaNegozio(){

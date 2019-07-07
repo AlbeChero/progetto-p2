@@ -189,7 +189,6 @@ void GiocoDaTavoloConCarte::setContenuto(std::string c) { Contenuto = c; }
 
 bool GiocoDaTavoloConCarte::operator==(const ItemStoreToys& it) const{
     const GiocoDaTavoloConCarte* punt = dynamic_cast<const GiocoDaTavoloConCarte*>(&it);
-    std::cout<<"GiocoDaTavoloConCarte"<<std::endl;
     return punt && GiocoDiCarte::operator==(it);
 }
 
@@ -220,7 +219,6 @@ void CarteCollezionabili::setEdizione(std::string e) { Edizione = e; }
 
 bool CarteCollezionabili::operator==(const ItemStoreToys& it) const{
     const CarteCollezionabili* punt = dynamic_cast<const CarteCollezionabili*>(&it);
-    std::cout<<"Carte Collezionabili"<<std::endl;
     return punt && GiocoDiCarte::operator==(it);
 }
 

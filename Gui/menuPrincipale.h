@@ -14,11 +14,10 @@ private:
     QAction *negozio;
     QAction *ricerca;
     QAction *inserisci;
+    QAction *carica;
 public:
     menuPrincipale(QWidget *parent = nullptr);
     QMenu *getMenu() const;
-    QAction *getSalva() const;
-    QAction *getEsci() const;
     QAction *getNegozio() const;
     QAction *getRicerca() const;
 };

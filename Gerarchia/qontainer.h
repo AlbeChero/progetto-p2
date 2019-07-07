@@ -30,7 +30,6 @@ private:
         int riferimenti; //Serve per lo Smart Pointer
         Nodo(const T& =0, const SmartP& = 0, const SmartP& =0);
         Nodo();
-        ~Nodo();
     };
 
     SmartP primo;
@@ -254,9 +253,6 @@ Container<T>::Nodo::Nodo(const T& t, const SmartP& p, const SmartP& n): info(t),
 
 template<class T>
 Container<T>::Nodo::Nodo(): riferimenti(0) {}
-
-template <class T>
-Container<T>::Nodo::~Nodo(){ if(info) delete info; }
 
 //======================================================================= #CONSTITERATOR
 

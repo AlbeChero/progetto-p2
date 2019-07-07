@@ -49,6 +49,7 @@ public slots:
     void visualizzaNegozio();
     void visualizzaInserisci();
     void salvaDati();
+    void caricaFile();
     void modificaOggetto(bool);
     void rimuoviOggetto();
     void inserisciNuovo();
